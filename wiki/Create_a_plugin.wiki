@@ -9,7 +9,8 @@ Plugins must have a class "Plugin" extending AGM.AGM_plugin.AGM_plugin
 
 = Basic structure example =
 
-{{{from AGM.AGM_plugin import AGM_plugin as plugin
+{{{
+from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 # This is a AGM plugin
 class Plugin(plugin):

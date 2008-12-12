@@ -3,8 +3,8 @@
 
 = How to create a plugin for AGM =
 
-*Plugins must be written in Python
-*Plugins must have a class "Plugin" extending AGM.AGM_plugin.AGM_plugin
+#  Plugins must be written in Python
+#  Plugins must have a class "Plugin" extending AGM.AGM_plugin.AGM_plugin
 
 ----
 = Basic structure example =

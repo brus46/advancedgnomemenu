@@ -23,6 +23,7 @@ from AGM.AGM_default_config import conf as config
 import AGM.AGM_utils as utils
 from AGM_plugin_menu import PluginMenu
 from AGM import AGM_plugin
+from AGM_menu_button import AGM_menu_button
 
 conf=config()
 
@@ -82,40 +83,43 @@ class Menu(gtk.ScrolledWindow):
             pass
         
         for element in menu:
-                el=element["el"]
-                newItem=gtk.HBox(spacing=5);
-                etichetta=gtk.Label(el["name"])
-                icona=gtk.Image()
-                icona.set_from_pixbuf(el["icon"])
-                
-                bottone=gtk.Button()
-                bottone.connect("clicked", self.ItemClicked, element["plugin"], el["type"], el["obj"])
-                if (el.has_key("other_options")):
-                    button_menu=PluginMenu(el["other_options"])
-                    bottone.connect("button-press-event", self.ShowMenu, button_menu)
-                bottone.set_tooltip_text(el["tooltip"])
-                bottone.set_size_request(-1, conf.menu_icon_size+15)
-                
-                if conf.use_system_color==False:
-                    etichetta.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
-                    bottone.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
-                    etichetta.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
-                    bottone.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedbgcolor))
-                    bottone.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activebgcolor))
-                    
-                
-                newItem.pack_start(icona, False, False)
-                newItem.pack_start(etichetta, False, False)
-                icona.show()
-                etichetta.show()
-                newItem.show()
-                bottone.add(newItem)
-                
-                
-                
+                #el=element["el"]
+                bottone=AGM_menu_button(element, self.ItemClicked)
+#                newItem=gtk.HBox(spacing=5);
+#                etichetta=gtk.Label(el["name"])
+#                icona=gtk.Image()
+#                icona.set_from_pixbuf(el["icon"])
+#                
+#                bottone=gtk.Button()
+#                bottone.connect("clicked", self.ItemClicked, element["plugin"], el["type"], el["obj"])
+#                if (el.has_key("other_options")):
+#                    button_menu=PluginMenu(el["other_options"])
+#                    bottone.connect("button-press-event", self.ShowMenu, button_menu)
+#                
+#                bottone.set_size_request(-1, conf.menu_icon_size+15)
+#                
+#                if conf.use_system_color==False:
+                    #etichetta.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
+                    #etichetta.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
+#                    bottone.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.bgcolor))
+#                    bottone.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedbgcolor))
+#                    bottone.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activebgcolor))
+#                    bottone.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor)) 
+#                    bottone.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
+#                
+#                newItem.pack_start(icona, False, False)
+#                newItem.pack_start(etichetta, False, False)
+#                icona.show()
+#                etichetta.show()
+#                newItem.show()
+#                bottone.add(newItem)
+#                
+#                
+#                
+                #bottone.set_tooltip_text(el["tooltip"])
                 self.child_widgets_list.append(bottone)
                 self.menu.pack_start(bottone, False, True)
-                bottone.set_relief(gtk.RELIEF_NONE)
+                #bottone.set_relief(gtk.RELIEF_NONE)
                 bottone.show()
 
         self.show_all()

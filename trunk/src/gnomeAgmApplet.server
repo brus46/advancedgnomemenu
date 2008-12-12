@@ -1,0 +1,24 @@
+<oaf_info>
+	<oaf_server iid="OAFIID:Gnome_Panel_Agm_Factory" type="exe" location="/usr/share/AGM/gnomeAgmApplet.py">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:Bonobo/GenericFactory:1.0"/>
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="Gnome Agm Applet"/>
+		<oaf_attribute name="description" type="string" value="An eye candy menu for gnome"/>
+	</oaf_server>
+
+	<oaf_server iid="OAFIID:Gnome_Panel_Agm" type="factory" location="OAFIID:Gnome_Panel_Agm_Factory">
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:GNOME/Vertigo/PanelAppletShell:1.0"/>
+			<item value="IDL:Bonobo/Control:1.0"/>
+			<item value="IDL:Bonobo/Unknown:1.0"/>
+		</oaf_attribute>
+		<oaf_attribute name="name" type="string" value="AGM"/>
+		<oaf_attribute name="description" type="string" value="Advanced Gnome Menu"/>
+		<oaf_attribute name="panel:category" type="string" value="Utility"/>
+		<oaf_attribute name="panel:icon" type="string" value="distributor-logo.png"/>
+
+	</oaf_server>
+
+</oaf_info>

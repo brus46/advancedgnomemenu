@@ -29,8 +29,7 @@ def get_child_plugins():
     listafile.sort()
     
     for file in listafile:
-        #print folder+file
-        if file.find(".pyc")<0 and file.find("__")<0:
+        if os.path.isfile(folder+file) and file.find(".py")>0 and file.find(".pyc")<0 and file.find("__")<0:
             try:
                 file=file.replace(".py", "")
                 currentPlugin=__import__('AGMplugins/' + file)

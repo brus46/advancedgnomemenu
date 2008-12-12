@@ -27,7 +27,9 @@ class search_box(gtk.HBox):
         self.search_text=gtk.Entry()
         self.search = search_function
         self.search_text.connect("activate", self.change)
-        self.search_text.set_size_request(conf.window_width-120, -1)
+        if conf.search_box_top_position:
+            self.search_text.set_size_request(conf.window_width-120, -1)
+        else: self.search_text.set_size_request(conf.window_width, -1)
         self.pack_end(self.search_text, False, False)
     
     def change(self, new_text):
@@ -38,3 +40,8 @@ class search_box(gtk.HBox):
     
     def get_text(self):
         return self.search_text.get_text()
+    
+    def modify_bg(self, state, color):
+        self.search_text.modify_base(state, color)
+    def modify_fg(self, state, color):
+        self.search_text.modify_text(state, color)

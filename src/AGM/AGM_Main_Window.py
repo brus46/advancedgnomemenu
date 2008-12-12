@@ -133,6 +133,8 @@ class AGM:
                 self.color(button)
             self.color(self.exitbutton)
             
+            self.color(self.search_box)
+            
         pass
     
     def color(self, obj):
@@ -461,6 +463,7 @@ class AGM:
             self.hidden=False
             conf.startposition.move_window(self.win)
             self.menu.goHome()
+            self.search_box.set_text("")
             self.win.show()
             self.win.present()
             #self.win.grab_focus()

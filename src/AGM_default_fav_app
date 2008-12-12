@@ -1,0 +1,4 @@
+Firefox;firefox;exec#firefox
+Terminal;gnome-terminal;exec#gnome-terminal
+Logout;gnome-session-halt;exec#gnome-session-save --kill
+

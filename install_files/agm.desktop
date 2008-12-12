@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=Advanced Gnome Menu
+Comment=A new eye-candy menu for Gnome
+Exec=advancedgnomemenu
+Icon=AGM.png
+Terminal=false
+Categories=GNOME;GTK;Utility;

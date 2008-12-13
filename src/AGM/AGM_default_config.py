@@ -56,6 +56,7 @@ class conf:
         
         self.opacity=1
         self.welcome="Welcome to Advanced Gnome Menu"
+        self.safe_mode=False
         
         #Theme
         self.theme=None

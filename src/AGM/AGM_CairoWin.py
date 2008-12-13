@@ -84,9 +84,21 @@ class TransparentWindow(gtk.Window):
                              int(event.y_root),
                              event.time)
 
+     def render_safe_rect(self, cr, x, y, w, h):
+         x0 = x
+         y0 = y
+         x1 = x + w
+         y1 = y + h
+         
+         cr.move_to(x0,y0)
+         cr.line_to(x1,y0)
+         cr.line_to(x1,y1)
+         cr.line_to(x0,y1)
+         cr.close_path()
+         
      def render_rect(self, cr, x, y, w, h, o):
          # Crea un rettangolo con i bordi arrotondati
-         # Popup su necessita
+         # Popup su necessita'
          popup_style, width, height = conf.popupstyle.get_style()
          top_popup=False
          if conf.top_position.get_top()==conf.top_position.DW_LEFT or conf.top_position.get_top()==conf.top_position.DW_RIGHT:
@@ -231,7 +243,10 @@ class TransparentWindow(gtk.Window):
          #    self.draw_window_down(cr)
          #else:
          #    self.draw_window_top(cr)
-         self.draw_window(cr)
+         if self.supports_alpha or conf.safe_mode:
+              self.draw_window(cr)
+         else:
+             self.draw_safe_window(cr)
          self.draw_icon_place(cr)
          
          # chiediamo esplicitamente ai figli di disegnarsi
@@ -344,66 +359,64 @@ class TransparentWindow(gtk.Window):
           
           return 0, 0
 
-#     def draw_window_down(self, cr):
-#         (width, height) = self.get_size()
-#         x=0
-#         y=0
-#         width=width-x
-#         height=height-40
-#         cr.move_to(0, 0)
-#         cr.set_line_width(1.0)
-#
-#         cr.set_operator(cairo.OPERATOR_OVER)
-#
-#         pat = cairo.LinearGradient(0.0, 0.0, 0.0, height-40)
-#         
-#         #BGcolor
-#         col = hex2float(conf.mainbgcolor)
-#         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
-#
-#         #TopBGColor
-#         col = hex2float(conf.topbgcolor)
-#         pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
-#
-#         self.render_rect(cr, x, y, width, height, 10)
-#         cr.set_source(pat)
-#         cr.fill()
-#
-#         # bordo luminoso
-#         hex="fffcfce4"
-#         col = hex2float(hex)
-#         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-#         self.render_rect(cr, x+1.5, y+1.5, width - 3 , height - 3, 10)
-#         cr.stroke()
-#
-#         # bordo
-#         hex="#00151Fe0"
-#         col = hex2float(hex)
-#         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-#         self.render_rect(cr, x+0.5, y+0.5, width - 1 , height - 1, 10)
-#         cr.stroke()
-#
-#         hex="#FFFFFFFF"
-#         col = hex2float(hex)
-#         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-#         self.render_rect(cr, x, y, width , height, 10)
-#         cr.stroke()
-#
-#        
-#
-#         pat = cairo.LinearGradient(0.0, height-40, 0.0, height)
-#         cr.set_source(pat)
-#         #Lightening
-#         col = hex2float(conf.lightingcolor)
-#         pat.add_color_stop_rgba(0.3, col[0], col[1], col[2], col[3])
-#         
-#         #hex="#FFFFFFbb"
-#         col = hex2float(conf.topbgcolor)
-#         pat.add_color_stop_rgba(0.3, col[0], col[1], col[2], col[3])
-#         
-#         self.render_light_rect(cr, x, height-20, width, 20, 10)
-#         cr.fill()
+     def draw_safe_window(self, cr):
+         (width, height) = self.get_size()
+         x=0
+         y=0
+         cr.move_to(0, 0)
+         cr.set_line_width(1.0)
 
+         cr.set_operator(cairo.OPERATOR_OVER)
+
+         gradient_coord=[]
+         
+         startx, starty=self.get_point(conf.gradient_direction.get_start_point(), height, width, x, y)
+         endx, endy=self.get_point(conf.gradient_direction.get_end_point(), height, width, x, y)
+
+         pat = cairo.LinearGradient(startx, starty, endx, endy)
+         #Color1
+         col = hex2float(conf.gradient_color1)
+         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
+
+         #Color3 if enabled
+         if (conf.gradient_enable_3color):
+             col = hex2float(conf.gradient_color3)
+             pat.add_color_stop_rgba(0.5, col[0], col[1], col[2], col[3])
+
+         #Color2
+         col = hex2float(conf.gradient_color2)
+         pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
+
+         self.render_safe_rect(cr, x, y, width, height)
+         cr.set_source(pat)
+         cr.fill()
+
+         # bordo luminoso
+         hex="fffcfce4"
+         col = hex2float(hex)
+         cr.set_source_rgba(col[0], col[1], col[2], col[3])
+         self.render_safe_rect(cr, x+1.5, y+1.5, width - 3 , height - 3)
+         cr.stroke()
+
+         # bordo
+         hex="#00151Fe0"
+         col = hex2float(hex)
+         cr.set_source_rgba(col[0], col[1], col[2], col[3])
+         self.render_safe_rect(cr, x+0.5, y+0.5, width - 1 , height - 1)
+         cr.stroke()
+
+         hex="#FFFFFFFF"
+         col = hex2float(hex)
+         cr.set_source_rgba(col[0], col[1], col[2], col[3])
+         self.render_safe_rect(cr, x, y, width , height)
+         cr.stroke()
+
+         pat = cairo.LinearGradient(0.0, 0.0, 0.0, height)
+         cr.set_source(pat)
+         
+         hex="#FFFFFFbb"
+         col = hex2float(hex)
+         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
      
      def draw_icon_place(self, cr, Icon=None):
          (width, height) = self.get_size()
@@ -439,12 +452,12 @@ class TransparentWindow(gtk.Window):
              screen = self.get_screen()
              colormap = screen.get_rgba_colormap()
              self.supports_alpha = True
-             if self.is_composited() and self.supports_alpha==False:
-                     print 'Composite manager active!'
+             if self.is_composited():
+                     #print 'Composite manager active!'
                      colormap = screen.get_rgba_colormap()
                      self.supports_alpha = True
-             elif self.is_composited()==False and self.supports_alpha==True:
-                     print "Composite manager isn't active? Will work without cools windows :("
+             elif self.is_composited()==False:
+                     #print "Composite manager isn't active? Will work without cools windows :("
                      colormap = screen.get_rgb_colormap()
                      self.supports_alpha = False
              self.set_colormap(colormap)

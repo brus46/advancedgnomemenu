@@ -29,13 +29,13 @@ class AGM_menu_button(gtk.EventBox):
         self.element=element
         element=element["el"]
         self.ItemClicked=ItemClicked
-        self.button_size=22
+        self.button_size=32
         self.container=gtk.HBox()
         self.layout=gtk.HBox(spacing=5)
         self.layoutL=gtk.VBox()
         self.layoutR=gtk.VBox()
         
-        self.set_size_request(-1, conf.menu_icon_size+20)
+        self.set_size_request(-1, conf.menu_icon_size+40)
         width, height=self.size_request()
         
         self.icon=gtk.Image()
@@ -49,7 +49,7 @@ class AGM_menu_button(gtk.EventBox):
             for el in element["other_options"]:
                 self.menu_list.append(el)
         
-        self.buttons=[gtk.EventBox(), gtk.EventBox(), gtk.EventBox(), gtk.EventBox()]
+        self.buttons=[gtk.Button(), gtk.Button(), gtk.Button(), gtk.Button()]
         self.images=[gtk.Image(), gtk.Image(), gtk.Image(), gtk.Image()]
         
         #Button positionating
@@ -97,8 +97,9 @@ class AGM_menu_button(gtk.EventBox):
         if self.menu_list[index].has_key("icon"): 
             icon=self.menu_list[index]["icon"]
         else: icon=None
-        self.images[index].set_from_pixbuf(utils.getPixbufFromName(icon, self.button_size-4, "app"))
-        self.buttons[index].add(self.images[index])
+        
+        self.images[index].set_from_pixbuf(utils.getPixbufFromName(icon, self.button_size-15, "app"))
+        self.buttons[index].set_image(self.images[index])
         
         self.buttons[index].set_tooltip_text(name)
         self.buttons[index].set_size_request(self.button_size, self.button_size)

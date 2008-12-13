@@ -21,6 +21,7 @@ import gtk, os, sys
 
 from AGM.AGM_default_config import conf as config
 conf=config()
+import AGM.AGM_utils as utils
 
 class AGM_menu_button(gtk.EventBox):
     def __init__(self, element, ItemClicked):
@@ -46,48 +47,33 @@ class AGM_menu_button(gtk.EventBox):
         self.menu_list=[]
         if (element.has_key("other_options")):
             for el in element["other_options"]:
-                if el.has_key("icon"):
-                    self.menu_list.append([el["name"], el["command"], el["icon"]])
-                else: self.menu_list.append([el["name"], el["command"], None])
+                self.menu_list.append(el)
         
-        self.button1=gtk.Button()
-        self.button2=gtk.Button()
-        self.button3=gtk.Button()
-        self.button4=gtk.Button()
+        self.buttons=[gtk.EventBox(), gtk.EventBox(), gtk.EventBox(), gtk.EventBox()]
+        self.images=[gtk.Image(), gtk.Image(), gtk.Image(), gtk.Image()]
         
         #Button positionating
         if len(self.menu_list)>=1:
-            self.button1.set_tooltip_text(self.menu_list[0][0])
-            self.layoutL.pack_start(self.button1, False)
-            self.button1.set_size_request(self.button_size, self.button_size)
-            self.button1.connect("button_press_event", self.clicked, self.menu_list[0][1])
-            self.button1.connect("enter_notify_event", self.activate_event, self.menu_list[0][0])
+            self.configure_button(0)
+            self.layoutL.pack_start(self.buttons[0], False)
         if len(self.menu_list)>=3:
-            self.button3.set_tooltip_text(self.menu_list[2][0])
-            self.layoutL.pack_end(self.button3, False)
-            self.button3.set_size_request(self.button_size, self.button_size)
-            self.button3.connect("button_press_event", self.clicked, self.menu_list[2][1])
-            self.button3.connect("enter_notify_event", self.activate_event, self.menu_list[2][0])
+            self.configure_button(2)
+            self.layoutL.pack_end(self.buttons[2], False)
         LSpacing=gtk.Label()
         LSpacing.set_size_request(self.button_size, -1)
         self.layoutL.pack_start(LSpacing)
         
         if len(self.menu_list)>=2:
-            self.button2.set_tooltip_text(self.menu_list[1][0])
-            self.layoutR.pack_start(self.button2, False)
-            self.button2.set_size_request(self.button_size, self.button_size)
-            self.button2.connect("button_press_event", self.clicked, self.menu_list[1][1])
-            self.button2.connect("enter_notify_event", self.activate_event, self.menu_list[1][0])
+            self.configure_button(1)
+            self.layoutR.pack_start(self.buttons[1], False)
         if len(self.menu_list)>=4:
-            self.button4.set_tooltip_text(self.menu_list[3][0])
-            self.layoutR.pack_end(self.button4, False)
-            self.button4.set_size_request(self.button_size, self.button_size)
-            self.button4.connect("button_press_event", self.clicked, self.menu_list[3][1])
-            self.button4.connect("enter_notify_event", self.activate_event, self.menu_list[3][0])
+            self.configure_button(3)
+            self.layoutR.pack_end(self.buttons[3], False)
         RSpacing=gtk.Label()
         RSpacing.set_size_request(self.button_size, -1)
         self.layoutR.pack_start(RSpacing)
         
+        self.layout.set_border_width(5)
         self.layout.pack_start(self.icon, False)
         self.layout.pack_start(self.label, False)
         
@@ -105,24 +91,45 @@ class AGM_menu_button(gtk.EventBox):
         self.connect("enter_notify_event", self.activate_event)
         self.connect("leave_notify_event", self.leave_event)
     
+    def configure_button(self, index):
+        name=self.menu_list[index]["name"]
+        command=self.menu_list[index]["command"]
+        if self.menu_list[index].has_key("icon"): 
+            icon=self.menu_list[index]["icon"]
+        else: icon=None
+        self.images[index].set_from_pixbuf(utils.getPixbufFromName(icon, self.button_size-4, "app"))
+        self.buttons[index].add(self.images[index])
+        
+        self.buttons[index].set_tooltip_text(name)
+        self.buttons[index].set_size_request(self.button_size, self.button_size)
+        self.buttons[index].connect("button_press_event", self.clicked, command)
+        self.buttons[index].connect("enter_notify_event", self.activate_event, name, icon)
+    
+    def clear_icons(self):
+        for i in range(0,4):
+            self.images[i].hide()
+    
+    def put_icons(self):
+        for i in range(0,4):
+            self.images[i].show()
+
     def modify_bg(self, state, color):
         gtk.EventBox.modify_bg(self, state, color)
         self.layout.modify_bg(state, color)
-        self.color(self.button1)
-        self.color(self.button2)
-        self.color(self.button3)
-        self.color(self.button4)
-        
+        for button in self.buttons:
+            self.color(button)
+                    
     def modify_fg(self, state, color):
         self.label.modify_fg(state, color)
     
     def clicked(self, button, event, command=None):
-        if command==None:
-            self.ItemClicked(button, self.element["plugin"], self.element["el"]["type"], self.element["el"]["obj"])
-        else: 
-            if (os.fork()==0):
-                os.execvp(command[0], command)
-                sys.exit(-1)
+        if event.button == 1:
+            if command==None:
+                self.ItemClicked(button, self.element["plugin"], self.element["el"]["type"], self.element["el"]["obj"])
+            else: 
+                if (os.fork()==0):
+                    os.execvp(command[0], command)
+                    sys.exit(-1)
     
     def color(self, obj):
         try:
@@ -141,16 +148,23 @@ class AGM_menu_button(gtk.EventBox):
             obj.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
         except: pass
     
-    def activate_event(self, obj, event, text=""):
+    def activate_event(self, obj, event, text="", icon=None):
         if text=="":
             self.label.set_text(self.element["el"]["name"])
-            self.icon.set_from_pixbuf(self.element["el"]["icon"])
         else:
             self.label.set_text(text)
+
+        if icon!=None:
+            self.icon.set_from_pixbuf(utils.getPixbufFromName(icon, conf.menu_icon_size, "app"))
+        else:
+            self.icon.set_from_pixbuf(self.element["el"]["icon"])
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.selectedbgcolor))
         self.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.selectedfgcolor))
+        self.put_icons()
 
-    def leave_event(self, obj, event):
+    def leave_event(self, obj, event):        
         self.label.set_text(self.element["el"]["name"])
+        self.icon.set_from_pixbuf(self.element["el"]["icon"])
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.bgcolor))
         self.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
+        self.clear_icons()

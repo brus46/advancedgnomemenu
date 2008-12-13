@@ -111,11 +111,13 @@ class OpenImage:
         filter.add_mime_type("image/jpeg")
         filter.add_mime_type("image/gif")
         filter.add_mime_type("image/svg+xml")
+        filter.add_mime_type("image/x-ico")
         filter.add_pattern("*.png")
         filter.add_pattern("*.jpg")
         filter.add_pattern("*.jpeg")
         filter.add_pattern("*.gif")
         filter.add_pattern("*.svg")
+        filter.add_pattern("*.ico")
         file_open.add_filter(filter)
         
         """Init the return value"""

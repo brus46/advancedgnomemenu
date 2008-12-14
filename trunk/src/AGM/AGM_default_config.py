@@ -58,6 +58,15 @@ class conf:
         self.welcome="Welcome to Advanced Gnome Menu"
         self.safe_mode=False
         
+        #TopIcon
+        self.USE_AGM_LOGO="use agm logo"
+        self.USE_USER_LOGO="use user logo"
+        self.USE_OTHER_LOGO="use other logo"
+        
+        self.top_icon_mode=self.USE_USER_LOGO
+        self.top_icon_other_logo=None
+        self.top_icon_show_logo=True
+        
         #Theme
         self.theme=None
         
@@ -153,6 +162,18 @@ class conf:
                     elif data[0]=="welcome_text":
                         if (self.welcome!=data[1]): difference=True
                         self.welcome=data[1]
+                    elif data[0]=="top_icon_mode":
+                        if (self.top_icon_mode!=data[1]): difference=True
+                        self.top_icon_mode=data[1]
+                    elif data[0]=="top_icon_other_logo":
+                        if (self.top_icon_other_logo!=data[1]): difference=True
+                        self.top_icon_other_logo=data[1]
+                    elif data[0]=="top_icon_show_logo":
+                        if (self.top_icon_show_logo!=("True"==data[1])): difference=True
+                        self.top_icon_show_logo=("True"==data[1])
+                    elif data[0]=="safe_mode":
+                        if (self.safe_mode!=("True"==data[1])): difference=True
+                        self.safe_mode=("True"==data[1])
                     elif data[0]=="bgcolor":
                         if (self.bgcolor!=data[1]): difference=True
                         self.bgcolor=data[1]

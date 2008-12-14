@@ -20,12 +20,13 @@
 import gtk, os, sys
 
 from AGM.AGM_default_config import conf as config
-conf=config()
 import AGM.AGM_utils as utils
+conf=config()
 
 class AGM_menu_button(gtk.EventBox):
     def __init__(self, element, ItemClicked):
         gtk.EventBox.__init__(self)
+        conf.read_conf()
         self.element=element
         element=element["el"]
         self.ItemClicked=ItemClicked
@@ -34,8 +35,15 @@ class AGM_menu_button(gtk.EventBox):
         self.layout=gtk.HBox(spacing=5)
         self.layoutL=gtk.VBox()
         self.layoutR=gtk.VBox()
-        
-        self.set_size_request(-1, conf.menu_icon_size+40)
+        self.row1=gtk.HBox()
+        self.row2=gtk.HBox()
+        self.layoutR.pack_start(self.row1, False)
+        self.layoutR.pack_end(self.row2, False)
+                
+        h=conf.menu_icon_size+20
+        if h<self.button_size*2:
+            h=self.button_size*2
+        self.set_size_request(-1, h)
         width, height=self.size_request()
         
         self.icon=gtk.Image()
@@ -55,23 +63,23 @@ class AGM_menu_button(gtk.EventBox):
         #Button positionating
         if len(self.menu_list)>=1:
             self.configure_button(0)
-            self.layoutL.pack_start(self.buttons[0], False)
+            self.row1.pack_start(self.buttons[0], False)
         if len(self.menu_list)>=3:
             self.configure_button(2)
-            self.layoutL.pack_end(self.buttons[2], False)
+            self.row1.pack_start(self.buttons[2], False)
         LSpacing=gtk.Label()
         LSpacing.set_size_request(self.button_size, -1)
-        self.layoutL.pack_start(LSpacing)
+        #self.layoutL.pack_start(LSpacing)
         
         if len(self.menu_list)>=2:
             self.configure_button(1)
-            self.layoutR.pack_start(self.buttons[1], False)
+            self.row2.pack_start(self.buttons[1], False)
         if len(self.menu_list)>=4:
             self.configure_button(3)
-            self.layoutR.pack_end(self.buttons[3], False)
+            self.row2.pack_start(self.buttons[3], False)
         RSpacing=gtk.Label()
         RSpacing.set_size_request(self.button_size, -1)
-        self.layoutR.pack_start(RSpacing)
+        #self.layoutR.pack_start(RSpacing)
         
         self.layout.set_border_width(5)
         self.layout.pack_start(self.icon, False)
@@ -81,7 +89,7 @@ class AGM_menu_button(gtk.EventBox):
         self.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor)) 
         self.set_tooltip_text(element["tooltip"])
         
-        self.container.pack_start(self.layoutL, False)
+        #self.container.pack_start(self.layoutL, False)
         self.container.pack_start(self.layout)
         self.container.pack_end(self.layoutR, False)
         self.add(self.container)
@@ -109,10 +117,12 @@ class AGM_menu_button(gtk.EventBox):
     def clear_icons(self):
         for i in range(0,4):
             self.images[i].hide()
+            self.buttons[i].set_relief(gtk.RELIEF_NONE)
     
     def put_icons(self):
         for i in range(0,4):
             self.images[i].show()
+            self.buttons[i].set_relief(gtk.RELIEF_NORMAL)
 
     def modify_bg(self, state, color):
         gtk.EventBox.modify_bg(self, state, color)

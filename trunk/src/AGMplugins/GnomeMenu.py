@@ -21,7 +21,6 @@ import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 from Alacarte.MenuEditor import MenuEditor
-from Alacarte import util
 import os, gtk, gmenu, cgi, sys
 #    This is a AGM plugin
 

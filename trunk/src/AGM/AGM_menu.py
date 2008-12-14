@@ -83,7 +83,6 @@ class Menu(gtk.ScrolledWindow):
             pass
         
         #self.show_all()        
-        
         for element in menu:
                 bottone=AGM_menu_button(element, self.ItemClicked)
                 self.child_widgets_list.append(bottone)

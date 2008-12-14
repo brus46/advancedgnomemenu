@@ -79,10 +79,10 @@ class TransparentWindow(gtk.Window):
 
      def on_button_press(self, widget, event):
              self.begin_move_drag(
-                             event.button,
-                             int(event.x_root),
-                             int(event.y_root),
-                             event.time)
+                 event.button,
+                 int(event.x_root),
+                 int(event.y_root),
+                 event.time)
 
      def render_safe_rect(self, cr, x, y, w, h):
          x0 = x
@@ -243,11 +243,13 @@ class TransparentWindow(gtk.Window):
          #    self.draw_window_down(cr)
          #else:
          #    self.draw_window_top(cr)
-         if self.supports_alpha or conf.safe_mode:
+         if self.supports_alpha and conf.safe_mode==False:
               self.draw_window(cr)
          else:
              self.draw_safe_window(cr)
-         self.draw_icon_place(cr)
+         
+         if conf.top_icon_show_logo:
+             self.draw_icon_place(cr)
          
          # chiediamo esplicitamente ai figli di disegnarsi
          # Se non lo facessimo non sarebbero visualizzati
@@ -263,11 +265,11 @@ class TransparentWindow(gtk.Window):
              down=True
          (width, height) = self.get_size()
          x=0
-         width=width-x
-         if down: 
+         y=0
+         if down and conf.top_icon_show_logo: 
              y=0
              height=height-40
-         else: 
+         elif  conf.top_icon_show_logo: 
              y=40
              height=height-y
          

@@ -181,12 +181,21 @@ class AGM:
         MainBox=gtk.HBox()
         
         top_style=conf.top_position.get_top()
+    
         IconLabel=gtk.Image()
-        IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
         EBox=gtk.EventBox()
         EBox.set_visible_window(False)
-        EBox.add(IconLabel)
-        EBox.connect("button_release_event", self.edit_personal_info)
+        if conf.top_icon_show_logo:
+            IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.default_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            if conf.top_icon_mode==conf.USE_USER_LOGO:
+                if (os.path.exists(conf.home_logo_path)==True):
+                    IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
+                print conf.top_icon_other_logo
+                if (os.path.exists(conf.top_icon_other_logo)==True):
+                    IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            EBox.add(IconLabel)
+            EBox.connect("button_release_event", self.edit_personal_info)
         
         ToolButtons=gtk.HBox(spacing = 5)
         if (not self.show_trayicon): 
@@ -245,7 +254,7 @@ class AGM:
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
-            SpacingLabel.set_size_request(28, 40)
+            SpacingLabel.set_size_request(28, -1)
             MainBox.pack_end(SpacingLabel, False, False)
             
             MainBox.pack_end(IconBox, False, False)
@@ -276,7 +285,7 @@ class AGM:
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
-            SpacingLabel.set_size_request(28, 40)
+            SpacingLabel.set_size_request(28, -1)
             MainBox.pack_start(SpacingLabel, False, False)
             
             MainBox.pack_start(IconBox, False, False)
@@ -306,7 +315,7 @@ class AGM:
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
-            SpacingLabel.set_size_request(28, 40)
+            SpacingLabel.set_size_request(28, -1)
             MainBox.pack_end(SpacingLabel, False, False)
             
             MainBox.pack_end(IconBox, False, False)
@@ -337,7 +346,7 @@ class AGM:
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
-            SpacingLabel.set_size_request(28, 40)
+            SpacingLabel.set_size_request(28, -1)
             MainBox.pack_start(SpacingLabel, False, False)
             
             MainBox.pack_start(IconBox, False, False)

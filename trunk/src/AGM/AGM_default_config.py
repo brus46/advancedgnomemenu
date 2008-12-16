@@ -60,6 +60,7 @@ class conf:
         
         #TopIcon
         self.USE_AGM_LOGO="use agm logo"
+        self.USE_DISTRO_LOGO="use distro logo"
         self.USE_USER_LOGO="use user logo"
         self.USE_OTHER_LOGO="use other logo"
         
@@ -67,6 +68,7 @@ class conf:
         self.top_icon_other_logo=None
         self.top_icon_show_logo=True
         
+        self.command_on_logo_clicked="gnome-about-me"
         #Theme
         self.theme=None
         
@@ -139,6 +141,7 @@ class conf:
         if config_path==None: 
             config_path=self.config_path
         else: print_mode=True
+        
         difference=False
         file=None
         try:
@@ -174,6 +177,9 @@ class conf:
                     elif data[0]=="safe_mode":
                         if (self.safe_mode!=("True"==data[1])): difference=True
                         self.safe_mode=("True"==data[1])
+                    elif data[0]=="command_on_logo_clicked":
+                        if (self.command_on_logo_clicked!=data[1]): difference=True
+                        self.command_on_logo_clicked=data[1]
                     elif data[0]=="bgcolor":
                         if (self.bgcolor!=data[1]): difference=True
                         self.bgcolor=data[1]

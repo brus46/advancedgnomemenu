@@ -190,8 +190,9 @@ class AGM:
             if conf.top_icon_mode==conf.USE_USER_LOGO:
                 if (os.path.exists(conf.home_logo_path)==True):
                     IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            elif conf.top_icon_mode==conf.USE_DISTRO_LOGO:
+                IconLabel.set_from_pixbuf(utils.getPixbufFromName("distributor-logo", 80, "app"))
             elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
-                print conf.top_icon_other_logo
                 if (os.path.exists(conf.top_icon_other_logo)==True):
                     IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
             EBox.add(IconLabel)
@@ -500,7 +501,9 @@ class AGM:
     def edit_personal_info(self, widget, event):
         if event.button == 3:
              if (os.fork()==0):
-                os.execvp("gnome-about-me", ["gnome-about-me"])
+                command=conf.command_on_logo_clicked.split(" ")
+                print command
+                os.execvp(command[0], command)
                 sys.exit(-1)
     
     def exit(self, obj, kill=True):

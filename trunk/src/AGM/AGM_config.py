@@ -53,7 +53,7 @@ class Config(gtk.Window):
         ButtonBox.pack_end(cancelButton)
         
         ##PLUGINS
-        self.PluginPanel=AGM_config_tabs.config_plugin()
+        #self.PluginPanel=AGM_config_tabs.config_plugin()
         ##END PLUGINS
         
         ##POSITION
@@ -70,7 +70,7 @@ class Config(gtk.Window):
         ##END APPLET
         
         ##BEHAVIOR
-        self.behavior_conf=AGM_config_tabs.behavior()
+        #self.behavior_conf=AGM_config_tabs.behavior()
         ##END BEHAVIOR
         
         ##THEME
@@ -85,18 +85,32 @@ class Config(gtk.Window):
         self.top_icon=AGM_config_tabs.top_icon_config()
         ##
         
+        ##MENU
+        self.menu=AGM_config_tabs.menu()
+        ##
+        
         notebook=gtk.Notebook()
         notebook.set_tab_pos(gtk.POS_LEFT)
         notebook.set_scrollable(True)
         notebook.append_page(self.theme , gtk.Label("Themes"))
+        self.positions.set_border_width(5)
         notebook.append_page(self.positions , gtk.Label("Window"))
+        self.top_icon.set_border_width(5)
         notebook.append_page(self.top_icon , gtk.Label("Top icon"))
+        self.fav_apps.set_border_width(5)
         notebook.append_page(self.fav_apps , gtk.Label("Fav apps"))
-        notebook.append_page(self.fav_apps_apparence , gtk.Label("Fav apps apparence"))
+        self.fav_apps_apparence.set_border_width(5)
+        notebook.append_page(self.fav_apps_apparence , gtk.Label("Fav apps box"))
+        self.search_box.set_border_width(5)
         notebook.append_page(self.search_box , gtk.Label("Search box"))
-        notebook.append_page(self.behavior_conf , gtk.Label("Menu"))
+        #self.behavior_conf.set_border_width(5)
+        #notebook.append_page(self.behavior_conf , gtk.Label("Menu"))
+        #self.PluginPanel.set_border_width(5)
+        #notebook.append_page(self.PluginPanel , gtk.Label("Menu elements"))
+        self.menu.set_border_width(5)
+        notebook.append_page(self.menu , gtk.Label("Menu"))
+        self.applet_conf.set_border_width(5)
         notebook.append_page(self.applet_conf , gtk.Label("Applet"))
-        notebook.append_page(self.PluginPanel , gtk.Label("Plugins"))
         
         VBox=gtk.VBox(spacing=5)
         VBox.set_border_width(5)
@@ -113,10 +127,11 @@ class Config(gtk.Window):
         #Writing config
         file_config=""
         file_config+=self.theme.save_config()
-        file_config+=self.PluginPanel.save_string()
+        file_config+=self.menu.save_string()
+        #file_config+=self.PluginPanel.save_string()
         file_config+=self.applet_conf.save_string()
         file_config+=self.positions.save_string()
-        file_config+=self.behavior_conf.save_string()
+        #file_config+=self.behavior_conf.save_string()
         file_config+=self.fav_apps_apparence.save_string()
         file_config+=self.search_box.save_string()
         file_config+=self.top_icon.to_string()

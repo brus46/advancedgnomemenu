@@ -52,42 +52,27 @@ class Config(gtk.Window):
         ButtonBox.pack_end(applyButton)
         ButtonBox.pack_end(cancelButton)
         
-        ##PLUGINS
-        #self.PluginPanel=AGM_config_tabs.config_plugin()
-        ##END PLUGINS
-        
         ##POSITION
-        self.positions=AGM_config_tabs.position_config()
-        ##END POSITION
+        self.positions=AGM_config_tabs.window_config()
         
         ##FAV APPS
         self.fav_apps=AGM_config_tabs.config_fav_apps()
         self.fav_apps_apparence=AGM_config_tabs.config_fav_apps_apparence()
-        ##END FAV APPS
         
         ##APPLET
         self.applet_conf=AGM_config_tabs.applet_conf()
-        ##END APPLET
-        
-        ##BEHAVIOR
-        #self.behavior_conf=AGM_config_tabs.behavior()
-        ##END BEHAVIOR
         
         ##THEME
         self.theme = AGM_config_tabs.config_themes()
-        ##
         
         ##SEARCH BOX
         self.search_box= AGM_config_tabs.search_box_config()
-        ##
         
         ##TOP ICON
         self.top_icon=AGM_config_tabs.top_icon_config()
-        ##
         
         ##MENU
         self.menu=AGM_config_tabs.menu()
-        ##
         
         notebook=gtk.Notebook()
         notebook.set_tab_pos(gtk.POS_LEFT)

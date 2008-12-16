@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #Creating install folders
+#Data and executables folder
 sudo mkdir /usr/share/AGM/
+#Lib folder
 sudo mkdir /usr/local/lib/python/
 
 #Installing the main code
@@ -21,6 +23,8 @@ sudo cp ./install_files/agm.desktop /usr/share/applications/
 
 #Installing Gnome_applet
 sudo cp -R ./src/gnomeAgmApplet.py /usr/share/AGM/
-sudo chmod 777 /usr/share/AGM/gnomeAgmApplet.py
+sudo chmod +x /usr/share/AGM/gnomeAgmApplet.py
+sudo chmod +r /usr/share/AGM/gnomeAgmApplet.py
 sudo cp -R ./src/gnomeAgmApplet.server /usr/lib/bonobo/servers/
-sudo chmod 777 /usr/lib/bonobo/servers/gnomeAgmApplet.server
+sudo chmod +x /usr/lib/bonobo/servers/gnomeAgmApplet.server
+sudo chmod +r /usr/lib/bonobo/servers/gnomeAgmApplet.server

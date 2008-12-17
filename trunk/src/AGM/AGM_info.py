@@ -48,9 +48,9 @@ class Info(gtk.AboutDialog):
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ''')
         self.set_website("www.sciallo.net/AGM/")
-        self.set_authors(["Marco Mosconi <brus46@gmail.com>"])
+        self.set_authors(["Marco Mosconi <brus46@gmail.com>,\nFanen Ahua <afanen01@gmail.com>"])
         self.set_program_name("AGM")
-        self.set_comments("Advanced Gnome Menu\nThis program provide an eye-candy gnome menu.\nThis has been deleloped thinking on new netbooks.")
+        self.set_comments("Advanced Gnome Menu\nThis program provide an eye-candy gnome menu.\nThis has been developed thinking with inspiration from new netbooks.")
         icon=gtk.gdk.pixbuf_new_from_file(conf.default_logo_path)
         self.set_icon(icon)
         self.set_logo(icon)

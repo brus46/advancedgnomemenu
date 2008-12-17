@@ -47,8 +47,9 @@ class ExecuteBar(gtk.HBox):
         command=self.command.get_text()
         if (command!=""):
             if (os.fork()==0):
-                os.system(command)
-                sys.exit(0)
+                command=command.split(" ")
+                os.execvp(command[0], command)
+                sys.exit(-1)
     
     def terminal_execution(self, obj):
         command=self.command.get_text()

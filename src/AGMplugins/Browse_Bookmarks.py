@@ -58,6 +58,12 @@ class Plugin(plugin):
                     line=line.replace("\n", "")
                     filename=path[len(path)-1].replace("\n", "")
                     name=filename.split(" ")[0]
+                    line=""
+                    for piece in path:
+                        if (piece.replace("\n", "")==filename):
+                            line+=name
+                        else:
+                            line+=piece
                     menu.append({
                       "icon":icon,
                       "name":name,

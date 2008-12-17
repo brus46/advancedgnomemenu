@@ -68,7 +68,7 @@ class Plugin(plugin):
             menu.append({"icon":icon,
                       "name":"Computer",
                       "type":"open",
-                      "obj":"/",
+                      "obj":"computer:///",
                       "other_options":[{"name":"Open", "command":["nautilus", "/"]}, 
                                        {"name":"Open as root", "command":["gksu", "'nautilus " + "/" + "'"]},
                                        {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + "/"]}

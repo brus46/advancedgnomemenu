@@ -68,7 +68,7 @@ class Plugin(plugin):
                       "icon":icon,
                       "name":"Computer",
                       "type":"open",
-                      "obj":"/",
+                      "obj":"computer:///",
                       "tooltip":"Your computer"})        
             
             icon=utils.getPixbufFromName("media-optical")

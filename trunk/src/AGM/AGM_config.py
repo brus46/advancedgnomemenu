@@ -27,6 +27,8 @@ conf=config()
 class Config(gtk.Window):
     def __init__(self, stand_alone=False, win=None):
         gtk.Window.__init__(self)
+        conf.read_conf()
+        AGM_config_tabs.reload_conf()
         self.main_win=win
         self.stand_alone=stand_alone
         self.set_position(gtk.WIN_POS_CENTER)

@@ -68,6 +68,9 @@ class Config(gtk.Window):
         ##SEARCH BOX
         self.search_box= AGM_config_tabs.search_box_config()
         
+        ##EXECUTION BOX
+        self.execution_box= AGM_config_tabs.execution_box_config()
+        
         ##TOP ICON
         self.top_icon=AGM_config_tabs.top_icon_config()
         
@@ -88,10 +91,8 @@ class Config(gtk.Window):
         notebook.append_page(self.fav_apps_apparence , gtk.Label("Fav apps box"))
         self.search_box.set_border_width(5)
         notebook.append_page(self.search_box , gtk.Label("Search box"))
-        #self.behavior_conf.set_border_width(5)
-        #notebook.append_page(self.behavior_conf , gtk.Label("Menu"))
-        #self.PluginPanel.set_border_width(5)
-        #notebook.append_page(self.PluginPanel , gtk.Label("Menu elements"))
+        self.execution_box.set_border_width(5)
+        notebook.append_page(self.execution_box , gtk.Label("Execution box"))
         self.menu.set_border_width(5)
         notebook.append_page(self.menu , gtk.Label("Menu"))
         self.applet_conf.set_border_width(5)
@@ -113,12 +114,11 @@ class Config(gtk.Window):
         file_config=""
         file_config+=self.theme.save_config()
         file_config+=self.menu.save_string()
-        #file_config+=self.PluginPanel.save_string()
         file_config+=self.applet_conf.save_string()
         file_config+=self.positions.save_string()
-        #file_config+=self.behavior_conf.save_string()
         file_config+=self.fav_apps_apparence.save_string()
         file_config+=self.search_box.save_string()
+        file_config+=self.execution_box.save_string()
         file_config+=self.top_icon.to_string()
         try:
             file=open(conf.config_path, "w")

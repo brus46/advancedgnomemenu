@@ -51,6 +51,8 @@ class AGM_menu_button(gtk.EventBox):
         self.label=gtk.Label(element["name"])
         
         self.label.set_size_request(150, -1)
+        x, y=self.label.get_alignment()
+        self.label.set_alignment(0.0, y)
         
         self.menu_list=[]
         if (element.has_key("other_options")):

@@ -1361,7 +1361,55 @@ class search_box_config(gtk.VBox):
         else: config+= "search_box_top_position=False\n"
         
         return config
-    
+
+class execution_box_config(gtk.VBox):
+    def __init__(self):
+        gtk.VBox.__init__(self, spacing=5)
+        self.show_bar=gtk.CheckButton("Show execution box")
+        self.show_bar.set_active(conf.execution_box_show)
+        self.pack_start(self.show_bar, False)
+        
+        self.show_bar_top=gtk.RadioButton()
+        self.show_bar_top.set_label("Top position")
+        self.show_bar_bottom=gtk.RadioButton(self.show_bar_top)
+        self.show_bar_bottom.set_label("Bottom position")
+        self.show_bar_top.set_active(conf.execution_box_top_position)
+        
+        self.frame_pos=gtk.Frame()
+        self.frame_pos.set_label("Execution box position:")
+        pos=gtk.VBox()
+        self.frame_pos.add(pos)
+        
+        pos.pack_start(self.show_bar_top, False)
+        pos.pack_start(self.show_bar_bottom, False)
+        
+        self.pack_start(self.frame_pos, False)
+        
+        self.execution_command=gtk.Entry()
+        self.execution_command.set_text(conf.execution_box_terminal_command)
+        self.pack_start(self.execution_command, False)
+        
+        self.show_bar.connect("toggled", self.changed)
+        self.changed()
+        
+    def changed(self, obj=None):
+        self.frame_pos.set_sensitive(self.show_bar.get_active())
+        self.execution_command.set_sensitive(self.show_bar.get_active())
+        
+    def save_string(self):
+        config=""
+        if (self.show_bar.get_active()):
+            config+= "execution_box_show=True\n"
+        else: config+= "execution_box_show=False\n"
+        
+        if (self.show_bar_top.get_active()):
+            config+= "execution_box_top_position=True\n"
+        else: config+= "execution_box_top_position=False\n"
+        
+        config+="execution_box_terminal_command="+self.execution_command.get_text()+"\n"
+        
+        return config
+
 class top_icon_config(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)

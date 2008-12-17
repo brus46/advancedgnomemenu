@@ -109,6 +109,10 @@ class conf:
         #Search_box
         self.search_box_top_position=True
         self.search_box_show=True
+        #Execution box
+        self.execution_box_show=True
+        self.execution_box_top_position=True
+        self.execution_box_terminal_command="gnome-terminal -e %U"
         
         #Window
         self.window_width=500
@@ -293,7 +297,16 @@ class conf:
                         self.search_box_show=(data[1]=="True") 
                     elif data[0]=="search_box_top_position":
                         if (self.search_box_top_position!=(data[1]=="True")): difference=True                        
-                        self.search_box_top_position=(data[1]=="True") 
+                        self.search_box_top_position=(data[1]=="True")
+                    elif data[0]=="execution_box_show":
+                        if (self.execution_box_show!=(data[1]=="True")): difference=True                        
+                        self.execution_box_show=(data[1]=="True")
+                    elif data[0]=="execution_box_top_position":
+                        if (self.execution_box_top_position!=(data[1]=="True")): difference=True                        
+                        self.execution_box_top_position=(data[1]=="True")
+                    elif data[0]=="execution_box_terminal_command":
+                        if (self.execution_box_terminal_command!=data[1]): difference=True                        
+                        self.execution_box_terminal_command=data[1]
                     else:
                         print "Unknow config ", data[0]
         fav_changes=self.read_fav_apps()

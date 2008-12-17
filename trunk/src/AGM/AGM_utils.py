@@ -4,6 +4,7 @@ from AGM_default_config import conf as config
 conf=config()
 
 def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
+    #print iconName, size, type
     icon_theme = gtk.icon_theme_get_default()
     pixbuf = None
     try:
@@ -31,14 +32,14 @@ def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
                 pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(iconName, size, size)
                 path = iconName
             except:
-                pass
-            try:
-                pixbuf = icon_theme.load_icon(iconName, size, 0)
-                path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
-            except:
-                pixbuf==None
-                pass
+                try:
+                    pixbuf = icon_theme.load_icon(iconName, size, 0)
+                    path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
+                except:
+                    pixbuf==None
+                    pass
     if pixbuf == None:
+        print "cannot find icon:" + iconName
         return None
     if pixbuf.get_width() != size or pixbuf.get_height() != size:
         width=pixbuf.get_width()

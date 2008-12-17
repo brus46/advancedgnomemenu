@@ -33,6 +33,7 @@ from AGM.AGM_config import Config
 from AGM.AGM_show_thread import ShowThread
 import AGM.AGM_info_menu as info_menu
 import AGM.AGM_utils as utils
+from AGM.AGM_execute_box import ExecuteBar
 
 conf=config()
 
@@ -73,6 +74,7 @@ class AGM:
         self.exitbutton.connect("clicked", self.exit);
         
         self.search_box=""
+        self.execution_box=""
         self.fav_apps_buttons=[]
         self.fav_apps_bar_H=gtk.HBox()
         self.fav_apps_bar_V=gtk.VBox()
@@ -134,6 +136,7 @@ class AGM:
             self.color(self.exitbutton)
             
             self.color(self.search_box)
+            self.color(self.execution_box)
             
         pass
     
@@ -212,14 +215,18 @@ class AGM:
         TopPanel=gtk.HBox()
         TopPanelUsable=gtk.VBox()
         TopPanel.pack_end(TopPanelUsable)
+        requestH=0
+        requestW=32
         if (conf.fav_apps_orientation=="H"):
             TopPanelUsable.pack_start(self.fav_apps_bar_H)
-            if conf.search_box_top_position and conf.search_box_show:
-                TopPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10 + 48)
-            else: TopPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
-        else:           
-            TopPanel.set_size_request(32, 48)
-            
+            requestW=conf.fav_apps_icon_dimension + 10
+            requestH=conf.fav_apps_icon_dimension + 10
+        if conf.search_box_top_position and conf.search_box_show:
+            requestH+=conf.fav_apps_icon_dimension
+        if conf.execution_box_top_position and conf.execution_box_show:
+            requestH+=conf.fav_apps_icon_dimension
+        if requestH<32: requestH=32
+        TopPanel.set_size_request(requestW, requestH)
         
         TopPanel.pack_start(self.backbutton, False, False)
         TopPanel.pack_start(self.homebutton, False, False)
@@ -375,12 +382,17 @@ class AGM:
         self.layout.pack_end(BottomPanel, False, False)
         
         #
+        self.execution_box=ExecuteBar()
+        self.search_box=search_box(self.menu.search)
+        if conf.execution_box_show and conf.execution_box_top_position:
+            TopPanelUsable.pack_start(self.execution_box, False)
+        elif conf.execution_box_show:
+            BottomPanel.pack_start(self.execution_box, False)
+        
         if conf.search_box_show and conf.search_box_top_position:
-            self.search_box=search_box(self.menu.search)
-            TopPanelUsable.pack_start(self.search_box)
+            TopPanelUsable.pack_start(self.search_box, False)
         elif conf.search_box_show:
-            self.search_box=search_box(self.menu.search)
-            BottomPanel.pack_start(self.search_box)
+            BottomPanel.pack_start(self.search_box, False)
         #
         
         

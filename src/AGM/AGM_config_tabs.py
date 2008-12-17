@@ -25,6 +25,9 @@ import AGM.AGM_utils as utils
 import AGM.AGM_plugins as plugins
 from AGM.AGM_color_config import ColorButton as ColorButtonTr
 
+def reload_conf():
+    conf.read_conf()
+
 def set_label_size_and_align(label, size=150):
     label.set_size_request(size, -1)
     x, y=label.get_alignment()
@@ -1373,7 +1376,10 @@ class execution_box_config(gtk.VBox):
         self.show_bar_top.set_label("Top position")
         self.show_bar_bottom=gtk.RadioButton(self.show_bar_top)
         self.show_bar_bottom.set_label("Bottom position")
-        self.show_bar_top.set_active(conf.execution_box_top_position)
+        if conf.execution_box_top_position:
+            self.show_bar_top.set_active(True)
+        else: self.show_bar_bottom.set_active(True)
+        
         
         self.frame_pos=gtk.Frame()
         self.frame_pos.set_label("Execution box position:")

@@ -25,6 +25,7 @@ conf=config()
 class ExecuteBar(gtk.HBox):
     def __init__(self):
         gtk.HBox.__init__(self)
+        conf.read_conf()
         self.command=gtk.Entry()
         self.run_in_terminal=gtk.Button()
         terminal_icon=gtk.Image()

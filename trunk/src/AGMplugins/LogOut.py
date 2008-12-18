@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 #    This is a AGM plugin
 
@@ -36,7 +35,7 @@ class Plugin(plugin):
     
     def get_menu(self):
         menu=[]
-        menu.append({"icon":utils.getPixbufFromName("gnome-session-logout"),
+        menu.append({"icon":"gnome-session-logout",
                   "name":"Exit",
                   "type":"exec",
                   "obj":"exec#gnome-session-save --kill",

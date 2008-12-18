@@ -47,7 +47,7 @@ class AGM_menu_button(gtk.EventBox):
         width, height=self.size_request()
         
         self.icon=gtk.Image()
-        self.icon.set_from_pixbuf(element["icon"])
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(element["icon"], conf.menu_icon_size, "app"))
         self.label=gtk.Label(element["name"])
         
         self.label.set_size_request(150, -1)
@@ -100,6 +100,9 @@ class AGM_menu_button(gtk.EventBox):
         
         self.connect("enter_notify_event", self.activate_event)
         self.connect("leave_notify_event", self.leave_event)
+    
+    def get_image(self):
+        return self.element["el"]["icon"]
     
     def configure_button(self, index):
         name=self.menu_list[index]["name"]
@@ -170,14 +173,14 @@ class AGM_menu_button(gtk.EventBox):
         if icon!=None:
             self.icon.set_from_pixbuf(utils.getPixbufFromName(icon, conf.menu_icon_size, "app"))
         else:
-            self.icon.set_from_pixbuf(self.element["el"]["icon"])
+            self.icon.set_from_pixbuf(utils.getPixbufFromName(self.element["el"]["icon"], conf.menu_icon_size, "app"))
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.selectedbgcolor))
         self.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.selectedfgcolor))
         self.put_icons()
 
     def leave_event(self, obj, event):        
         self.label.set_text(self.element["el"]["name"])
-        self.icon.set_from_pixbuf(self.element["el"]["icon"])
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.element["el"]["icon"], conf.menu_icon_size, "app"))
         self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.bgcolor))
         self.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
         self.clear_icons()

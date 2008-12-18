@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 from Alacarte.MenuEditor import MenuEditor
@@ -66,6 +65,7 @@ class Plugin(plugin):
                     name = item.get_name()
                     if (name.lower().find(key)>=0):
                         icon = self.getIcon(item)
+                        #icon=name
                         exec_string=item.get_exec()
                         found.append({
                                   "icon":icon, 
@@ -87,7 +87,8 @@ class Plugin(plugin):
         if iconName and not '/' in iconName and iconName[-3:] in ('png', 'svg', 'xpm'):
             iconName = iconName[:-4]
         icon_theme = gtk.icon_theme_get_default()
-        if item.get_type() == gmenu.TYPE_DIRECTORY:
-           return utils.getPixbufFromName(iconName, size)
-        else:
-           return utils.getPixbufFromName(iconName, size, type="application")
+        return iconName
+        #if item.get_type() == gmenu.TYPE_DIRECTORY:
+        #   return utils.getPixbufFromName(iconName, size)
+        #else:
+        #   return utils.getPixbufFromName(iconName, size, type="application")

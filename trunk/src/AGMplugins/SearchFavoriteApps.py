@@ -54,7 +54,7 @@ class Plugin(plugin):
             if app["name"].lower().find(key)>=0:
                 command=app["command"].split("#")
                 found.append({
-                  "icon":utils.getPixbufFromName(app["icon"]),
+                  "icon":app["icon"],
                   "name":app["name"],
                   "type":command[0],
                   "obj":command[1],

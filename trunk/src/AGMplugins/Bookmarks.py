@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import os
@@ -46,13 +45,13 @@ class Plugin(plugin):
             print show
             if (show!="show"):
                 menu.append({
-                      "icon":utils.getPixbufFromName("emblem-favorite"),
+                      "icon":"emblem-favorite",
                       "name":"Bookmarks",
                       "type":"enter",
                       "obj":"show",
                       "tooltip":"Browse your bookmarks"})            
             else:
-                icon=utils.getPixbufFromName("gnome-fs-directory-accept")
+                icon="gnome-fs-directory-accept"
                 for line in file:    
                     path=line.split("/")
                     line=line.replace("file://", "")

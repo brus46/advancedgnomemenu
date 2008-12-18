@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from AGM.AGM_plugin import AGM_plugin as plugin
-import AGM.AGM_utils as utils
 import gnomevfs, os
 #    This is a AGM plugin
 
@@ -45,13 +44,13 @@ class Plugin(plugin):
             print show
             if (show==None):
                 menu.append({
-                      "icon":utils.getPixbufFromName("emblem-favorite"),
+                      "icon":"emblem-favorite",
                       "name":"Bookmarks",
                       "type":"enter",
                       "obj":"show",
                       "tooltip":"Browse your bookmarks"})            
             elif (show=="show"):
-                icon=utils.getPixbufFromName("gnome-fs-directory-accept")
+                icon="gnome-fs-directory-accept"
                 for line in file:    
                     path=line.split("/")
                     line=line.replace("file://", "")
@@ -85,7 +84,7 @@ class Plugin(plugin):
                         if (file.split(".")[0]!=""):
                             current_folder=folder+file
                             el={
-                              "icon":utils.getPixbufFromName(""),
+                              "icon":"folder",
                               "name":file,
                               "type":"enter",
                               "obj":current_folder,
@@ -103,7 +102,7 @@ class Plugin(plugin):
                             mime=mime.replace("/", "-")
                             current_file=folder+file
                             el={
-                              "icon":utils.getPixbufFromName(mime, type="file"),
+                              "icon":mime,
                               "name":file,
                               "type":"openFile",
                               "obj":current_file,

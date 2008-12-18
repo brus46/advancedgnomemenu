@@ -38,7 +38,7 @@ class Plugin(plugin):
     def get_menu(self, obj=None):
         menu=[]
         menu.append({
-                  "icon":utils.getPixbufFromName("stock_search"),
+                  "icon":"stock_search",
                   "name":"Search",
                   "type":"exec",
                   "obj":"gnome-search-tool --path=" + os.path.expanduser("~")+ "/",

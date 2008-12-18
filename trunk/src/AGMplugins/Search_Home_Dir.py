@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import gnomevfs, os
@@ -58,7 +57,7 @@ class Plugin(plugin):
                             found.append(newel)
                     if file.lower().find(key)>=0:                            
                         el={
-                          "icon":utils.getPixbufFromName(""),
+                          "icon":"folder",
                           "name":file,
                           "type":"open",
                           "obj":folder+file,
@@ -75,7 +74,7 @@ class Plugin(plugin):
                     mime=gnomevfs.get_mime_type(folder+file)
                     mime=mime.replace("/", "-")
                     el={
-                      "icon":utils.getPixbufFromName(mime, type="file"),
+                      "icon":mime,
                       "name":file,
                       "type":"openFile",
                       "obj":folder+file,

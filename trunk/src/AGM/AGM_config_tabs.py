@@ -831,7 +831,8 @@ class window_config(gtk.VBox):
         config=str(pop)+"#"+str(pos)+"#"+str(top)
         picture=conf.install_picture_dir+"pictures/"+config+".png"
         if os.path.isfile(picture)==False:
-            picture=conf.install_picture_dir+"pictures/"+"None.png"
+            picture=conf.install_data_dir+"pictures/"+"None.png"
+        print picture
         self.preview.set_from_pixbuf(utils.getPixbufFromName(picture, 200, "app"))
         pass
     

@@ -32,7 +32,7 @@ sudo cp ./install_files/advancedgnomemenu /usr/bin/
 sudo chmod +x /usr/bin/advancedgnomemenu
 
 #Installing desktop shortcuts
-sudo cp ./install_files/AGM.png /usr/share/pixmaps/
+sudo cp -R ./install_files/AGM.png /usr/share/pixmaps/
 sudo cp ./install_files/agm-config.desktop /usr/share/applications/
 sudo cp ./install_files/agm.desktop /usr/share/applications/
 

@@ -17,7 +17,7 @@
 		<oaf_attribute name="name" type="string" value="AGM"/>
 		<oaf_attribute name="description" type="string" value="Advanced Gnome Menu"/>
 		<oaf_attribute name="panel:category" type="string" value="Utility"/>
-		<oaf_attribute name="panel:icon" type="string" value="distributor-logo.png"/>
+		<oaf_attribute name="panel:icon" type="string" value="AGM.png"/>
 
 	</oaf_server>
 

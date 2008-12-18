@@ -12,11 +12,20 @@ sudo cp -R ./src/pictures/ /usr/share/AGM/
 sudo cp -R ./src/AGM/ /usr/local/lib/python/
 sudo cp -R ./src/AGMplugins/ /usr/local/lib/python/
 
-#install default config
-cp ./src/AGM_default_config ~/.AGM_config
+#install default config if necessary
+CFILE=~/.AGM_config
+if [ -f $CFILE ];
+then echo "config file already exists, skipping"
+else cp ./src/AGM_default_config ~/.AGM_config
+fi
 
-#install default fav apps
-cp ./src/AGM_default_fav_app ~/.AGM_fav_app
+CFILE=~/.AGM_fav_app
+
+#install default fav apps if necessary
+if [ -f $CFILE ]; 
+then echo "favourite apps already configured, skipping"
+else cp ./src/AGM_default_fav_app ~/.AGM_fav_app
+fi
 
 #Installing runnable files
 sudo cp ./install_files/advancedgnomemenu /usr/bin/

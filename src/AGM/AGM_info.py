@@ -32,7 +32,7 @@ class Info(gtk.AboutDialog):
         
         self.set_title("AGM")
         self.set_name("Advanced Gnome Menu")
-        self.set_version("0.8")
+        self.set_version("0.9")
         self.set_copyright("(c) 2008 Marco Mosconi")
         self.set_license('''    This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ class Info(gtk.AboutDialog):
         self.set_authors(["Marco Mosconi <brus46@gmail.com>", "Fanen Ahua <afanen01@gmail.com>"])
         self.set_artists(["sentinella86 - Ubuntu.it user"])
         self.set_program_name("AGM")
-        self.set_comments("Advanced Gnome Menu\nThis program provide an eye-candy gnome menu.\nThis has been developed thinking with inspiration from new netbooks.")
+        self.set_comments("Advanced Gnome Menu\nThis is an eye-candy menu applet for GNOME. \nGood looks and usability are the key aims of this project.\nJust see it at work and you'll love it ;) ")
         icon=gtk.gdk.pixbuf_new_from_file(conf.default_logo_path)
         self.set_icon(icon)
         self.set_logo(icon)

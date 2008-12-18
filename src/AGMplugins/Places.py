@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 #    This is a AGM plugin
@@ -38,7 +37,7 @@ class Plugin(plugin):
     def get_menu(self, show=None):
         menu=[]
         if show!="show":
-            icon=utils.getPixbufFromName("gnome-fs-directory-accept")
+            icon="gnome-fs-directory-accept"
             menu.append({
                       "icon":icon,
                       "name":"Places",
@@ -46,7 +45,7 @@ class Plugin(plugin):
                       "obj":"show",
                       "tooltip":"Your fast-access pc-places"})
         else:
-            icon=utils.getPixbufFromName("user-home")
+            icon="user-home"
             menu.append({
                       "icon":icon,
                       "name":"Home folder",
@@ -63,7 +62,7 @@ class Plugin(plugin):
                       "tooltip":"Home folder"})
             
             
-            icon=utils.getPixbufFromName("computer")
+            icon="computer"
             menu.append({
                       "icon":icon,
                       "name":"Computer",
@@ -71,14 +70,14 @@ class Plugin(plugin):
                       "obj":"computer:///",
                       "tooltip":"Your computer"})        
             
-            icon=utils.getPixbufFromName("media-optical")
+            icon="media-optical"
             menu.append({
                       "icon":icon,
                       "name":"Create Cd-Dvd",
                       "type":"exec",
                       "obj":"nautilus --no-desktop burn:///",
                       "tooltip":"Create cd"})        
-            icon=utils.getPixbufFromName("network-workgroup")
+            icon="network-workgroup"
             menu.append({
                       "icon":icon,
                       "name":"Network",

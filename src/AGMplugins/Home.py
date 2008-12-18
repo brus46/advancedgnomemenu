@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 #    This is a AGM plugin
@@ -39,7 +38,7 @@ class Plugin(plugin):
         menu=[]
         if folder==None:
             menu.append({
-                      "icon":utils.getPixbufFromName("user-home"),
+                      "icon":"user-home",
                       "name":"Home",
                       "type":"enter",
                       "obj":os.path.expanduser("~")+"/",
@@ -56,7 +55,7 @@ class Plugin(plugin):
                 if gnomevfs.get_mime_type(folder+file).split("/")[0]=="x-directory":
                     if (file.split(".")[0]!=""):
                         el={
-                          "icon":utils.getPixbufFromName(""),
+                          "icon":"folder",
                           "name":file,
                           "type":"open",
                           "obj":folder+file,
@@ -73,7 +72,7 @@ class Plugin(plugin):
                         mime=gnomevfs.get_mime_type(folder+file)
                         mime=mime.replace("/", "-")
                         el={
-                          "icon":utils.getPixbufFromName(mime, type="file"),
+                          "icon":mime,
                           "name":file,
                           "type":"openFile",
                           "obj":folder+file,

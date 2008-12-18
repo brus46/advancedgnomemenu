@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 #    This is a AGM plugin
@@ -40,7 +39,7 @@ class Plugin(plugin):
         if folder==None:
             folder=os.path.expanduser("~")
             menu.append({
-                      "icon":utils.getPixbufFromName("user-home"),
+                      "icon":"user-home",
                       "name":"Home",
                       "type":"enter",
                       "obj":folder,
@@ -54,11 +53,12 @@ class Plugin(plugin):
             listafile=os.listdir(folder)
             listafile.sort()
             for file in listafile:
+              try:
                 if gnomevfs.get_mime_type(folder+file).split("/")[0]=="x-directory":
                     if (file.split(".")[0]!=""):
                         current_folder=folder+file
                         el={
-                          "icon":utils.getPixbufFromName(""),
+                          "icon":"folder",
                           "name":file,
                           "type":"enter",
                           "obj":current_folder,
@@ -68,15 +68,16 @@ class Plugin(plugin):
                                        ],
                           "tooltip":"Open folder: " + file}
                         menu.append(el)
-    
+              except: pass
             for file in listafile:
+              try:
                 if gnomevfs.get_mime_type(folder+file).split("/")[0]!="x-directory":
                     if (file.split(".")[0]!=""):
                         mime=gnomevfs.get_mime_type(folder+file)
                         mime=mime.replace("/", "-")
                         current_file=folder+file
                         el={
-                          "icon":utils.getPixbufFromName(mime, type="file"),
+                          "icon":mime,
                           "name":file,
                           "type":"openFile",
                           "obj":current_file,
@@ -87,5 +88,5 @@ class Plugin(plugin):
                                            ],
                           "tooltip":"Open: " + file}
                         menu.append(el)
-                    
+              except: pass
         return menu

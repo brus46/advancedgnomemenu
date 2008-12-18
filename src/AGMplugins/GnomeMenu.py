@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 from Alacarte.MenuEditor import MenuEditor
@@ -59,6 +58,7 @@ class Plugin(plugin):
         if depth == 0:
             #print "depth", depth
             icon=self.getIcon(parent)
+            #icon=parent.get_name()
             self.menu.append({
                               "icon":icon, 
                               "name":parent.get_name(),
@@ -72,6 +72,7 @@ class Plugin(plugin):
                 if show:
                     name = menu.get_name()
                     icon = self.getIcon(menu)
+                    #icon=name
                     self.menu.append({
                       "icon":icon, 
                       "name":name,
@@ -83,6 +84,7 @@ class Plugin(plugin):
                 if show and item.get_type() == gmenu.TYPE_ENTRY:
                     name = item.get_name()
                     icon = self.getIcon(item)
+                    #icon=name
                     exec_string=item.get_exec()
                     self.menu.append({
                               "icon":icon, 
@@ -104,7 +106,8 @@ class Plugin(plugin):
         if iconName and not '/' in iconName and iconName[-3:] in ('png', 'svg', 'xpm'):
             iconName = iconName[:-4]
         icon_theme = gtk.icon_theme_get_default()
-        if item.get_type() == gmenu.TYPE_DIRECTORY:
-           return utils.getPixbufFromName(iconName)
-        else:
-           return utils.getPixbufFromName(iconName, type="application")
+        return iconName
+        #if item.get_type() == gmenu.TYPE_DIRECTORY:
+           #return utils.getPixbufFromName(iconName)
+        #else:
+           #return utils.getPixbufFromName(iconName, type="application")

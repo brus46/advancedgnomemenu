@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import AGMplugins.Home
 import AGMplugins.Bookmarks
@@ -45,7 +44,7 @@ class Plugin(plugin):
     def get_menu(self, gointo=None):
         menu=[]
         if gointo==None:
-            icon=utils.getPixbufFromName("gnome-fs-directory-accept")
+            icon="gnome-fs-directory-accept"
             menu.append({"icon":icon,
                       "name":"Places",
                       "type":"enter",
@@ -53,7 +52,7 @@ class Plugin(plugin):
                       "tooltip":"Your fast-access pc-places"})
         
         if (gointo=="show"):
-            icon=utils.getPixbufFromName("user-home")
+            icon="user-home"
             menu.append({"icon":icon,
                       "name":"Home",
                       "type":"enter",
@@ -64,7 +63,7 @@ class Plugin(plugin):
                                        ], 
                       "tooltip":"Your home folder"})
                         
-            icon=utils.getPixbufFromName("computer")
+            icon="computer"
             menu.append({"icon":icon,
                       "name":"Computer",
                       "type":"open",
@@ -75,28 +74,28 @@ class Plugin(plugin):
                                        ], 
                       "tooltip":"Your computer"})
             
-            icon=utils.getPixbufFromName("media-optical")
+            icon="media-optical"
             menu.append({"icon":icon,
                       "name":"Create cd/dvd",
                       "type":"exec",
                       "obj":"nautilus --no-desktop burn:///",
                       "tooltip":"Create cd/dvd"})
             
-            icon=utils.getPixbufFromName("network-workgroup")
+            icon="network-workgroup"
             menu.append({"icon":icon,
                       "name":"Network",
                       "type":"exec",
                       "obj":"nautilus --no-desktop network:",
                       "tooltip":"Show network"})
             
-            icon=utils.getPixbufFromName("favorite")
+            icon="favorite"
             menu.append({"icon":icon,
                       "name":"Bookmarks",
                       "type":"enter",
                       "obj":"bookmarks",
                       "tooltip":"Your bookmarks"})
             
-            menu.append({"icon":utils.getPixbufFromName("document-open-recent"),
+            menu.append({"icon":"document-open-recent",
                       "name":"Recently used files",
                       "type":"enter",
                       "obj":"last_used",

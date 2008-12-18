@@ -28,24 +28,23 @@ from AGM_menu_button import AGM_menu_button
 conf=config()
 
 class Menu(gtk.ScrolledWindow):
-    def __init__(self, prec_parent_change_function, onFocusFunction):
+    def __init__(self, prec_parent_change_function, onFocusFunction, change_icon):
         gtk.ScrolledWindow.__init__(self)
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.icon_theme = gtk.icon_theme_get_default()
         
         self.prec_parent_change_function=prec_parent_change_function
         self.onFocusFunction=onFocusFunction
+        self.change_icon=change_icon
         
         self.menu=gtk.VBox()
         
         self.child_widgets_list=[]
         
-        #self.current_parent=0
-        #self.prec_parent=None
         self.menus=[]
         self.history=[]
+        self.history_icon=[]
         self.currentPlugin=None
-        #self.menu_store=gtk.ListStore(int, int, gtk.gdk.Pixbuf, str, str, str)
         self.loadMenus()
         self.refresh(0)
         self.add_with_viewport(self.menu)
@@ -60,7 +59,7 @@ class Menu(gtk.ScrolledWindow):
     
     def refresh(self, newParent=None, searchMode=None):
         #conf.read_conf()
-            
+        
         self.prec_parent_change_function(self.show_prec())
         #self.current_parent=newParent
         
@@ -96,9 +95,13 @@ class Menu(gtk.ScrolledWindow):
         #print self.history
         if len(self.history)>2:
             self.history.pop(len(self.history)-1)
+            self.history_icon.pop(len(self.history_icon)-1)
+            self.change_icon(self.history_icon[len(self.history_icon)-1])
             prec=self.history[len(self.history)-1]
         else:
             self.history=[]
+            self.history_icon=[]
+            self.change_icon()
             self.currentPlugin=None
             prec=None
         #print prec, self.history
@@ -107,6 +110,8 @@ class Menu(gtk.ScrolledWindow):
     def goHome(self):
         self.currentPlugin=None
         self.history=[]
+        self.history_icon=[]
+        self.change_icon()
         self.refresh()
     
     def ShowMenu(self, obj, event, menu):
@@ -120,8 +125,11 @@ class Menu(gtk.ScrolledWindow):
            print "Go into menu->", obj
            if self.history==[]:
                self.history.append(None)
+               self.history_icon.append(None)
            self.history.append(obj)
+           self.history_icon.append(caller.get_image())
            self.refresh(obj)
+           self.change_icon(caller.get_image())
        elif "exec"==type: 
            print "Execute->" + obj
            obj=obj.replace("%U", "")
@@ -177,6 +185,8 @@ class Menu(gtk.ScrolledWindow):
             self.history=[]
             self.history.append(None)
             self.history.append("search#"+key)
+            self.history_icon=[None, "stock_search"] #image_search
+            self.change_icon("stock_search")
             found_list=[]
             for plugin in self.menus:
                 if plugin.type==AGM_plugin.TYPE_SEARCH or plugin.type==AGM_plugin.TYPE_MIX:
@@ -188,4 +198,6 @@ class Menu(gtk.ScrolledWindow):
         else:
             self.currentPlugin=None
             self.history=[]
+            self.history_icon=[]
+            self.change_icon()
             self.refresh()

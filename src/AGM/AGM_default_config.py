@@ -67,6 +67,7 @@ class conf:
         self.top_icon_mode=self.USE_USER_LOGO
         self.top_icon_other_logo=None
         self.top_icon_show_logo=True
+        self.top_icon_enable_smart_mode=True
         
         self.command_on_logo_clicked="gnome-about-me"
         #Theme
@@ -125,7 +126,8 @@ class conf:
                        {"name":"Terminal", "icon":"gnome-terminal", "command":"exec#gnome-terminal"}                       
                        ]
         self.fav_apps_orientation="H" 
-        #"V" Horizontal, Vertical # soon... HT, HB, VL, VR: Horizontal Top/Bottom, Vertical Left, Right
+        #"V" Horizontal, Vertical 
+        # soon... HT, HB, VL, VR: Horizontal Top/Bottom, Vertical Left/Right
         
         self.fav_apps_icon_dimension=24
         self.fav_apps_show_text=False

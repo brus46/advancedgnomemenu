@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 import xml.dom.minidom
@@ -40,7 +39,7 @@ class Plugin(plugin):
         menu=[]
         if show!="show":
             menu.append({
-                      "icon":utils.getPixbufFromName("document-open-recent"),
+                      "icon":"document-open-recent",
                       "name":"Recently used files",
                       "type":"enter",
                       "obj":"show",
@@ -62,7 +61,7 @@ class Plugin(plugin):
                                 list.append({"URI":URI, "MIME":mime, "NAME":name})
             list.reverse()
             for el in list:
-                icon=utils.getPixbufFromName(el["MIME"], type= "file")
+                icon=el["MIME"]
                 menu.append({
                       "icon":icon,
                       "name":el["NAME"],

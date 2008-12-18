@@ -47,6 +47,7 @@ class AGM:
         self.obj=[]
         
         self.nameLabel = gtk.Label()
+        self.EBox=""
         
         self.backbutton=gtk.Button()
         self.homebutton=gtk.Button()
@@ -185,22 +186,12 @@ class AGM:
         
         top_style=conf.top_position.get_top()
     
-        IconLabel=gtk.Image()
-        EBox=gtk.EventBox()
-        EBox.set_visible_window(False)
-        if conf.top_icon_show_logo:
-            IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.default_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
-            if conf.top_icon_mode==conf.USE_USER_LOGO:
-                if (os.path.exists(conf.home_logo_path)==True):
-                    IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
-            elif conf.top_icon_mode==conf.USE_DISTRO_LOGO:
-                IconLabel.set_from_pixbuf(utils.getPixbufFromName("distributor-logo", 80, "app"))
-            elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
-                if (os.path.exists(conf.top_icon_other_logo)==True):
-                    IconLabel.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
-            EBox.add(IconLabel)
-            EBox.connect("button_release_event", self.edit_personal_info)
         
+        self.EBox=gtk.EventBox()
+        self.EBox.set_visible_window(False)
+        self.EBox.add(gtk.Image())
+        self.set_default_logo()
+                
         ToolButtons=gtk.HBox(spacing = 5)
         if (not self.show_trayicon): 
             ToolButtons.pack_end(self.exitbutton, False, False)
@@ -239,7 +230,7 @@ class AGM:
             else: BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
         
         
-        self.menu=Menu(self.showPrecParentButton, self.setOnFocus)
+        self.menu=Menu(self.showPrecParentButton, self.setOnFocus, self.change_icon)
         
         popup_style, w,h=conf.popupstyle.get_style()
         space_label=gtk.Label()
@@ -258,7 +249,7 @@ class AGM:
         
         if (top_style==conf.top_position.TOP_RIGHT):
             IconBox=gtk.VBox()
-            IconBox.pack_start(EBox, False, False)
+            IconBox.pack_start(self.EBox, False, False)
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
@@ -289,7 +280,7 @@ class AGM:
 
         elif (top_style==conf.top_position.DW_LEFT):
             IconBox=gtk.VBox()
-            IconBox.pack_end(EBox, False, False)
+            IconBox.pack_end(self.EBox, False, False)
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
@@ -319,7 +310,7 @@ class AGM:
             self.layout.pack_end(MainBox, False, False)
         elif (top_style==conf.top_position.DW_RIGHT):
             IconBox=gtk.VBox()
-            IconBox.pack_end(EBox, False, False)
+            IconBox.pack_end(self.EBox, False, False)
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
@@ -350,7 +341,7 @@ class AGM:
 
         else: 
             IconBox=gtk.VBox()
-            IconBox.pack_start(EBox, False, False)
+            IconBox.pack_start(self.EBox, False, False)
             IconBox.add(gtk.Label())
             
             SpacingLabel=gtk.Label()
@@ -402,6 +393,29 @@ class AGM:
         self.obj.append(MenuBox)
         self.obj.append(space_label)
         pass
+    
+    def set_default_logo(self):
+        if conf.top_icon_show_logo:
+            IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.default_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            if conf.top_icon_mode==conf.USE_USER_LOGO:
+                if (os.path.exists(conf.home_logo_path)==True):
+                    IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            elif conf.top_icon_mode==conf.USE_DISTRO_LOGO:
+                IconLabel=(utils.getPixbufFromName("distributor-logo", 80, "app"))
+            elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
+                if (os.path.exists(conf.top_icon_other_logo)==True):
+                    IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            self.EBox.get_child().set_from_pixbuf(IconLabel)
+            self.EBox.connect("button_release_event", self.edit_personal_info)
+    
+    def change_icon(self, image=None):
+        if image!=None:
+            if (conf.top_icon_enable_smart_mode):
+                myimage=utils.getPixbufFromName(image, 80, "app")
+                self.EBox.get_child().set_from_pixbuf(myimage)
+                self.EBox.connect("button_release_event", self.edit_personal_info)
+        else:
+            self.set_default_logo()
     
     def favApps(self):
         try:

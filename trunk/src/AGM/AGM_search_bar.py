@@ -30,7 +30,7 @@ class search_box(gtk.HBox):
         self.search = search_function
         self.search_text.connect("activate", self.change)
         if conf.search_box_top_position:
-            self.search_text.set_size_request(conf.window_width-100 -40, -1)
+            self.search_text.set_size_request(conf.window_width-110 -40, -1)
         else: self.search_text.set_size_request(conf.window_width -40, -1)
         
         self.pack_end(self.search_text, False, False)

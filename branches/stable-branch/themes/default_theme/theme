@@ -1,0 +1,13 @@
+opacity=1.0
+bgcolor=#525252525252
+selectedbgcolor=#373737373737
+activebgcolor=#969696969696
+fgcolor=#ffffffffffff
+selectedfgcolor=#ffffffffffff
+activefgcolor=#ffffffffffff
+mainbgcolor=#6e6e6ef3
+topbgcolor=#48484884
+lightingbgcolor=#fffcfcae
+iconbgcolor=#505050ff
+iconbordercolor=#fffcfcae
+use_system_color=False

@@ -102,6 +102,7 @@ class conf:
         #Applet
         self.applet_icon=self.home_logo_path
         self.applet_text="Menu"
+        self.applet_show_text=True
         self.applet_fg_color="#000000"
         
         #behavior
@@ -125,12 +126,12 @@ class conf:
                        {"name":"Pidgin", "icon":"pidgin", "command":"exec#pidgin"},
                        {"name":"Terminal", "icon":"gnome-terminal", "command":"exec#gnome-terminal"}                       
                        ]
-        self.fav_apps_orientation="H" 
+        self.fav_apps_orientation="V" 
         #"V" Horizontal, Vertical 
         # soon... HT, HB, VL, VR: Horizontal Top/Bottom, Vertical Left/Right
         
-        self.fav_apps_icon_dimension=24
-        self.fav_apps_show_text=False
+        self.fav_apps_icon_dimension=22
+        self.fav_apps_show_text=True
         self.fav_apps_text_bold=False
         self.fav_apps_show=True
         self.hide_menu_after_launch_fav_app=False
@@ -257,6 +258,9 @@ class conf:
                     elif data[0]=="applet_text":
                         if (self.applet_text!=data[1]): difference=True
                         self.applet_text=data[1]
+                    elif data[0]=="applet_show_text":
+                        if (self.applet_show_text!=(data[1]=="True")): difference=True                        
+                        self.applet_show_text=(data[1]=="True")  
                     elif data[0]=="applet_fg_color":
                         if (self.applet_fg_color!=data[1]): difference=True
                         self.applet_fg_color=data[1]

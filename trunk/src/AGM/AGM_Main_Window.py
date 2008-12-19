@@ -214,9 +214,9 @@ class AGM:
             requestW=conf.fav_apps_icon_dimension + 10
             requestH=conf.fav_apps_icon_dimension + 10
         if conf.search_box_top_position and conf.search_box_show:
-            requestH+=conf.fav_apps_icon_dimension
+            requestH+=32
         if conf.execution_box_top_position and conf.execution_box_show:
-            requestH+=conf.fav_apps_icon_dimension
+            requestH+=32
         if requestH<32: requestH=32
         TopPanel.set_size_request(requestW, requestH)
         
@@ -401,8 +401,8 @@ class AGM:
             if conf.top_icon_mode==conf.USE_USER_LOGO:
                 if (os.path.exists(conf.home_logo_path)==True):
                     IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path), 80)
-            elif conf.top_icon_mode==conf.USE_DISTRO_LOGO:
-                IconLabel=(utils.getPixbufFromName("distributor-logo", 80, "app"))
+                else:
+                    IconLabel=(utils.getPixbufFromName("distributor-logo", 80, "app"))
             elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
                 if (os.path.exists(conf.top_icon_other_logo)==True):
                     IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
@@ -471,6 +471,8 @@ class AGM:
                print command
                os.execvp(command[0], command)
                sys.exit(-1)
+           if conf.hide_on_program_launch:
+               self.setOnFocus()
     
     def showPrecParentButton(self, show):
         self.win.show_all()

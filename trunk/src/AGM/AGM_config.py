@@ -32,7 +32,7 @@ class Config(gtk.Window):
         self.main_win=win
         self.stand_alone=stand_alone
         self.set_position(gtk.WIN_POS_CENTER)
-        self.set_title("AGM - Configurator")
+        self.set_title("AGM Configuration")
         self.set_icon_from_file(conf.default_logo_path)
         
         ButtonBox = gtk.HButtonBox()

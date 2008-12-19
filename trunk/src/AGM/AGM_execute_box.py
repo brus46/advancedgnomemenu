@@ -33,6 +33,9 @@ class ExecuteBar(gtk.HBox):
         terminal_icon.set_from_pixbuf(icon)
         self.run_in_terminal.set_image(terminal_icon)
         
+        self.label=gtk.Label("Execute:")
+        self.pack_start(self.label, False)
+        
         self.run_in_terminal.set_size_request(32, 32)
         self.pack_end(self.run_in_terminal, False)
         self.pack_end(self.command, False)

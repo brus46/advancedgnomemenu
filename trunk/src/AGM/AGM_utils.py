@@ -57,6 +57,22 @@ def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
         pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
     return pixbuf
 
+def scale_pixbuf(pixbuf, size):
+    width=pixbuf.get_width()
+    height=pixbuf.get_height()
+    if width==height:
+        width=size
+        height=size
+    else:    
+        if width > size:
+            height=height*size/width
+            width=size
+            if height > size:
+                width=width*size/height
+                height=size
+    pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
+    return pixbuf
+
 class OpenFile:
     def __init__(self):
         self.filename=self.browse()

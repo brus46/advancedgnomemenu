@@ -45,7 +45,7 @@ class ExecuteBar(gtk.HBox):
         self.command.connect("activate", self.execute_command)
         self.run_in_terminal.connect("clicked", self.terminal_execution)
         if conf.execution_box_top_position:
-            self.command.set_size_request(conf.window_width - 40 -100 - 32, -1)
+            self.command.set_size_request(conf.window_width - 40 -110 - 32, -1)
         else: self.command.set_size_request(conf.window_width -40 - 32, -1)
         self.pack_end(self.label, False)
         

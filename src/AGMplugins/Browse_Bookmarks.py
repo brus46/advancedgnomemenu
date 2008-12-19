@@ -52,9 +52,9 @@ class Plugin(plugin):
             elif (show=="show"):
                 icon="gnome-fs-directory-accept"
                 for line in file:    
-                    path=line.split("/")
                     line=line.replace("file://", "")
                     line=line.replace("\n", "")
+                    path=line.split("/")
                     filename=path[len(path)-1].replace("\n", "")
                     name=filename.split(" ")[0]
                     line=""
@@ -62,15 +62,15 @@ class Plugin(plugin):
                         if (piece.replace("\n", "")==filename):
                             line+=name
                         else:
-                            line+=piece
+                            line+=piece+"/"
                     menu.append({
                       "icon":icon,
                       "name":name,
                       "type":"enter",
                       "obj":line,
-                      "other_options":[{"name":"Open", "command":["nautilus", line]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + line.replace(" ", "\ ") + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + line.replace(" ", "\ ")]}
+                      "other_options":[{"name":"Open", "command":["nautilus", line], "icon":"folder"}, 
+                                       {"name":"Open as root", "command":["gksu", "'nautilus " + line.replace(" ", "\ ") + "'"], "icon":"folder"},
+                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + line.replace(" ", "\ ")], "icon":"terminal"}
                                        ],
                       "tooltip":"Open " + filename})            
             else:
@@ -88,9 +88,9 @@ class Plugin(plugin):
                               "name":file,
                               "type":"enter",
                               "obj":current_folder,
-                              "other_options":[{"name":"Open", "command":["nautilus", current_folder]}, 
-                                           {"name":"Open as root", "command":["gksu", "'nautilus " + current_folder.replace(" ", "\ ") + "'"]},
-                                           {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")]}
+                              "other_options":[{"name":"Open", "command":["nautilus", current_folder], "icon":"folder"}, 
+                                           {"name":"Open as root", "command":["gksu", "'nautilus " + current_folder.replace(" ", "\ ") + "'"], "icon":"folder"},
+                                           {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")], "icon":"terminal"}
                                            ],
                               "tooltip":"Open folder: " + file}
                             menu.append(el)
@@ -106,10 +106,10 @@ class Plugin(plugin):
                               "name":file,
                               "type":"openFile",
                               "obj":current_file,
-                              "other_options":[{"name":"Open folder", "command":["nautilus", folder]},
-                                               {"name":"Open folder as root", "command":["gksu", "'nautilus " + folder.replace(" ", "\ ") + "'"]},
-                                               {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")]},
-                                               {"name":"Open as root", "command":["gksu", "'gnome-open " + current_file.replace(" ", "\ ") + "'"]}
+                              "other_options":[{"name":"Open folder", "command":["nautilus", folder], "icon":"folder"},
+                                               {"name":"Open folder as root", "command":["gksu", "'nautilus " + folder.replace(" ", "\ ") + "'"], "icon":"folder"},
+                                               {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
+                                               {"name":"Open as root", "command":["gksu", "'gnome-open " + current_file.replace(" ", "\ ") + "'"], "icon":"app"}
                                                ],
                               "tooltip":"Open: " + file}
                             menu.append(el)

@@ -119,7 +119,7 @@ class config_plugin(gtk.VBox):
                 os.system("cp " + path + " /tmp/AGM/plugin.tar")
                 os.system("cd /tmp/AGM/ && tar -xvf /tmp/AGM/plugin.tar")
                 os.system("rm /tmp/AGM/plugin.tar")
-                command="gksu cp /tmp/AGM/*.py " + conf.plugin_folder
+                command="gksu 'cp /tmp/AGM/*.py " + conf.plugin_folder +"'"
                 print command
                 os.system(command)
             except: print "Cannot extract plugin in temp-dir"

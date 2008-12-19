@@ -53,25 +53,25 @@ class Plugin(plugin):
             else:
                 icon="gnome-fs-directory-accept"
                 for line in file:    
-                    path=line.split("/")
                     line=line.replace("file://", "")
                     line=line.replace("\n", "")
+                    path=line.split("/")
                     filename=path[len(path)-1].replace("\n", "")
+                    
                     name=filename.split(" ")[0]
                     line=""
                     for piece in path:
                         if (piece.replace("\n", "")==filename):
                             line+=name
                         else:
-                            line+=piece
+                            line+=piece+"/"
                     menu.append({
                       "icon":icon,
                       "name":name,
                       "type":"open",
                       "obj":line,
-                      "other_options":[{"name":"Open", "command":["nautilus", line]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + (line).replace(" ", "\ ") + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")]}
+                      "other_options":[{"name":"Open as root", "command":["gksu", "'nautilus " + (line).replace(" ", "\ ") + "'"], "icon":"folder"},
+                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"}
                                        ], 
                       "tooltip":"Open " + line})            
                 

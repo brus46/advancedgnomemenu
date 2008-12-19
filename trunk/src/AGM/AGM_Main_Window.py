@@ -39,15 +39,21 @@ conf=config()
 
 class AGM:
     ''' AGM stands for Advanced Gnome Menu '''
-    def __init__(self, show_trayicon=True, show=True, top_buttons=True):
+    def __init__(self, show_trayicon=True, show=True, top_buttons=True, applet=False):
         self.hidden=False
+        self.applet=applet
         self.show_trayicon=show_trayicon
         self.show_topbuttons=top_buttons
         
         self.obj=[]
         
         self.nameLabel = gtk.Label()
-        self.EBox=""
+        self.EBox=gtk.EventBox()
+        self.EBox.add(gtk.Image())
+        self.EBox.set_size_request(80, 80)
+        #self.EBox.get_child().set_from_pixbuf(IconLabel)
+        self.EBox.connect("button_release_event", self.edit_personal_info)
+        
         
         self.backbutton=gtk.Button()
         self.homebutton=gtk.Button()
@@ -113,7 +119,8 @@ class AGM:
         self.win.hide()
         self.hidden=True
         
-        self.showThread=ShowThread(self.setOnFocus)
+        if not self.applet:
+            self.showThread=ShowThread(self.setOnFocus)
         if show: 
             gtk.main()
             self.exit(None)
@@ -187,10 +194,9 @@ class AGM:
         top_style=conf.top_position.get_top()
     
         
-        self.EBox=gtk.EventBox()
-        self.EBox.set_visible_window(False)
+        #self.EBox=gtk.EventBox()
         self.EBox.add(gtk.Image())
-        self.EBox.set_size_request(80, 80)
+        self.EBox.set_visible_window(False)
         self.set_default_logo()
                 
         ToolButtons=gtk.HBox(spacing = 5)
@@ -407,7 +413,6 @@ class AGM:
                 if (os.path.exists(conf.top_icon_other_logo)==True):
                     IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
             self.EBox.get_child().set_from_pixbuf(IconLabel)
-            self.EBox.connect("button_release_event", self.edit_personal_info)
     
     def change_icon(self, image=None):
         if image!=None:
@@ -505,30 +510,12 @@ class AGM:
             self.search_box.set_text("")
             self.win.show()
             self.win.present()
-            #self.win.grab_focus()
         else:
             self.win.hide()
             self.hidden=True
-        #if (self.hidden==False):
-        #print parent_focus
-        #if (parent_focus==False and self.win.has_toplevel_focus()==False):
-        #    self.win.hide()
-        #    self.hidden=True
-        #else:
-        #    if (self.win.is_focus()==False and parent_focus==True and self.hidden==True):
-        #        self.hidden=False
-        #        conf.startposition.move_window(self.win)
-        #        self.menu.goHome()
-        #        self.win.show()
-        #        self.win.present()
-        #        self.win.grab_focus()
-        #    else:
-        #        self.win.hide()
-        #        self.hidden=True
-                #self.win.set_focus(self.search_box)
-        #print "FOCUS:", self.win.activate_focus()
+            
     def edit_personal_info(self, widget, event):
-        if event.button == 3:
+        if event.button == 3 and widget==self.EBox:
              if (os.fork()==0):
                 command=conf.command_on_logo_clicked.split(" ")
                 print command
@@ -537,7 +524,7 @@ class AGM:
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()
-        self.showThread.stopThread()        
+        if not self.applet: self.showThread.stopThread()        
         if kill: sys.exit(0)
     
     def reboot(self):

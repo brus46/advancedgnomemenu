@@ -190,6 +190,7 @@ class AGM:
         self.EBox=gtk.EventBox()
         self.EBox.set_visible_window(False)
         self.EBox.add(gtk.Image())
+        self.EBox.set_size_request(80, 80)
         self.set_default_logo()
                 
         ToolButtons=gtk.HBox(spacing = 5)
@@ -399,12 +400,12 @@ class AGM:
             IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.default_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
             if conf.top_icon_mode==conf.USE_USER_LOGO:
                 if (os.path.exists(conf.home_logo_path)==True):
-                    IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+                    IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path), 80)
             elif conf.top_icon_mode==conf.USE_DISTRO_LOGO:
                 IconLabel=(utils.getPixbufFromName("distributor-logo", 80, "app"))
             elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
                 if (os.path.exists(conf.top_icon_other_logo)==True):
-                    IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+                    IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
             self.EBox.get_child().set_from_pixbuf(IconLabel)
             self.EBox.connect("button_release_event", self.edit_personal_info)
     

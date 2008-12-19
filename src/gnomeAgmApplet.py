@@ -43,7 +43,7 @@ class AGM_applet(gnomeapplet.Applet):
     def __init__(self,applet,iid):
         self.__gobject_init__()
         self.applet = applet
-        self.AGM=agm(False, False, False)
+        self.AGM=agm(False, False, False, applet=True)
         mybutton=gtk.HBox()
         self.icon=gtk.Image()
         size=self.get_size()

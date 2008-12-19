@@ -26,6 +26,7 @@ class search_box(gtk.HBox):
         gtk.HBox.__init__(self)
         self.search_text=gtk.Entry()
         self.label=gtk.Label("Search:")
+        self.search_text.set_tooltip_text("Search")
         self.search = search_function
         self.search_text.connect("activate", self.change)
         if conf.search_box_top_position:

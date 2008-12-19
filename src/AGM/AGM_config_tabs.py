@@ -715,11 +715,11 @@ class window_config(gtk.VBox):
         ##WINDOW DIMENSION
         self.win_height=gtk.SpinButton()
         self.win_width=gtk.SpinButton()
-        self.win_height.set_range(350, gtk.gdk.screen_height())
+        self.win_height.set_range(200, gtk.gdk.screen_height())
         self.win_height.set_value(conf.window_height)
         self.win_height.set_increments(1, 100)
         
-        self.win_width.set_range(350, gtk.gdk.screen_width())        
+        self.win_width.set_range(200, gtk.gdk.screen_width())        
         self.win_width.set_value(conf.window_width)
         self.win_width.set_increments(1, 100)
         
@@ -1325,6 +1325,10 @@ class top_icon_config(gtk.VBox):
         logos.pack_start(label, False)
         logos.pack_start(self.command_on_logo_clicked, False)
         
+        self.use_smart_top_icon=gtk.CheckButton("Use smart top icon")
+        self.use_smart_top_icon.set_active(conf.top_icon_enable_smart_mode)
+        logos.pack_start(self.use_smart_top_icon, False)
+        
         self.load_config()
         self.changed()
  
@@ -1367,6 +1371,10 @@ class top_icon_config(gtk.VBox):
         config+="top_icon_other_logo=" + self.iconName + "\n"
         
         config+="command_on_logo_clicked="+ self.command_on_logo_clicked.get_text()+"\n"
+        
+        if (self.use_smart_top_icon.get_active()):
+            config+="top_icon_enable_smart_mode=" + "True" + "\n"
+        else: config+="top_icon_enable_smart_mode=" + "False" + "\n"
         
         return config
 

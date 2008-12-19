@@ -40,6 +40,7 @@ class ExecuteBar(gtk.HBox):
         self.pack_end(self.run_in_terminal, False)
         self.pack_end(self.command, False)
         
+        self.command.set_tooltip_text("Execute")
         self.command.connect("activate", self.execute_command)
         self.run_in_terminal.connect("clicked", self.terminal_execution)
         if conf.execution_box_top_position:

@@ -184,6 +184,9 @@ class conf:
                     elif data[0]=="top_icon_show_logo":
                         if (self.top_icon_show_logo!=("True"==data[1])): difference=True
                         self.top_icon_show_logo=("True"==data[1])
+                    elif data[0]=="top_icon_enable_smart_mode":
+                        if (self.top_icon_enable_smart_mode!=("True"==data[1])): difference=True
+                        self.top_icon_enable_smart_mode=("True"==data[1])
                     elif data[0]=="safe_mode":
                         if (self.safe_mode!=("True"==data[1])): difference=True
                         self.safe_mode=("True"==data[1])

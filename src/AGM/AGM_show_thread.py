@@ -25,7 +25,12 @@ class ShowThread(threading.Thread):
                    file=open(conf.show_path, "r")
                    show=file.read()
                    file.close()
-               except: print "cannot read show... assume no-one whats me to show the window right now."
+               except: 
+                   print "cannot read show... assume no-one whats me to show the window right now."
+                   file=open(conf.show_path, "w")
+                   file.write("0")
+                   file.close()
+       
                show=show.replace("\n", "")
                gtk.gdk.threads_enter()
                if (show=="1"): 

@@ -1297,14 +1297,14 @@ class top_icon_config(gtk.VBox):
         self.iconButton.set_image(self.icon)
         self.iconButton.connect("clicked", self.click, "set_image")
 
-        self.show_logo=gtk.CheckButton("Show top-icon")
+        self.show_logo=gtk.CheckButton("Show icon in menu")
         self.show_logo.connect("toggled", self.changed)
         
         self.command_on_logo_clicked=gtk.Entry()
         
         self.pack_start(self.show_logo, False)
         
-        self.frame_logo=gtk.Frame("Logo appearence and behaviour:")
+        self.frame_logo=gtk.Frame("Menu Icon and click action")
         logos=gtk.VBox(spacing=5)
         logos.set_border_width(5)
         self.frame_logo.add(logos)
@@ -1321,7 +1321,7 @@ class top_icon_config(gtk.VBox):
         HBox3.pack_start(self.iconButton, False)
         logos.pack_start(HBox3, False)
         
-        label=set_label_size_and_align(gtk.Label("Command to launch when left-click on the logo :"), 250)
+        label=set_label_size_and_align(gtk.Label("Command to execute when menu icon is clicked"), 250)
         logos.pack_start(label, False)
         logos.pack_start(self.command_on_logo_clicked, False)
         

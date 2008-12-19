@@ -25,11 +25,13 @@ class search_box(gtk.HBox):
     def __init__(self, search_function):
         gtk.HBox.__init__(self)
         self.search_text=gtk.Entry()
+        self.label=gtk.Label("Search:")
         self.search = search_function
         self.search_text.connect("activate", self.change)
         if conf.search_box_top_position:
             self.search_text.set_size_request(conf.window_width-120, -1)
         else: self.search_text.set_size_request(conf.window_width, -1)
+        self.pack_start(self.label, False)
         self.pack_end(self.search_text, False, False)
     
     def change(self, new_text):

@@ -1,4 +1,10 @@
 Firefox;firefox;exec#firefox
+
+Evolution;evolution;exec#evolution
+
+Pidgin;pidgin;exec#pidgin
+
 Terminal;gnome-terminal;exec#gnome-terminal
-Logout;gnome-session-halt;exec#gnome-session-save --kill
+
+Logout;/home/marco/.icons/hydroxygen/128x128/apps/gnome-session-halt.png;exec#gnome-session-save --kill
 

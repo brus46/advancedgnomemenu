@@ -499,53 +499,6 @@ class fav_apps_list(gtk.TreeView):
 
         return lista
 
-class config_fav_apps_apparence(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self, spacing=5)
-        self.show_apps=gtk.CheckButton()
-        self.show_apps.set_label("Show apps bar")
-        self.show_apps.set_active(conf.fav_apps_show)
-        self.show_apps_text=gtk.CheckButton()
-        self.show_apps_text.set_label("Show apps name")
-        self.show_apps_text.set_active(conf.fav_apps_show_text)
-        self.show_text_bold=gtk.CheckButton()
-        self.show_text_bold.set_label("Apps name in bold")
-        self.show_text_bold.set_active(conf.fav_apps_text_bold)
-        self.orientation_horizontal=gtk.CheckButton()
-        self.orientation_horizontal.set_label("Horizontal bar orientation")
-        self.orientation_horizontal.set_active(conf.fav_apps_orientation=="H")
-        self.icon_dimension=gtk.SpinButton()
-        self.icon_dimension.set_range(20, 100)
-        self.icon_dimension.set_value(conf.fav_apps_icon_dimension)
-        self.icon_dimension.set_increments(1, 100)
-        
-        self.pack_start(self.show_apps, False)
-        self.pack_start(self.show_apps_text, False)
-        self.pack_start(self.show_text_bold, False)
-        self.pack_start(self.orientation_horizontal, False)
-        icon_box=gtk.HBox()
-        icon_box.pack_start(gtk.Label("Icon size:"), False)
-        icon_box.pack_start(self.icon_dimension, False)
-        self.pack_start(icon_box, False)
-    
-    def save_string(self):
-        config=""
-        if (self.show_apps_text.get_active()):
-            config+="fav_apps_show_text=" + "True" + "\n"
-        else: config+="fav_apps_show_text=" + "False" + "\n"
-        if (self.show_text_bold.get_active()):
-            config+="fav_apps_text_bold=" + "True" + "\n"
-        else: config+="fav_apps_text_bold=" + "False" + "\n"
-        config+="fav_apps_icon_dimension=" + str(self.icon_dimension.get_value()) + "\n"
-        if (self.orientation_horizontal.get_active()):
-            config+="fav_apps_orientation=H\n"
-        else: config+="fav_apps_orientation=V\n"
-        if (self.show_apps.get_active()):
-            config+="fav_apps_show=" + "True" + "\n"
-        else: config+="fav_apps_show=" + "False" + "\n"
-        
-        return config
-
 class behavior(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self, spacing=5)
@@ -623,14 +576,13 @@ class applet_conf(gtk.VBox):
         iconBox.pack_start(set_label_size_and_align(gtk.Label("Applet icon:")), False)
         iconBox.pack_start(self.applet_icon, False)
 
-        txtBox=gtk.HBox()
-        txtBox.pack_start(set_label_size_and_align(gtk.Label("Applet text:")), False)
-        txtBox.pack_start(self.applet_text, False)
+        self.txtBox=gtk.CheckButton("Show text: 'Menu' in the applet")
+        self.txtBox.set_active(conf.applet_show_text)
         
         self.pack_start(iconBox, False)
-        self.pack_start(txtBox, False)
+        self.pack_start(self.txtBox, False)
         self.pack_start(HBoxFgcolor, False)
-        self.pack_start(gtk.Label("All changes on the applet will be applied on rebooting"))
+        self.pack_start(gtk.Label("All changes on the applet will be applied on rebooting"), False)
     
     def change_image(self, obj):
         filename=utils.OpenImage().get_file()
@@ -641,7 +593,11 @@ class applet_conf(gtk.VBox):
             self.applet_icon.set_image(icon)
     
     def save_string(self):
-        return "applet_text=" + self.applet_text.get_text() +"\napplet_icon=" +self.icon +"\napplet_fg_color=" +self.applet_fg_color.get_color().to_string() + "\n"
+        conf="applet_icon=" +self.icon +"\napplet_fg_color=" +self.applet_fg_color.get_color().to_string() + "\n"
+        if (self.txtBox.get_active()==True):
+            conf+="applet_show_text="+ "True" +"\n"
+        else: conf+="applet_show_text="+ "False" +"\n"
+        return conf
     
 class window_config(gtk.VBox):
     def __init__(self):
@@ -1326,113 +1282,18 @@ class gradient_direction(gtk.HBox):
         return "gradient_direction="+list[conf.gradient_direction.get_start_point()]+";"+list[conf.gradient_direction.get_end_point()]+";"
         pass
 
-class search_box_config(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self, spacing=5)
-        self.show_bar=gtk.CheckButton("Show search box")
-        self.show_bar.set_active(conf.search_box_show)
-        self.pack_start(self.show_bar, False)
-        
-        self.show_bar_top=gtk.RadioButton()
-        self.show_bar_top.set_label("Top position")
-        self.show_bar_bottom=gtk.RadioButton(self.show_bar_top)
-        self.show_bar_bottom.set_label("Bottom position")
-        self.show_bar_top.set_active(conf.search_box_top_position)
-        
-        self.frame_pos=gtk.Frame()
-        self.frame_pos.set_label("Search box position:")
-        pos=gtk.VBox()
-        self.frame_pos.add(pos)
-        
-        pos.pack_start(self.show_bar_top, False)
-        pos.pack_start(self.show_bar_bottom, False)
-        
-        self.pack_start(self.frame_pos, False)
-        self.show_bar.connect("toggled", self.changed)
-        self.changed()
-        
-    def changed(self, obj=None):
-        self.frame_pos.set_sensitive(self.show_bar.get_active())
-        
-    def save_string(self):
-        config=""
-        if (self.show_bar.get_active()):
-            config+= "search_box_show=True\n"
-        else: config+= "search_box_show=False\n"
-        
-        if (self.show_bar_top.get_active()):
-            config+= "search_box_top_position=True\n"
-        else: config+= "search_box_top_position=False\n"
-        
-        return config
-
-class execution_box_config(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self, spacing=5)
-        self.show_bar=gtk.CheckButton("Show execution box")
-        self.show_bar.set_active(conf.execution_box_show)
-        self.pack_start(self.show_bar, False)
-        
-        self.show_bar_top=gtk.RadioButton()
-        self.show_bar_top.set_label("Top position")
-        self.show_bar_bottom=gtk.RadioButton(self.show_bar_top)
-        self.show_bar_bottom.set_label("Bottom position")
-        if conf.execution_box_top_position:
-            self.show_bar_top.set_active(True)
-        else: self.show_bar_bottom.set_active(True)
-        
-        
-        self.frame_pos=gtk.Frame()
-        self.frame_pos.set_label("Execution box position:")
-        pos=gtk.VBox()
-        self.frame_pos.add(pos)
-        
-        pos.pack_start(self.show_bar_top, False)
-        pos.pack_start(self.show_bar_bottom, False)
-        
-        self.pack_start(self.frame_pos, False)
-        
-        self.execution_command=gtk.Entry()
-        self.execution_command.set_text(conf.execution_box_terminal_command)
-        self.pack_start(self.execution_command, False)
-        
-        self.show_bar.connect("toggled", self.changed)
-        self.changed()
-        
-    def changed(self, obj=None):
-        self.frame_pos.set_sensitive(self.show_bar.get_active())
-        self.execution_command.set_sensitive(self.show_bar.get_active())
-        
-    def save_string(self):
-        config=""
-        if (self.show_bar.get_active()):
-            config+= "execution_box_show=True\n"
-        else: config+= "execution_box_show=False\n"
-        
-        if (self.show_bar_top.get_active()):
-            config+= "execution_box_top_position=True\n"
-        else: config+= "execution_box_top_position=False\n"
-        
-        config+="execution_box_terminal_command="+self.execution_command.get_text()+"\n"
-        
-        return config
-
 class top_icon_config(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)
         self.set_spacing(5)
-        self.use_agm_logo=gtk.RadioButton(label="Use agm logo")
-        self.use_distro_logo=gtk.RadioButton(group=self.use_agm_logo, label="Use distributor logo")
-        self.use_user_login_logo=gtk.RadioButton(group=self.use_agm_logo, label="Use user login image")
-        self.use_other_image=gtk.RadioButton(group=self.use_agm_logo, label="Use this image: ")
-        self.use_agm_logo.set_size_request(200, -1)
-        self.use_distro_logo.set_size_request(200, -1)
-        self.use_user_login_logo.set_size_request(200, -1)
-        self.use_other_image.set_size_request(200, -1)
+        self.use_user_login_logo=gtk.RadioButton(label="Use user login image")
+        self.use_other_image=gtk.RadioButton(group=self.use_user_login_logo, label="Use this image: ")
+        self.use_user_login_logo.set_size_request(150, -1)
+        self.use_other_image.set_size_request(150, -1)
         self.iconButton=gtk.Button()
         self.iconName="None"
         self.icon=gtk.Image()
-        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 80, "app"))
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
         self.iconButton.set_image(self.icon)
         self.iconButton.connect("clicked", self.click, "set_image")
 
@@ -1449,22 +1310,10 @@ class top_icon_config(gtk.VBox):
         self.frame_logo.add(logos)
         self.pack_start(self.frame_logo, False)
         
-        HBox1=gtk.HBox()
-        HBox1.pack_start(self.use_agm_logo, False)
-        agm_logo=gtk.Image()
-        agm_logo.set_from_pixbuf(utils.getPixbufFromName(conf.default_logo_path, 80, "app"))
-        HBox1.pack_start(agm_logo, False)
-        logos.pack_start(HBox1, False)
-        HBox4=gtk.HBox()
-        HBox4.pack_start(self.use_distro_logo, False)
-        distro_logo=gtk.Image()
-        distro_logo.set_from_pixbuf(utils.getPixbufFromName("distributor-logo", 80, "app"))
-        HBox4.pack_start(distro_logo, False)
-        logos.pack_start(HBox4, False)
         HBox2=gtk.HBox()
         HBox2.pack_start(self.use_user_login_logo, False)
         user_logo=gtk.Image()
-        user_logo.set_from_pixbuf(utils.getPixbufFromName(conf.home_logo_path, 80, "app"))
+        user_logo.set_from_pixbuf(utils.getPixbufFromName(conf.home_logo_path, 48, "app"))
         HBox2.pack_start(user_logo, False)
         logos.pack_start(HBox2, False)
         HBox3=gtk.HBox()
@@ -1488,36 +1337,28 @@ class top_icon_config(gtk.VBox):
             filename=utils.OpenImage().get_file()
             if filename!=None and os.path.isfile(filename):
                 self.iconName=filename
-                self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 80, "app"))
+                self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
                 self.iconButton.set_image(self.icon)
     
     def load_config(self):
-        if (conf.top_icon_mode==conf.USE_USER_LOGO):
-            self.use_user_login_logo.set_active(True)
-        elif (conf.top_icon_mode==conf.USE_DISTRO_LOGO):
-            self.use_distro_logo.set_active(True)
-        elif (conf.top_icon_mode==conf.USE_OTHER_LOGO):
+        if (conf.top_icon_mode==conf.USE_OTHER_LOGO):
             self.use_other_image.set_active(True)
         else:
-            self.use_agm_logo.set_active(True)
+            self.use_user_login_logo.set_active(True)
         
         self.show_logo.set_active(conf.top_icon_show_logo)
         
         if conf.top_icon_other_logo!=None and os.path.isfile(conf.top_icon_other_logo):
             self.iconName=conf.top_icon_other_logo
-            self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 80, "app"))
+            self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
         self.command_on_logo_clicked.set_text(conf.command_on_logo_clicked)
         
     def to_string(self):
         config=""
-        if self.use_user_login_logo.get_active():
-            config+="top_icon_mode=" + conf.USE_USER_LOGO + "\n"
-        elif self.use_distro_logo.get_active():
-            config+="top_icon_mode=" + conf.USE_DISTRO_LOGO + "\n"   
-        elif self.use_other_image.get_active():
+        if self.use_other_image.get_active():
             config+="top_icon_mode=" + conf.USE_OTHER_LOGO + "\n"        
         else:
-            config+="top_icon_mode=" + conf.USE_AGM_LOGO + "\n"
+            config+="top_icon_mode=" + conf.USE_USER_LOGO + "\n"
         
         if  self.show_logo.get_active():
             config+="top_icon_show_logo=True\n"
@@ -1556,3 +1397,44 @@ class menu(gtk.Notebook):
     
     def save_string(self):
         return self.menu_behaviour.save_string() + self.menu_elements.save_string()
+    
+class general_config(gtk.VBox):
+    def __init__(self):
+        gtk.VBox.__init__(self, spacing=5)
+                
+        self.show_fav_bar=gtk.CheckButton("Show favourite applications")
+        self.show_fav_bar.set_active(conf.fav_apps_show)
+        self.pack_start(self.show_fav_bar, False)
+        
+        self.show_search_bar=gtk.CheckButton("Show search box")
+        self.show_search_bar.set_active(conf.search_box_show)
+        self.pack_start(self.show_search_bar, False)
+        
+        self.show_exec_bar=gtk.CheckButton("Show execution box")
+        self.show_exec_bar.set_active(conf.execution_box_show)
+        self.pack_start(self.show_exec_bar, False)
+        
+        self.top_icon_config=top_icon_config()
+        self.pack_start(self.top_icon_config, False)
+        
+        
+        self.applet_config=applet_conf()
+        applet_frame=gtk.Frame()
+        applet_frame.set_label("Applet config")
+        applet_frame.add(self.applet_config)
+        self.pack_start(applet_frame, False)
+    
+    def to_string(self):
+        config=""
+        if (self.show_fav_bar.get_active()):
+            config+="fav_apps_show=" + "True" + "\n"
+        else: config+="fav_apps_show=" + "False" + "\n"
+        if (self.show_search_bar.get_active()):
+            config+="search_box_show=" + "True" + "\n"
+        else: config+="search_box_show=" + "False" + "\n"
+        if (self.show_exec_bar.get_active()):
+            config+="execution_box_show=" + "True" + "\n"
+        else: config+="execution_box_show=" + "False" + "\n"
+        config+=self.top_icon_config.to_string()
+        config+=self.applet_config.save_string()
+        return config

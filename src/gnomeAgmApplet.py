@@ -49,7 +49,7 @@ class AGM_applet(gnomeapplet.Applet):
         size=self.get_size()
         self.icon.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file_at_size(conf.applet_icon, size, size))
         self.label=gtk.Label()
-        self.label.set_text(conf.applet_text)
+        if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
         self.icon.set_size_request(size, size)
         mybutton.add(self.icon)

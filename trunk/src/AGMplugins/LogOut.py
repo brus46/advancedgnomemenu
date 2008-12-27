@@ -38,6 +38,6 @@ class Plugin(plugin):
         menu.append({"icon":"gnome-session-logout",
                   "name":"Exit",
                   "type":"exec",
-                  "obj":"exec#gnome-session-save --kill",
+                  "obj":"gnome-session-save --kill",
                   "tooltip":"Logout."})
         return menu

@@ -137,7 +137,10 @@ class Menu(gtk.ScrolledWindow):
            if os.fork()==0:
                obj=obj.replace("\n", "")
                command=obj.split(" ")
-               os.execvp(command[0], command)
+               try:
+                   os.chdir(os.path.expanduser("~"))
+                   os.execvp(command[0], command)
+               except: print "Command fail: " + str(command)
                sys.exit(-1)
        elif "open"==type:
            print "open folder->" + obj

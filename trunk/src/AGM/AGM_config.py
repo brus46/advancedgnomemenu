@@ -93,7 +93,7 @@ class Config(gtk.Window):
         VBox.pack_start(notebook)
         VBox.pack_end(ButtonBox, False, False)
         self.add(VBox)
-        self.set_size_request(700,600)
+        self.set_size_request(700,550)
         self.show_all()
         if self.stand_alone:
             gtk.main()

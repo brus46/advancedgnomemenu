@@ -472,6 +472,11 @@ class AGM:
            todo=todo.replace("%u", "")
            todo=todo.replace("\n", "")
            if os.fork()==0:
+               try:
+                   os.chdir(os.path.expanduser("~"))
+                   command=todo.split(" ")
+                   os.execvp(command[0], command)
+               except: print "Command fail: " + str(todo)
                command=todo.split(" ")
                print command
                os.execvp(command[0], command)

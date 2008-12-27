@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #    Program name: AGM - Advanced Gnome Menu
-#    Project version: 0.5
+#    Project version: 0.8
 #    Project licence: GPL v3
 # 
 #    Author name:    Marco Mosconi

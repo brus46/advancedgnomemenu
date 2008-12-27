@@ -123,17 +123,25 @@ class AGM_applet(gnomeapplet.Applet):
         propxml="""
                 <popup name="button3">
                 <menuitem name="About" verb="About" label="_About" pixtype="stock" pixname="gtk-about"/>
-                <menuitem name="ConfigFavApps" verb="ConfigFavApps" label="Config FavApps" pixtype="stock" pixname="gtk-about"/>
-                <menuitem name="Config" verb="Config" label="Config AGM" pixtype="stock" pixname="gtk-about"/>
+                <menuitem name="EditGnomeMenu" verb="EditGnomeMenu" label="Edit Gnome Menu" pixtype="stock" pixname="gtk-preferences"/>
+                <menuitem name="ConfigFavApps" verb="ConfigFavApps" label="Config FavApps" pixtype="stock" pixname="gtk-preferences"/>
+                <menuitem name="Config" verb="Config" label="Config AGM" pixtype="stock" pixname="gtk-preferences"/>
                 </popup>
                 
                 """
-        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog), ("ConfigFavApps", self.showFavAppsConfig)]
+        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog), ("ConfigFavApps", self.showFavAppsConfig), ("EditGnomeMenu", self.configMenuAlacarte)]
         self.applet.setup_menu(propxml, verbs, None)
     
     def showFavAppsConfig(self, *arguments, **keywords):
         from AGM.AGM_config_fav_apps import ConfigFavApps
         ConfigFavApps()
+    
+    def configMenuAlacarte(self, *arguments, **keywords):
+        if os.fork()==0:
+            try:
+                os.execvp("alacarte", ["alacarte"])
+            except: print "Launching Alacarte."
+            sys.exit(-1)
     
     def showAboutDialog(self, *arguments, **keywords):
         from AGM.AGM_info import Info

@@ -195,7 +195,7 @@ class AGM:
     
         
         #self.EBox=gtk.EventBox()
-        self.EBox.add(gtk.Image())
+        #self.EBox.add(gtk.Image())
         self.EBox.set_visible_window(False)
         self.set_default_logo()
                 

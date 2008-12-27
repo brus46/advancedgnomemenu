@@ -50,8 +50,8 @@ class Config(gtk.Window):
         cancelButton.set_use_stock(True)
         cancelButton.connect("clicked", self.cancel_pressed)
         
-        ButtonBox.pack_end(okButton)
         ButtonBox.pack_end(applyButton)
+        ButtonBox.pack_end(okButton)
         ButtonBox.pack_end(cancelButton)
         
         ##GENERAL

@@ -122,13 +122,18 @@ class AGM_applet(gnomeapplet.Applet):
     def create_menu(self, applet):
         propxml="""
                 <popup name="button3">
-                <menuitem name="Item 3" verb="About" label="_About" pixtype="stock" pixname="gtk-about"/>
+                <menuitem name="About" verb="About" label="_About" pixtype="stock" pixname="gtk-about"/>
+                <menuitem name="ConfigFavApps" verb="ConfigFavApps" label="Config FavApps" pixtype="stock" pixname="gtk-about"/>
                 <menuitem name="Config" verb="Config" label="Config AGM" pixtype="stock" pixname="gtk-about"/>
                 </popup>
                 
                 """
-        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog)]
+        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog), ("ConfigFavApps", self.showFavAppsConfig)]
         self.applet.setup_menu(propxml, verbs, None)
+    
+    def showFavAppsConfig(self, *arguments, **keywords):
+        from AGM.AGM_config_fav_apps import ConfigFavApps
+        ConfigFavApps()
     
     def showAboutDialog(self, *arguments, **keywords):
         from AGM.AGM_info import Info

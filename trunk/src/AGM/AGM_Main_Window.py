@@ -193,9 +193,8 @@ class AGM:
         
         top_style=conf.top_position.get_top()
     
-        
         #self.EBox=gtk.EventBox()
-        #self.EBox.add(gtk.Image())
+        self.EBox.add(gtk.Image())
         self.EBox.set_visible_window(False)
         self.set_default_logo()
                 
@@ -237,7 +236,7 @@ class AGM:
             else: BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
         
         
-        self.menu=Menu(self.showPrecParentButton, self.setOnFocus, self.change_icon)
+        self.menu=Menu(self.showPrecParentButton, self.hide, self.change_icon)
         
         popup_style, w,h=conf.popupstyle.get_style()
         space_label=gtk.Label()
@@ -482,7 +481,7 @@ class AGM:
                os.execvp(command[0], command)
                sys.exit(-1)
            if conf.hide_on_program_launch:
-               self.setOnFocus()
+               self.hide()
     
     def showPrecParentButton(self, show):
         self.win.show_all()
@@ -509,15 +508,21 @@ class AGM:
     
     def setOnFocus(self):
         if self.hidden==True:
-            self.hidden=False
-            conf.startposition.move_window(self.win)
-            self.menu.goHome()
-            self.search_box.set_text("")
-            self.win.show()
-            self.win.present()
+            self.show()
         else:
-            self.win.hide()
-            self.hidden=True
+            self.hide()
+    
+    def show(self):
+        self.hidden=False
+        conf.startposition.move_window(self.win)
+        self.menu.goHome()
+        self.search_box.set_text("")
+        self.win.show()
+        self.win.present()
+        
+    def hide(self):
+        self.win.hide()
+        self.hidden=True
             
     def edit_personal_info(self, widget, event):
         if event.button == 3 and widget==self.EBox:

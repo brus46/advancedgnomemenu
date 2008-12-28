@@ -24,12 +24,13 @@ import AGM.AGM_utils as utils
 conf=config()
 
 class AGM_menu_button(gtk.EventBox):
-    def __init__(self, element, ItemClicked):
+    def __init__(self, element, ItemClicked, hide):
         gtk.EventBox.__init__(self)
         conf.read_conf()
         self.element=element
         element=element["el"]
         self.ItemClicked=ItemClicked
+        self.hide=hide
         self.button_size=32
         self.container=gtk.HBox()
         self.layout=gtk.HBox(spacing=5)
@@ -146,6 +147,8 @@ class AGM_menu_button(gtk.EventBox):
                 if (os.fork()==0):
                     os.execvp(command[0], command)
                     sys.exit(-1)
+                if conf.hide_on_program_launch:
+                    self.hide()
     
     def color(self, obj):
         try:

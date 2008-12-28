@@ -28,13 +28,13 @@ from AGM_menu_button import AGM_menu_button
 conf=config()
 
 class Menu(gtk.ScrolledWindow):
-    def __init__(self, prec_parent_change_function, onFocusFunction, change_icon):
+    def __init__(self, prec_parent_change_function, hideWin, change_icon):
         gtk.ScrolledWindow.__init__(self)
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.icon_theme = gtk.icon_theme_get_default()
         
         self.prec_parent_change_function=prec_parent_change_function
-        self.onFocusFunction=onFocusFunction
+        self.onFocusFunction=hideWin
         self.change_icon=change_icon
         
         self.menu=gtk.VBox()
@@ -83,7 +83,7 @@ class Menu(gtk.ScrolledWindow):
         
         #self.show_all()        
         for element in menu:
-                bottone=AGM_menu_button(element, self.ItemClicked)
+                bottone=AGM_menu_button(element, self.ItemClicked, self.onFocusFunction)
                 self.child_widgets_list.append(bottone)
                 self.menu.pack_start(bottone, False, True)
                 bottone.show_all()

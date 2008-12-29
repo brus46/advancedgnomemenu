@@ -1446,3 +1446,21 @@ class general_config(gtk.VBox):
         config+=self.top_icon_config.to_string()
         config+=self.applet_config.save_string()
         return config
+
+class UpdateToSvn(gtk.VBox):
+    def __init__(self):
+        gtk.VBox.__init__(self)
+        stable_svn=gtk.Button("Update to the latest stable version")
+        trunk_svn=gtk.Button("Update to the latest version of the SVN")
+        VButtonBox=gtk.VButtonBox()
+        VButtonBox.add(stable_svn)
+        VButtonBox.add(trunk_svn)
+        
+        
+        self.add(VButtonBox)
+        
+    def update_stable(self, obj):
+        pass
+    
+    def update_svn(self, obj):
+        pass

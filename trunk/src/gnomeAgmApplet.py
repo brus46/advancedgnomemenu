@@ -126,11 +126,15 @@ class AGM_applet(gnomeapplet.Applet):
                 <menuitem name="EditGnomeMenu" verb="EditGnomeMenu" label="Edit Gnome Menu" pixtype="stock" pixname="gtk-preferences"/>
                 <menuitem name="ConfigFavApps" verb="ConfigFavApps" label="Config FavApps" pixtype="stock" pixname="gtk-preferences"/>
                 <menuitem name="Config" verb="Config" label="Config AGM" pixtype="stock" pixname="gtk-preferences"/>
+                <menuitem name="Reload" verb="Reload" label="Reload" pixtype="stock" pixname="gtk-refresh"/>
                 </popup>
                 
                 """
-        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog), ("ConfigFavApps", self.showFavAppsConfig), ("EditGnomeMenu", self.configMenuAlacarte)]
+        verbs = [("About", self.showAboutDialog), ("Config", self.showConfigDialog), ("ConfigFavApps", self.showFavAppsConfig), ("EditGnomeMenu", self.configMenuAlacarte), ("Reload", self.reload)]
         self.applet.setup_menu(propxml, verbs, None)
+    
+    def reload(self, *arguments, **keywords):
+        sys.exit(-1)
     
     def showFavAppsConfig(self, *arguments, **keywords):
         from AGM.AGM_config_fav_apps import ConfigFavApps

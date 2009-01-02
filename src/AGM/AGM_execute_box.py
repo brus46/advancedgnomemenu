@@ -81,3 +81,5 @@ class ExecuteBar(gtk.HBox):
     def modify_fg(self, state, color):
         self.command.modify_text(state, color)
         self.label.modify_fg(state, color)
+    def set_text(self, string):
+        self.command.set_text(str(string))

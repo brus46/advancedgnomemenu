@@ -35,7 +35,7 @@ from AGM.AGM_default_config import conf as config
 import gnomeapplet
 import gtk
 from AGM.AGM_Main_Window import AGM as agm
-from AGM.AGM_focus_thread import FocusThread as ShowThread
+#from AGM.AGM_focus_thread import FocusThread as ShowThread
 
 conf=config()
 
@@ -63,10 +63,10 @@ class AGM_applet(gnomeapplet.Applet):
         #self.applet.connect("change-size", self.change_size)
         self.applet.connect("change-background", self.change_background)
         
-        self.ShowThread=ShowThread(self.AGM.win.has_toplevel_focus, self.has_focus, self.AGM.get_hidden, self.AGM.set_hidden, self.AGM.setOnFocus)
+        #self.ShowThread=ShowThread(self.AGM.win.has_toplevel_focus, self.has_focus, self.AGM.get_hidden, self.AGM.set_hidden, self.AGM.setOnFocus)
         self.applet.show_all()
         self.on_change_size()
-        self.ShowThread.start()
+        #self.ShowThread.start()
         pass
     
     def has_focus(self):
@@ -106,7 +106,7 @@ class AGM_applet(gnomeapplet.Applet):
     
     def cleanup(self, win):
         self.AGM.exit(None)
-        self.ShowThread.stop()
+        #self.ShowThread.stop()
         del self.applet
 
     def showMenu(self, widget, event, applet):
@@ -115,9 +115,10 @@ class AGM_applet(gnomeapplet.Applet):
                 self.create_menu(applet)
             else:
                 if (self.AGM.get_hidden()):
-                    self.ShowThread.set_visible()
+                    self.AGM.show()
+                    #self.ShowThread.set_visible()
                 else:
-                    self.AGM.setOnFocus()
+                    self.AGM.hide()
     
     def create_menu(self, applet):
         propxml="""

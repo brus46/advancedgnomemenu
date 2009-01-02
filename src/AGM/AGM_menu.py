@@ -108,11 +108,12 @@ class Menu(gtk.ScrolledWindow):
         self.refresh(prec)
     
     def goHome(self):
-        self.currentPlugin=None
-        self.history=[]
-        self.history_icon=[]
-        self.change_icon()
-        self.refresh()
+        if len(self.history)!=0:
+                self.currentPlugin=None
+                self.history=[]
+                self.history_icon=[]
+                self.change_icon()
+                self.refresh()
     
     def ShowMenu(self, obj, event, menu):
         if event.button==3:

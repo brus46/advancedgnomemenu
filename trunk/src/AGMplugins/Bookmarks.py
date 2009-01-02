@@ -70,7 +70,7 @@ class Plugin(plugin):
                       "name":name,
                       "type":"open",
                       "obj":line,
-                      "other_options":[{"name":"Open as root", "command":["gksu", "'nautilus " + (line).replace(" ", "\ ") + "'"], "icon":"folder"},
+                      "other_options":[{"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + (line).replace(" ", "\ ") + ""], "icon":"folder"},
                                        {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"}
                                        ], 
                       "tooltip":"Open " + line})            

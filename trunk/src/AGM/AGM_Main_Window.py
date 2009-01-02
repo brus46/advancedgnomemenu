@@ -30,7 +30,7 @@ from AGM.AGM_menu import Menu
 from AGM.AGM_default_config import conf as config
 from AGM.AGM_info import Info
 from AGM.AGM_config import Config
-from AGM.AGM_show_thread import ShowThread
+#from AGM.AGM_show_thread import ShowThread
 import AGM.AGM_info_menu as info_menu
 import AGM.AGM_utils as utils
 from AGM.AGM_execute_box import ExecuteBar
@@ -119,8 +119,8 @@ class AGM:
         self.win.hide()
         self.hidden=True
         
-        if not self.applet:
-            self.showThread=ShowThread(self.setOnFocus)
+        #if not self.applet:
+        #    self.showThread=ShowThread(self.setOnFocus)
         if show: 
             gtk.main()
             self.exit(None)
@@ -517,8 +517,9 @@ class AGM:
         conf.startposition.move_window(self.win)
         self.menu.goHome()
         self.search_box.set_text("")
+        self.execution_box.set_text("")
         self.win.show()
-        self.win.present()
+        #self.win.present()
         
     def hide(self):
         self.win.hide()

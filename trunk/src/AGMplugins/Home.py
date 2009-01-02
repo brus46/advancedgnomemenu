@@ -43,7 +43,7 @@ class Plugin(plugin):
                       "type":"enter",
                       "obj":os.path.expanduser("~")+"/",
                       "other_options":[{"name":"Open", "command":["nautilus", os.path.expanduser("~")+"/"]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + (os.path.expanduser("~")+"/").replace(" ", "\ ") + "'"]},
+                                       {"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + (os.path.expanduser("~")+"/").replace(" ", "\ ") + ""]},
                                        {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (os.path.expanduser("~")+"/").replace(" ", "\ ")]}
                                        ], 
                       "tooltip":"Browse your home"})
@@ -60,7 +60,7 @@ class Plugin(plugin):
                           "type":"open",
                           "obj":folder+file,
                           "other_options":[{"name":"Open", "command":["nautilus", folder+file]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + (folder+file).replace(" ", "\ ") + "'"]},
+                                       {"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + (folder+file).replace(" ", "\ ") + ""]},
                                        {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (folder+file).replace(" ", "\ ")]}
                                        ], 
                           "tooltip":"Open folder: " + folder+file}
@@ -77,9 +77,9 @@ class Plugin(plugin):
                           "type":"openFile",
                           "obj":folder+file,
                           "other_options":[{"name":"Open folder", "command":["nautilus", folder]},
-                                       {"name":"Open folder as root", "command":["gksu", "'nautilus " + (folder).replace(" ", "\ ") + "'"]},
+                                       {"name":"Open folder as root", "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""]},
                                        {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")]},
-                                       {"name":"Open as root", "command":["gksu", "'gnome-open " + (folder+file).replace(" ", "\ ") + "'"]}
+                                       {"name":"Open as root", "command":["gksu", "gnome-open " + (folder+file).replace(" ", "\ ") + ""]}
                                        ],
                           "tooltip":"Open: " + folder+file}
                         menu.append(el)

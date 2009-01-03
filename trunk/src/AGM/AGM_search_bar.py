@@ -20,13 +20,15 @@
 import gtk
 from AGM.AGM_default_config import conf as config
 conf=config()
+import localization
+_=localization.Translate
 
 class search_box(gtk.HBox):
     def __init__(self, search_function):
         gtk.HBox.__init__(self)
         self.search_text=gtk.Entry()
-        self.label=gtk.Label("Search:")
-        self.search_text.set_tooltip_text("Search")
+        self.label=gtk.Label(_("Search")+":")
+        self.search_text.set_tooltip_text(_("Search"))
         self.search = search_function
         self.search_text.connect("activate", self.change)
         if conf.search_box_top_position:

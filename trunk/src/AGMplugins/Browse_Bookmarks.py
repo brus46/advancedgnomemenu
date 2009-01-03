@@ -95,8 +95,8 @@ class Plugin(plugin):
                                            ],
                               "tooltip":_("Open folder")+": " + file}
                             menu.append(el)
-        
-                    elif gnomevfs.get_mime_type(folder+file).split("/")[0]!="x-directory":
+                            listafile.remove(file)
+                for file in listafile:
                         if (file.split(".")[0]!=""):
                             mime=gnomevfs.get_mime_type(folder+file)
                             mime=mime.replace("/", "-")
@@ -116,4 +116,4 @@ class Plugin(plugin):
         except: 
             print "error"
         
-        return menu.sort()
+        return menu

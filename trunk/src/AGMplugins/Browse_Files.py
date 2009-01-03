@@ -19,6 +19,8 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -40,14 +42,14 @@ class Plugin(plugin):
             folder=os.path.expanduser("~")
             menu.append({
                       "icon":"user-home",
-                      "name":"Home",
+                      "name":_("Home"),
                       "type":"enter",
                       "obj":folder,
-                      "other_options":[{"name":"Open folder", "command":["nautilus", folder], "icon":"folder"}, 
-                                       {"name":"Open folder as root", "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"}
+                      "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"}, 
+                                       {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"}
                                        ], 
-                      "tooltip":"Browse your home"})
+                      "tooltip":_("Browse your home")})
         else:
             folder+="/"
             listafile=os.listdir(folder)
@@ -62,13 +64,15 @@ class Plugin(plugin):
                           "name":file,
                           "type":"enter",
                           "obj":current_folder,
-                          "other_options":[{"name":"Open folder", "command":["nautilus", current_folder], "icon":"folder"}, 
-                                       {"name":"Open folder as root", "command":["gksu", "nautilus --no-desktop " + current_folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")], "icon":"terminal"}
+                          "other_options":[{"name":_("Open folder"), "command":["nautilus", current_folder], "icon":"folder"}, 
+                                       {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + current_folder.replace(" ", "\ ") + ""], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")], "icon":"terminal"}
                                        ],
-                          "tooltip":"Open folder: " + file}
+                          "tooltip":_("Open folder")+": " + file}
                         menu.append(el)
+                        listafile.remove(file)
               except: pass
+              
             for file in listafile:
               try:
                 if gnomevfs.get_mime_type(folder+file).split("/")[0]!="x-directory":
@@ -81,12 +85,13 @@ class Plugin(plugin):
                           "name":file,
                           "type":"openFile",
                           "obj":current_file,
-                          "other_options":[{"name":"Open folder", "command":["nautilus", folder] , "icon":"folder"},
-                                           {"name":"Open folder as root", "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                           {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                                           {"name":"Open as root", "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"execute"}
+                          "other_options":[{"name":_("Open folder"), "command":["nautilus", folder] , "icon":"folder"},
+                                           {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
+                                           {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
+                                           {"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"execute"}
                                            ],
-                          "tooltip":"Open: " + file}
+                          "tooltip":_("Open")+": " + file}
                         menu.append(el)
+                        listafile.remove(file)
               except: pass
         return menu

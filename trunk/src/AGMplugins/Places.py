@@ -19,6 +19,8 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -40,48 +42,48 @@ class Plugin(plugin):
             icon="gnome-fs-directory-accept"
             menu.append({
                       "icon":icon,
-                      "name":"Places",
+                      "name":_("Places"),
                       "type":"enter",
                       "obj":"show",
-                      "tooltip":"Your fast-access pc-places"})
+                      "tooltip":_("Your fast-access pc-places")})
         else:
             icon="user-home"
             menu.append({
                       "icon":icon,
-                      "name":"Home folder",
+                      "name":_("Home folder"),
                       "type":"open",
                       "obj":os.path.expanduser("~")+ "/",
-                       "other_options":[{"name":"Open", "command":["nautilus", os.path.expanduser("~")+"/"]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + os.path.expanduser("~")+"/" + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"]}
+                       "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"]}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"]},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"]}
                                        ], 
-                       "other_options":[{"name":"Open", "command":["nautilus", "/"]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + "/" + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + "/"]}
+                       "other_options":[{"name":_("Open"), "command":["nautilus", "/"]}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"]},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"]}
                                        ], 
-                      "tooltip":"Home folder"})
+                      "tooltip":_("Home folder")})
             
             
             icon="computer"
             menu.append({
                       "icon":icon,
-                      "name":"Computer",
+                      "name":_("Computer"),
                       "type":"open",
                       "obj":"computer:///",
-                      "tooltip":"Your computer"})        
+                      "tooltip":_("Your computer")})        
             
             icon="media-optical"
             menu.append({
                       "icon":icon,
-                      "name":"Create Cd-Dvd",
+                      "name":_("Create Cd-Dvd"),
                       "type":"exec",
                       "obj":"nautilus --no-desktop burn:///",
-                      "tooltip":"Create cd"})        
+                      "tooltip":_("Create cd")})        
             icon="network-workgroup"
             menu.append({
                       "icon":icon,
-                      "name":"Network",
+                      "name":_("Network"),
                       "type":"exec",
                       "obj":"nautilus --no-desktop network:",
-                      "tooltip":"Show network"})        
+                      "tooltip":_("Show network")})        
         return menu

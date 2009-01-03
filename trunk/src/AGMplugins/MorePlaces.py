@@ -22,6 +22,8 @@ import AGMplugins.Home
 import AGMplugins.Bookmarks
 import AGMplugins.LastUsedFiles
 import gnomevfs, os
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -46,60 +48,60 @@ class Plugin(plugin):
         if gointo==None:
             icon="gnome-fs-directory-accept"
             menu.append({"icon":icon,
-                      "name":"Places",
+                      "name":_("Places"),
                       "type":"enter",
                       "obj":"show",
-                      "tooltip":"Your fast-access pc-places"})
+                      "tooltip":_("Your fast-access pc-places")})
         
         if (gointo=="show"):
             icon="user-home"
             menu.append({"icon":icon,
-                      "name":"Home",
+                      "name":_("Home"),
                       "type":"enter",
                       "obj":"home",
-                      "other_options":[{"name":"Open", "command":["nautilus", os.path.expanduser("~")+"/"]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + os.path.expanduser("~")+"/" + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"]}
+                      "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"]}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"]},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"]}
                                        ], 
-                      "tooltip":"Your home folder"})
+                      "tooltip":_("Your home folder")})
                         
             icon="computer"
             menu.append({"icon":icon,
-                      "name":"Computer",
+                      "name":_("Computer"),
                       "type":"open",
                       "obj":"computer:///",
-                      "other_options":[{"name":"Open", "command":["nautilus", "/"]}, 
-                                       {"name":"Open as root", "command":["gksu", "'nautilus " + "/" + "'"]},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + "/"]}
+                      "other_options":[{"name":_("Open"), "command":["nautilus", "/"]}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"]},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"]}
                                        ], 
-                      "tooltip":"Your computer"})
+                      "tooltip":_("Your computer")})
             
             icon="media-optical"
             menu.append({"icon":icon,
-                      "name":"Create cd/dvd",
+                      "name":_("Create cd/dvd"),
                       "type":"exec",
                       "obj":"nautilus --no-desktop burn:///",
-                      "tooltip":"Create cd/dvd"})
+                      "tooltip":_("Create cd/dvd")})
             
             icon="network-workgroup"
             menu.append({"icon":icon,
-                      "name":"Network",
+                      "name":_("Network"),
                       "type":"exec",
                       "obj":"nautilus --no-desktop network:",
-                      "tooltip":"Show network"})
+                      "tooltip":_("Show network")})
             
             icon="favorite"
             menu.append({"icon":icon,
-                      "name":"Bookmarks",
+                      "name":_("Bookmarks"),
                       "type":"enter",
                       "obj":"bookmarks",
-                      "tooltip":"Your bookmarks"})
+                      "tooltip":_("Your bookmarks")})
             
             menu.append({"icon":"document-open-recent",
-                      "name":"Recently used files",
+                      "name":_("Recently used files"),
                       "type":"enter",
                       "obj":"last_used",
-                      "tooltip":"Last files you've used"})
+                      "tooltip":_("Last files you've used")})
             
         elif (gointo=="home"):
             menu=self.home_plugin.get_menu(os.path.expanduser("~")+"/")

@@ -18,6 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, gtk
+#from AGM import localization
+#_=localization.Translate
 
 class conf:
     def __init__(self):
@@ -55,7 +57,7 @@ class conf:
         self.open_file_command="gnome-open %U"
         
         self.opacity=1
-        self.welcome="Welcome to Advanced Gnome Menu"
+        self.welcome=("Welcome to Advanced Gnome Menu")
         self.safe_mode=False
         
         #TopIcon

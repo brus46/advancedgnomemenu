@@ -21,6 +21,8 @@ import AGM.AGM_utils as utils
 from AGM.AGM_plugin import AGM_plugin as plugin
 import os
 #    This is a AGM plugin
+from AGM import localization
+_=localization.Translate
 
 class Plugin(plugin):
     def __init__(self):
@@ -39,8 +41,8 @@ class Plugin(plugin):
         menu=[]
         menu.append({
                   "icon":"stock_search",
-                  "name":"Search",
+                  "name":_("Search"),
                   "type":"exec",
                   "obj":"gnome-search-tool --path=" + os.path.expanduser("~")+ "/",
-                  "tooltip":"Search"})
+                  "tooltip":_("Search")})
         return menu

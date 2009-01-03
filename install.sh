@@ -12,6 +12,9 @@ sudo cp -R ./src/pictures/ /usr/share/AGM/
 sudo cp -R ./src/AGM/ /usr/local/lib/python/
 sudo cp -R ./src/AGMplugins/ /usr/local/lib/python/
 
+#Installing translation pack
+sudo cp -R ./src/locale/ /usr/share/AGM/
+
 #install default config if necessary
 CFILE=~/.AGM_config
 if [ -f $CFILE ];

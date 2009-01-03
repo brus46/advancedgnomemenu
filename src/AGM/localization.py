@@ -21,17 +21,19 @@ import locale
 from AGM_default_config import conf as config
 conf=config()
 
-language = locale.getlocale(locale.LC_ALL)[0]
-print language
-dict=ReadDict(language)
-
 def ReadDict(language):
     dict={}
     lang_file=conf.install_data_dir + "locale/"+language+".lang"
-    try:
+    #try:
+    if 1:
         lang=open(lang_file)
-    except:
-        print "Your language (" + language + ") is still unavailable"
+        for word in lang.readlines():
+            word=word.replace("\n", "")
+            word=word.split("=")
+            if len(word)==2:
+                dict[word[0]]=word[1]
+    #except:
+    #    print "Your language (" + language + ") is still unavailable"
     
     return dict
 
@@ -41,3 +43,7 @@ def Translate(string):
     else:
         print "Warning: " + string + " translation not avaible!"
         return string
+
+language = locale.getlocale(locale.LC_ALL)[0]
+print language
+dict=ReadDict(language)

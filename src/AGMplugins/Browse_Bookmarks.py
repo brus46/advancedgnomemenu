@@ -19,6 +19,8 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -37,18 +39,17 @@ class Plugin(plugin):
     
     def get_menu(self, show=None):
         menu=[]
-        #try:
-        if 1:
+        try:
             file=open(os.path.expanduser("~")+ "/" + ".gtk-bookmarks")
             file=file.readlines()  
             print show
             if (show==None):
                 menu.append({
                       "icon":"emblem-favorite",
-                      "name":"Bookmarks",
+                      "name":_("Bookmarks"),
                       "type":"enter",
                       "obj":"show",
-                      "tooltip":"Browse your bookmarks"})            
+                      "tooltip":_("Browse your bookmarks")})            
             elif (show=="show"):
                 icon="gnome-fs-directory-accept"
                 for line in file:    
@@ -68,11 +69,11 @@ class Plugin(plugin):
                       "name":name,
                       "type":"enter",
                       "obj":line,
-                      "other_options":[{"name":"Open", "command":["nautilus", line], "icon":"folder"}, 
-                                       {"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + line.replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + line.replace(" ", "\ ")], "icon":"terminal"}
+                      "other_options":[{"name":_("Open"), "command":["nautilus", line], "icon":"folder"}, 
+                                       {"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + line.replace(" ", "\ ") + ""], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + line.replace(" ", "\ ")], "icon":"terminal"}
                                        ],
-                      "tooltip":"Open " + filename})            
+                      "tooltip":_("Open") +" " + filename})            
             else:
                 
                 folder=show+"/"
@@ -88,11 +89,11 @@ class Plugin(plugin):
                               "name":file,
                               "type":"enter",
                               "obj":current_folder,
-                              "other_options":[{"name":"Open", "command":["nautilus", current_folder], "icon":"folder"}, 
-                                           {"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + current_folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                           {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")], "icon":"terminal"}
+                              "other_options":[{"name":_("Open"), "command":["nautilus", current_folder], "icon":"folder"}, 
+                                           {"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + current_folder.replace(" ", "\ ") + ""], "icon":"folder"},
+                                           {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + current_folder.replace(" ", "\ ")], "icon":"terminal"}
                                            ],
-                              "tooltip":"Open folder: " + file}
+                              "tooltip":_("Open folder")+": " + file}
                             menu.append(el)
         
                 for file in listafile:
@@ -106,14 +107,14 @@ class Plugin(plugin):
                               "name":file,
                               "type":"openFile",
                               "obj":current_file,
-                              "other_options":[{"name":"Open folder", "command":["nautilus", folder], "icon":"folder"},
-                                               {"name":"Open folder as root", "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                               {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                                               {"name":"Open as root", "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"app"}
+                              "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"},
+                                               {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
+                                               {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
+                                               {"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"app"}
                                                ],
-                              "tooltip":"Open: " + file}
+                              "tooltip":_("Open")+": " + file}
                             menu.append(el)
-        #except: 
-        #    print "error"
+        except: 
+            print "error"
         
         return menu

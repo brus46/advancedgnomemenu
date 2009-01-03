@@ -35,7 +35,7 @@ class ExecuteBar(gtk.HBox):
         terminal_icon.set_from_pixbuf(icon)
         self.run_in_terminal.set_image(terminal_icon)
         
-        self.label=gtk.Label(_("Execute:"))
+        self.label=gtk.Label(_("Execute")+ ":")
         
         
         

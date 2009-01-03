@@ -21,6 +21,8 @@ import gtk, os, sys
 import AGM.AGM_utils as utils
 from AGM.AGM_default_config import conf as config
 conf=config()
+import localization
+_=localization.Translate
 
 class ExecuteBar(gtk.HBox):
     def __init__(self):
@@ -33,7 +35,7 @@ class ExecuteBar(gtk.HBox):
         terminal_icon.set_from_pixbuf(icon)
         self.run_in_terminal.set_image(terminal_icon)
         
-        self.label=gtk.Label("Execute:")
+        self.label=gtk.Label(_("Execute:"))
         
         
         
@@ -41,7 +43,7 @@ class ExecuteBar(gtk.HBox):
         self.pack_end(self.run_in_terminal, False)
         self.pack_end(self.command, False)
         
-        self.command.set_tooltip_text("Execute")
+        self.command.set_tooltip_text(_("Execute"))
         self.command.connect("activate", self.execute_command)
         self.run_in_terminal.connect("clicked", self.terminal_execution)
         if conf.execution_box_top_position:

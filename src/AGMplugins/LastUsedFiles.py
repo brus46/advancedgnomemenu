@@ -20,6 +20,8 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 import xml.dom.minidom
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -40,10 +42,10 @@ class Plugin(plugin):
         if show!="show":
             menu.append({
                       "icon":"document-open-recent",
-                      "name":"Recently used files",
+                      "name":_("Recently used files"),
                       "type":"enter",
                       "obj":"show",
-                      "tooltip":"Last files you've used"})
+                      "tooltip":_("Last files you've used")})
         else:
             doc=xml.dom.minidom.parse(os.path.expanduser("~")+ "/" + ".recently-used.xbel")
             list=[]
@@ -68,7 +70,7 @@ class Plugin(plugin):
                       "type":"openFile",
                       "obj":el["URI"],
                       "other_options":[
-                                       {"name":"Open as root", "command":["gksu", "'gnome-open " + el["URI"].replace(" ", "\ ") + "'"]}
+                                       {"name":_("Open as root"), "command":["gksu", "'gnome-open " + el["URI"].replace(" ", "\ ") + "'"]}
                                        ],
                       "tooltip":el["URI"]})
             

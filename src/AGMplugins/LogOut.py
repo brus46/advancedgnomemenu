@@ -18,6 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from AGM.AGM_plugin import AGM_plugin as plugin
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -36,8 +38,8 @@ class Plugin(plugin):
     def get_menu(self):
         menu=[]
         menu.append({"icon":"gnome-session-logout",
-                  "name":"Exit",
+                  "name":_("Exit"),
                   "type":"exec",
                   "obj":"gnome-session-save --kill",
-                  "tooltip":"Logout."})
+                  "tooltip":_("Logout")})
         return menu

@@ -18,6 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from AGM.AGM_plugin import AGM_plugin as plugin
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -37,8 +39,8 @@ class Plugin(plugin):
         menu=[]
         menu.append({
                   "icon":"synaptic",
-                  "name":"Install programs",
+                  "name":_("Install programs"),
                   "type":"exec",
                   "obj":"gksu 'synaptic'",
-                  "tooltip":"Install programs on your pc."})
+                  "tooltip":_("Install programs on your pc.")})
         return menu

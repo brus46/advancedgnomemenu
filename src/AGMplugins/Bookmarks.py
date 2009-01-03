@@ -20,6 +20,8 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import os
+from AGM import localization
+_=localization.Translate
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -46,10 +48,10 @@ class Plugin(plugin):
             if (show!="show"):
                 menu.append({
                       "icon":"emblem-favorite",
-                      "name":"Bookmarks",
+                      "name":_("Bookmarks"),
                       "type":"enter",
                       "obj":"show",
-                      "tooltip":"Browse your bookmarks"})            
+                      "tooltip":_("Browse your bookmarks")})            
             else:
                 icon="gnome-fs-directory-accept"
                 for line in file:    
@@ -70,10 +72,10 @@ class Plugin(plugin):
                       "name":name,
                       "type":"open",
                       "obj":line,
-                      "other_options":[{"name":"Open as root", "command":["gksu", "nautilus --no-desktop " + (line).replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":"Open a terminal here", "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"}
+                      "other_options":[{"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (line).replace(" ", "\ ") + ""], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"}
                                        ], 
-                      "tooltip":"Open " + line})            
+                      "tooltip":_("Open") + " " + line})            
                 
         except: 
             print "error"

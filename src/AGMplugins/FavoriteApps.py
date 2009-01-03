@@ -21,7 +21,8 @@ import AGM.AGM_utils as utils
 import AGM.AGM_default_config as config
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
-
+from AGM import localization
+_=localization.Translate
 import gnomevfs, os
 #    This is a AGM plugin
 conf=config.conf()
@@ -53,10 +54,10 @@ class Plugin(plugin):
             icon=utils.getPixbufFromName("emblem-favorite")
             menu.append({
                   "icon":icon,
-                  "name":"Favorite",
+                  "name":_("Favorite"),
                   "type":"enter",
                   "obj":"show",
-                  "tooltip":"Your favorites apps."})
+                  "tooltip":_("Your favorites apps.")})
         else:
             for app in conf.fav_apps:    
                 command=app["command"].split("#")

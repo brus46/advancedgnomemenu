@@ -24,16 +24,15 @@ conf=config()
 def ReadDict(language):
     dict={}
     lang_file=conf.install_data_dir + "locale/"+language+".lang"
-    #try:
-    if 1:
+    try:
         lang=open(lang_file)
         for word in lang.readlines():
             word=word.replace("\n", "")
             word=word.split("=")
             if len(word)==2:
                 dict[word[0]]=word[1]
-    #except:
-    #    print "Your language (" + language + ") is still unavailable"
+    except:
+        print "Your language (" + language + ") is still unavailable"
     
     return dict
 
@@ -41,7 +40,7 @@ def Translate(string):
     if dict.has_key(string):
         return dict[string]
     else:
-        print "Warning: " + string + " translation not avaible!"
+        #print "Warning: " + string + " translation not avaible!"
         return string
 
 language = locale.getlocale(locale.LC_ALL)[0]

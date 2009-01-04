@@ -44,7 +44,7 @@ class AGM_applet(gnomeapplet.Applet):
         self.__gobject_init__()
         self.applet = applet
         self.AGM=agm(False, False, False, applet=True)
-        mybutton=gtk.HBox()
+        self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
         size=self.get_size()
         self.icon.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file_at_size(conf.applet_icon, size, size))
@@ -52,20 +52,23 @@ class AGM_applet(gnomeapplet.Applet):
         if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
         self.icon.set_size_request(size, size)
-        mybutton.add(self.icon)
-        mybutton.add(self.label)
+        self.mybutton.add(self.icon)
+        self.mybutton.add(self.label)
         
-        width, height=self.label.size_request()
-        self.applet.set_size_request(size+width+5, size)
-        self.applet.add(mybutton)
+        
+        self.orientation = self.applet.get_orient()
+        
+        self.applet.add(self.mybutton)
         self.applet.connect("button_press_event", self.showMenu, applet)
-        self.applet.connect("destroy",self.cleanup)
-        #self.applet.connect("change-size", self.change_size)
+        self.applet.connect("destroy-event",self.cleanup)
+        self.applet.connect("delete-event",self.cleanup)
+        self.applet.connect("change-size", self.on_change_size)
         self.applet.connect("change-background", self.change_background)
-        
+        self.applet.connect("change-orient",self.change_orientation)
         #self.ShowThread=ShowThread(self.AGM.win.has_toplevel_focus, self.has_focus, self.AGM.get_hidden, self.AGM.set_hidden, self.AGM.setOnFocus)
         self.applet.show_all()
-        self.on_change_size()
+        self.change_orientation(None, None)
+
         #self.ShowThread.start()
         pass
     
@@ -82,18 +85,53 @@ class AGM_applet(gnomeapplet.Applet):
     
     def on_change_size (self):
         size=self.get_size()
+        w, h=self.label.size_request()
         pixbuf=gtk.gdk.pixbuf_new_from_file(conf.applet_icon)
         width=pixbuf.get_width()
         height=pixbuf.get_height()
-        if height > size:
-            width=width*size/height
-            height=size
+        if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
+            if height > size:
+                width=width*size/height
+                height=size
+        else:
+            if width > size:
+                height=height*size/width
+                width=size
         pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
         self.icon.set_from_pixbuf(pixbuf)
         self.icon.set_size_request(width, size)
-        widthL, heightL=self.label.size_request()
-        self.applet.set_size_request( width+widthL+5,size)
+        
+        if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
+            self.label.set_angle(0)
+            widthL, heightL=self.label.size_request()
+            self.applet.set_size_request( width+widthL+5,size)
+            
+        else:
+            if self.orientation == gnomeapplet.ORIENT_LEFT:
+                self.label.set_angle(270)
+            else: self.label.set_angle(90)
+            widthL, heightL=self.label.size_request()
+            self.applet.set_size_request( size, height+heightL+5)
         pass
+    
+    def change_orientation(self,arg1,data):
+        self.orientation = self.applet.get_orient()
+
+        if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
+            tmpbox = gtk.HBox()
+        else:
+            tmpbox = gtk.VBox()
+        
+        # reparent all the hboxes to the new tmpbox
+        for i in (self.mybutton.get_children()):
+            i.reparent(tmpbox)
+
+        # now remove the link between big_evbox and the box
+        self.applet.remove(self.applet.get_children()[0])
+        self.mybutton = tmpbox
+        self.applet.add(self.mybutton)
+        self.on_change_size()
+        self.applet.show_all()
     
     def change_background(self, applet, type, color, pixmap):
         applet.set_style(None)

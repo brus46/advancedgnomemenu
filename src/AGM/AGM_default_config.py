@@ -478,8 +478,8 @@ class popup_style:
         return ["NONE", "LEFT", "CENTER", "RIGHT"]
     def read_string(self, str):
         pos=self.NONE
-        width=48
-        height=32
+        width=0
+        height=0
         
         str=str.split("_")
         if str[0]=="NONE":

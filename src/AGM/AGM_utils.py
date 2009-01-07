@@ -5,39 +5,42 @@ conf=config()
 
 def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
     #print iconName, size, type
-    icon_theme = gtk.icon_theme_get_default()
-    pixbuf = None
-    try:
-        pixbuf = icon_theme.load_icon(iconName, size, 0)
-        path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
-    except:
-        if iconName and '/' in iconName:
-            try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(iconName, size, size)
-                path = iconName
-            except:
-                pass
-        if pixbuf == None:
-            if type=="folder":
-                iconName = 'gnome-fs-directory'
-            elif type=="application" or type=="app":
-                iconName = 'application-default-icon'
-            elif type=="theme":
-                from AGM_default_config import conf as config
-                conf=config()
-                iconName= conf.install_data_dir + 'pictures/AGMtheme.png'
-            else:
-                iconName = 'text-x-generic'
-            try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(iconName, size, size)
-                path = iconName
-            except:
+    if isinstance(iconName ,gtk.gdk.Pixbuf)==False:
+        icon_theme = gtk.icon_theme_get_default()
+        pixbuf = None
+        try:
+            pixbuf = icon_theme.load_icon(iconName, size, 0)
+            path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
+        except:
+            if iconName and '/' in iconName:
                 try:
-                    pixbuf = icon_theme.load_icon(iconName, size, 0)
-                    path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
+                    pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(iconName, size, size)
+                    path = iconName
                 except:
-                    pixbuf==None
                     pass
+            if pixbuf == None:
+                if type=="folder":
+                    iconName = 'gnome-fs-directory'
+                elif type=="application" or type=="app":
+                    iconName = 'application-default-icon'
+                elif type=="theme":
+                    from AGM_default_config import conf as config
+                    conf=config()
+                    iconName= conf.install_data_dir + 'pictures/AGMtheme.png'
+                else:
+                    iconName = 'text-x-generic'
+                try:
+                    pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(iconName, size, size)
+                    path = iconName
+                except:
+                    try:
+                        pixbuf = icon_theme.load_icon(iconName, size, 0)
+                        path = icon_theme.lookup_icon(iconName, size, 0).get_filename()
+                    except:
+                        pixbuf==None
+                        pass
+    else:
+        pixbuf=iconName
     if pixbuf == None:
         print "cannot find icon:" + iconName
         return None

@@ -51,9 +51,8 @@ class Plugin(plugin):
     def get_menu(self, show=None):
         menu=[]
         if show!="show":
-            icon=utils.getPixbufFromName("emblem-favorite")
             menu.append({
-                  "icon":icon,
+                  "icon":"emblem-favorite",
                   "name":_("Favorite"),
                   "type":"enter",
                   "obj":"show",
@@ -63,7 +62,7 @@ class Plugin(plugin):
                 command=app["command"].split("#")
                 print command
                 menu.append({
-                  "icon":utils.getPixbufFromName(app["icon"]),
+                  "icon":app["icon"],
                   "name":app["name"],
                   "type":command[0],
                   "obj":command[1],

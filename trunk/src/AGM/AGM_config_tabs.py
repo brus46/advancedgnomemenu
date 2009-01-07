@@ -667,12 +667,12 @@ class window_config(gtk.VBox):
         
         self.popup.connect("changed", self.change_pop)
         self.width=gtk.SpinButton()
-        self.width.set_range(10, 400)
+        self.width.set_range(0, 400)
         self.width.set_value(width)
         self.width.set_increments(1, 100)
         
         self.height=gtk.SpinButton()
-        self.height.set_range(10, 100)
+        self.height.set_range(0, 100)
         self.height.set_value(height)
         self.height.set_increments(1, 100)
 

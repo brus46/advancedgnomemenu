@@ -50,14 +50,16 @@ class Plugin(plugin):
         listafile=os.listdir(folder)
         listafile.sort()
         key=key.lower()
-        for file in listafile:
-            if os.path.isdir(folder+file):
-                if (file.split(".")[0]!=""):
+        i=0
+        while i<len(listafile):
+            file=listafile[i]
+            if (file.split(".")[0]!=""):
+                if os.path.isdir(folder+file):
                     if deep<=self.max_deep:
                         newfound=self.scan_folder(key, folder+file+"/", deep)
                         for newel in newfound:
                             found.append(newel)
-                    if file.lower().find(key)>=0:                            
+                    if file.lower().find(key)>=0:
                         el={
                           "icon":"folder",
                           "name":file,
@@ -65,26 +67,31 @@ class Plugin(plugin):
                           "obj":folder+file,
                           "other_options":[ 
                                        {"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (folder+file).replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder+file).replace(" ", "\ ")], "icon":"terminal"}
-                                       ], 
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder+file).replace(" ", "\ ")], "icon":"terminal"}], 
                           "tooltip":_("Open folder")+": " + folder+file}
                         found.append(el)
+                        listafile.remove(file)
+                    else:
+                        listafile.remove(file)
+                elif file.lower().find(key)<0:
+                    listafile.remove(file)
+                else: i+=1
+            else: listafile.remove(file)
+                        
 
         for file in listafile:
-            if os.path.isdir(folder+file)==False:
-                if (file.split(".")[0]!="") and file.lower().find(key)>=0:
-                    mime=gnomevfs.get_mime_type(folder+file)
-                    mime=mime.replace("/", "-")
-                    el={
-                      "icon":mime,
-                      "name":file,
-                      "type":"openFile",
-                      "obj":folder+file,
-                      "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"},
-                                       {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                                       {"name":_("Open as root"), "command":["gksu", "gnome-open " + (folder+file).replace(" ", "\ ") + ""], "icon":"app"}
-                                       ],
-                      "tooltip":_("Open")+": " + folder+file}
-                    found.append(el)
+            mime=gnomevfs.get_mime_type(folder+file)
+            mime=mime.replace("/", "-")
+            el={
+              "icon":mime,
+              "name":file,
+              "type":"openFile",
+              "obj":folder+file,
+              "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"},
+                               {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""], "icon":"folder"},
+                               {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
+                               {"name":_("Open as root"), "command":["gksu", "gnome-open " + (folder+file).replace(" ", "\ ") + ""], "icon":"app"}
+                               ],
+              "tooltip":_("Open")+": " + folder+file}
+            found.append(el)
         return found

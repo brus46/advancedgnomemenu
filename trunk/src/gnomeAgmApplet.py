@@ -32,6 +32,7 @@ if dirname != "src":
     sys.path.insert(0, "/usr/local/lib/python/")
 
 from AGM.AGM_default_config import conf as config
+import AGM.AGM_default_config
 import gnomeapplet
 import gtk
 from AGM.AGM_Main_Window import AGM as agm
@@ -55,11 +56,17 @@ class AGM_applet(gnomeapplet.Applet):
         self.mybutton.add(self.icon)
         self.mybutton.add(self.label)
         
+        self.X, self.Y=0, 0
+        self.popup=None
+        self.top_icon=None
         
         self.orientation = self.applet.get_orient()
         
         self.applet.add(self.mybutton)
-        self.applet.connect("button_press_event", self.showMenu, applet)
+        self.applet.add_events(gtk.gdk.MOTION_NOTIFY | gtk.gdk.BUTTON_PRESS)
+
+        self.applet.connect("motion_notify_event", self.motion_notify)
+        self.applet.connect("button_press_event", self.showHelpMenu, applet)
         self.applet.connect("destroy-event",self.cleanup)
         self.applet.connect("delete-event",self.cleanup)
         self.applet.connect("change-size", self.on_change_size)
@@ -146,17 +153,20 @@ class AGM_applet(gnomeapplet.Applet):
         self.AGM.exit(None)
         #self.ShowThread.stop()
         del self.applet
-
-    def showMenu(self, widget, event, applet):
+    
+    def showHelpMenu(self, widget, event, applet):
         if event.type == gtk.gdk.BUTTON_PRESS:
             if event.button == 3:
                 self.create_menu(applet)
-            else:
-                if (self.AGM.get_hidden()):
-                    self.AGM.show()
-                    #self.ShowThread.set_visible()
-                else:
-                    self.AGM.hide()
+            else: self.showMenu()
+    
+    def showMenu(self):
+        if (self.AGM.get_hidden()):
+           self.define_menu()
+           self.AGM.show(self.X, self.Y, self.popup, self.top_icon)
+           #self.AGM.show()
+        else:
+           self.AGM.hide()
     
     def create_menu(self, applet):
         propxml="""
@@ -193,7 +203,44 @@ class AGM_applet(gnomeapplet.Applet):
     def showConfigDialog(self, *arguments, **keywords):
         from AGM.AGM_config import Config
         Config()
-
+    
+    def motion_notify(self, widget, event):
+        xw, yw=event.x, event.y
+        rootwin = widget.get_screen().get_root_window()
+        x, y, mods = rootwin.get_pointer()
+        w, h=self.applet.get_size_request()
+        self.X=x-xw
+        self.Y=y-yw+h
+        #print "Mouse position is: x=%d y=%d" % (self.X, self.Y)
+        
+    def define_menu(self):
+        screen_w, screen_h=(gtk.gdk.screen_width(), gtk.gdk.screen_height())
+        width, height = (conf.window_width, conf.window_height)
+        
+        self.top_icon=AGM.AGM_default_config.top_position()
+        self.popup=AGM.AGM_default_config.popup_style()
+        
+        if (self.Y<=screen_h/2):
+            #Top icon sud
+            if (self.X<=screen_w/2):
+                #Top icon east
+                self.top_icon.set_pos(self.top_icon.DW_RIGHT)
+            else:
+                #top icon west
+                self.top_icon.set_pos(self.top_icon.DW_LEFT)
+        else:
+            #Top icon nord
+            if (self.X<=screen_w/2):
+                #Top icon east
+                self.top_icon.set_pos(self.top_icon.TOP_RIGHT)
+            else:
+                #top icon west
+                self.top_icon.set_pos(self.top_icon.TOP_LEFT)
+        
+        if (self.X<=screen_w/3):
+            self.popup.set(self.popup.LEFT)
+        
+        
 gobject.type_register(AGM_applet)    
     
 def factory(applet, iid):
@@ -215,3 +262,7 @@ if len(sys.argv)>=2 and (sys.argv[1]=="--test"):
 if __name__ == '__main__':
 	print "Starting factory"
 	gnomeapplet.bonobo_factory("OAFIID:Gnome_Panel_Agm_Factory", AGM_applet.__gtype__, "An eye candy menu for gnome", "1.0", factory)
+
+
+
+

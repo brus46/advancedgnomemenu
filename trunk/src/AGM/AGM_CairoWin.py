@@ -225,7 +225,7 @@ class TransparentWindow(gtk.Window):
          cr.curve_to(x0+radius, y1, x0 , y1, x0, y1-radius)
          cr.close_path()
 
-     def do_expose_event(self, event):
+     def do_expose_event(self, event=None, force=False):
          
          cr = self.window.cairo_create()
          self.do_screen_changed()
@@ -238,11 +238,7 @@ class TransparentWindow(gtk.Window):
          cr.paint()
          if conf.read_conf():
              self.change()
-         #top=conf.top_position.get_top()
-         #if top==conf.top_position.DW_LEFT or top==conf.top_position.DW_RIGHT:
-         #    self.draw_window_down(cr)
-         #else:
-         #    self.draw_window_top(cr)
+         
          if self.supports_alpha and conf.safe_mode==False:
               self.draw_window(cr)
          else:
@@ -251,12 +247,13 @@ class TransparentWindow(gtk.Window):
          if conf.top_icon_show_logo:
              self.draw_icon_place(cr)
          
-         # chiediamo esplicitamente ai figli di disegnarsi
-         # Se non lo facessimo non sarebbero visualizzati
-         # i widgets aggiunti alla TransparentWindow
-         children = self.get_children()
-         for c in children:
-                 self.propagate_expose(c, event)
+         if event!=None:
+             # chiediamo esplicitamente ai figli di disegnarsi
+             # Se non lo facessimo non sarebbero visualizzati
+             # i widgets aggiunti alla TransparentWindow
+             children = self.get_children()
+             for c in children:
+                     self.propagate_expose(c, event)
     
      def draw_window(self, cr):     
          top=conf.top_position.get_top()

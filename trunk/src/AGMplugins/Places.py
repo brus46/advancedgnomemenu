@@ -53,13 +53,13 @@ class Plugin(plugin):
                       "name":_("Home folder"),
                       "type":"open",
                       "obj":os.path.expanduser("~")+ "/",
-                       "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"]}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"]},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"]}
+                       "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"], "icon":"folder"}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"], "icon":"terminal"}
                                        ], 
-                       "other_options":[{"name":_("Open"), "command":["nautilus", "/"]}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"]},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"]}
+                       "other_options":[{"name":_("Open"), "command":["nautilus", "/"], "icon":"folder"}, 
+                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"], "icon":"folder"},
+                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"], "icon":"terminal"}
                                        ], 
                       "tooltip":_("Home folder")})
             

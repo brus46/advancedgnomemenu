@@ -80,9 +80,10 @@ class Plugin(plugin):
                 print folder
                 listafile=os.listdir(folder)
                 listafile.sort()
-                for file in listafile:
-                    if gnomevfs.get_mime_type(folder+file).split("/")[0]=="x-directory":
-                        if (file.split(".")[0]!=""):
+                i=0
+                while i<len(listafile):
+                    if (file.split(".")[0]!=""):
+                        if os.path.isdir(folder+file):
                             current_folder=folder+file
                             el={
                               "icon":"folder",
@@ -96,23 +97,20 @@ class Plugin(plugin):
                               "tooltip":_("Open folder")+": " + file}
                             menu.append(el)
                             listafile.remove(file)
+                        else: i+=1
+                    else: listafile.remove(file)
                 for file in listafile:
-                        if (file.split(".")[0]!=""):
-                            mime=gnomevfs.get_mime_type(folder+file)
-                            mime=mime.replace("/", "-")
-                            current_file=folder+file
-                            el={
-                              "icon":mime,
-                              "name":file,
-                              "type":"openFile",
-                              "obj":current_file,
-                              "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"},
-                                               {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                               {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                                               {"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"app"}
-                                               ],
-                              "tooltip":_("Open")+": " + file}
-                            menu.append(el)
+                    mime=gnomevfs.get_mime_type(folder+file)
+                    mime=mime.replace("/", "-")
+                    current_file=folder+file
+                    el={
+                      "icon":mime,
+                      "name":file,
+                      "type":"openFile",
+                      "obj":current_file,
+                      "other_options":[{"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"app"}],
+                      "tooltip":_("Open")+": " + file}
+                    menu.append(el)
         except: 
             print "error"
         

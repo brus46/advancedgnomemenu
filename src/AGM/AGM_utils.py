@@ -240,8 +240,11 @@ class GetFolder:
         return None
     
 def ExecCommand(command):
-        gtk.main_quit()
+        #gtk.main_quit()
         if os.fork()==0:
+            for par in command:
+                if par=="":
+                    command.pop(par)
             os.chdir(os.path.expanduser("~"))
             os.execvp(command[0], command)
-        gtk.main()
+        #gtk.main()

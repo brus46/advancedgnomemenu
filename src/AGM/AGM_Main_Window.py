@@ -475,6 +475,8 @@ class AGM:
            print "Execute->" + todo
            todo=todo.replace("%U", "")
            todo=todo.replace("%u", "")
+           todo=todo.replace("%F", "")
+           todo=todo.replace("%f", "")
            todo=todo.replace("\n", "")
            utils.ExecCommand(todo.split(" "))
            if conf.hide_on_program_launch:

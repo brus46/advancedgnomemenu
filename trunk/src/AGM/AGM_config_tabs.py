@@ -582,7 +582,7 @@ class applet_conf(gtk.VBox):
         self.pack_start(iconBox, False)
         self.pack_start(self.txtBox, False)
         self.pack_start(HBoxFgcolor, False)
-        self.pack_start(gtk.Label("All changes on the applet will be applied on rebooting"), False)
+        self.pack_start(gtk.Label("All changes on the applet will be applied on rebooting"))
     
     def change_image(self, obj):
         filename=utils.OpenImage().get_file()
@@ -598,212 +598,6 @@ class applet_conf(gtk.VBox):
             conf+="applet_show_text="+ "True" +"\n"
         else: conf+="applet_show_text="+ "False" +"\n"
         return conf
-    
-class window_config(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self, spacing=10)
-        
-        labelsize=150
-        
-        ##WINDOW
-        self.welcome_text=gtk.Entry()
-        HBoxWelcome=gtk.HBox(spacing=5)
-        HBoxWelcome.pack_start(set_label_size_and_align(gtk.Label("Welcome text:")), False, False)
-        HBoxWelcome.pack_start(self.welcome_text)
-        self.pack_start(HBoxWelcome, False)
-        self.welcome_text.set_text(conf.welcome)
-        ##END WINDOW
-        
-        ## STARTUP POSITION
-        Position=gtk.HBox(spacing=5)
-        Position.pack_start(set_label_size_and_align(gtk.Label("Startup position:")), False)
-                
-        position_cod, x, y=conf.startposition.get_position()
-        
-        self.positions=gtk.combo_box_new_text()
-        self.positions.append_text(conf.startposition.get_pos_name())
-        for pos in conf.startposition.get_list():
-            if pos!=conf.startposition.get_pos_name():
-                self.positions.append_text(pos)
-                
-        Position.pack_start(self.positions, False)
-        
-        self.XYBox=gtk.HBox(spacing=5)
-        self.XYBox.pack_start(gtk.Label("X: "), False)
-        self.XVal=gtk.SpinButton()
-        self.XVal.set_range(-1, gtk.gdk.screen_width())
-        self.XVal.set_increments(1, 100)
-        self.XYBox.pack_start(self.XVal, False)
-        self.XVal.set_value(x)
-        
-        self.XYBox.pack_start(gtk.Label("Y: "), False)
-        self.YVal=gtk.SpinButton()
-        self.YVal.set_range(-1, gtk.gdk.screen_height())
-        self.YVal.set_value(y)
-        self.YVal.set_increments(1, 100)
-        self.XYBox.pack_start(self.YVal, False)
-        
-        if position_cod!=conf.startposition.MANUAL:
-            self.XYBox.set_sensitive(False)
-        else: self.XYBox.set_sensitive(True)
-        Position.pack_end(self.XYBox, False)
-        self.pack_start(Position, False)
-        
-        self.XVal.connect("change-value", self.change_sp)
-        self.YVal.connect("change-value", self.change_sp)
-        self.positions.connect("changed", self.change_sp)
-        
-        ## END STARTUP POSITION
-        
-        ## POPUP POSITION
-        style, width, height=conf.popupstyle.get_style()
-        PopUp=gtk.HBox(spacing=5)
-        self.popup=gtk.combo_box_new_text()
-        self.popup.append_text(conf.popupstyle.get_str())
-        for pop in conf.popupstyle.get_list():
-            if pop!=conf.popupstyle.get_str():
-                self.popup.append_text(pop)
-        PopUp.pack_start(set_label_size_and_align(gtk.Label("Popup style:")), False)
-        
-        self.popup.connect("changed", self.change_pop)
-        self.width=gtk.SpinButton()
-        self.width.set_range(0, 400)
-        self.width.set_value(width)
-        self.width.set_increments(1, 100)
-        
-        self.height=gtk.SpinButton()
-        self.height.set_range(0, 100)
-        self.height.set_value(height)
-        self.height.set_increments(1, 100)
-
-        PopUp.pack_start(self.popup, False)
-        
-        WidthBox=gtk.HBox()
-        WidthBox.pack_start(gtk.Label("Popup width: "), False)
-        WidthBox.pack_start(self.width, False)
-        HeightBox=gtk.HBox()
-        HeightBox.pack_start(gtk.Label("Popup height: "), False)
-        HeightBox.pack_start(self.height, False)
-        
-        if style!=conf.popupstyle.NONE:
-            self.width.set_sensitive(True)
-            self.height.set_sensitive(True)
-        else:
-            self.width.set_sensitive(False)
-            self.height.set_sensitive(False)   
-        
-        PopUp.pack_end(WidthBox, False)
-        PopUp.pack_end(HeightBox, False)
-        
-        self.pack_start(PopUp, False)
-        ## END POPUP
-        
-        ## TOP STYLE
-        TopStyle=gtk.HBox(spacing=5)
-        TopStyle.pack_start(set_label_size_and_align(gtk.Label("Top style:")), False)
-        self.top=gtk.combo_box_new_text()
-        self.top.append_text(conf.top_position.get_str())
-        for top in conf.top_position.get_list():
-            if top!=conf.top_position.get_str():
-                self.top.append_text(top)
-        
-        self.top.connect("changed", self.change_top)
-        TopStyle.pack_start(self.top, False)
-        self.pack_start(TopStyle, False)
-        ## END TOP STYLE
-        
-        ##WINDOW DIMENSION
-        self.win_height=gtk.SpinButton()
-        self.win_width=gtk.SpinButton()
-        self.win_height.set_range(200, gtk.gdk.screen_height())
-        self.win_height.set_value(conf.window_height)
-        self.win_height.set_increments(1, 100)
-        
-        self.win_width.set_range(200, gtk.gdk.screen_width())        
-        self.win_width.set_value(conf.window_width)
-        self.win_width.set_increments(1, 100)
-        
-        dimension=gtk.HBox(spacing=5)
-        dimension.pack_start(set_label_size_and_align(gtk.Label("Win height:")), False)
-        dimension.pack_start(self.win_height, False)
-        dimension.pack_start(set_label_size_and_align(gtk.Label("Win width:")), False)
-        dimension.pack_start(self.win_width, False)
-        self.pack_start(dimension, False)
-        ##END WINDOW DIMENSION
-        
-        ## SAFE_MODE
-        self.safe_mode=gtk.CheckButton("Safe mode, will work without rounded borders.")
-        self.safe_mode.set_active(conf.safe_mode)
-        self.pack_start(self.safe_mode, False)
-        ## END SAFE_MODE
-        
-        PreviewFrame=gtk.Frame()
-        PreviewFrame.set_label("Preview:")
-        self.preview=gtk.Image()
-        PreviewFrame.add(self.preview)
-        self.pack_end(PreviewFrame)
-        self.set_preview()
-        
-
-    def id(self, str, list):
-        pos=0
-        if str!=None:
-            str_pos=str
-            for str in list:
-                if str==str_pos:
-                    break
-                pos+=1
-        return pos
-    
-    def change_pop(self, obj, scroll=None):
-        pop=self.id(self.popup.get_active_text(), conf.popupstyle.get_list())
-        conf.popupstyle.read_string(self.popup.get_active_text()+ "_" + str(self.width.get_value()))
-        if pop!=conf.popupstyle.NONE:
-            self.width.set_sensitive(True)
-            self.height.set_sensitive(True)
-        else:
-            self.width.set_sensitive(False)
-            self.height.set_sensitive(False)
-        self.set_preview()    
-            
-    def change_sp(self, obj, scroll=None):
-        pos=self.id(self.positions.get_active_text(), conf.startposition.get_list())
-        conf.startposition.set_position(pos, self.XVal.get_value(), self.YVal.get_value())
-        if pos!=conf.startposition.MANUAL:
-            self.XYBox.set_sensitive(False)
-        else: self.XYBox.set_sensitive(True)
-        self.set_preview()
-    
-    def change_top(self, obj):
-        top=self.id(self.top.get_active_text(), conf.top_position.get_list())
-        conf.top_position.read_string(self.top.get_active_text())
-        self.set_preview()
-    
-    def set_preview(self):
-        # TODO: must use not N pictures but only few pictures and move them in order to obtain the current preview.
-        pop=conf.popupstyle.get_str().replace(" ", "_")
-        pos=conf.startposition.get_pos_name().replace(" ", "_")
-        top=conf.top_position.get_str().replace(" ", "_")
-        config=str(pop)+"#"+str(pos)+"#"+str(top)
-        picture=conf.install_picture_dir+"pictures/"+config+".png"
-        if os.path.isfile(picture)==False:
-            picture=conf.install_data_dir+"pictures/"+"None.png"
-        print picture
-        self.preview.set_from_pixbuf(utils.getPixbufFromName(picture, 200, "app"))
-        pass
-    
-    def save_string(self):
-        config=""
-        config+="position=" + conf.startposition.get_pos_name() + "_" + str(self.XVal.get_value()) + "_" + str(self.YVal.get_value()) + "\n"
-        config+="top_position="  + conf.top_position.get_str() + "\n"
-        config+="popup_style=" + conf.popupstyle.get_str() + "_" + str(self.width.get_value()) + "_" + str(self.height.get_value()) +  "\n"
-        config+="window_height=" + str(self.win_height.get_value()) +"\n"
-        config+="window_width=" + str(self.win_width.get_value()) + "\n"
-        config+="welcome_text=" + self.welcome_text.get_text() + "\n"
-        if (self.safe_mode.get_active()):
-            config+= "safe_mode=True\n"
-        else: config+= "safe_mode=False\n"
-        return config
 
 class config_themes(gtk.Notebook):
     def __init__(self):
@@ -1300,11 +1094,11 @@ class top_icon_config(gtk.VBox):
         self.show_logo=gtk.CheckButton("Show icon in menu")
         self.show_logo.connect("toggled", self.changed)
         
-        self.command_on_logo_clicked=gtk.Entry()
+#        self.command_on_logo_clicked=gtk.Entry()
         
         self.pack_start(self.show_logo, False)
         
-        self.frame_logo=gtk.Frame("Menu Icon and click action")
+        self.frame_logo=gtk.Frame("Menu icon")
         logos=gtk.VBox(spacing=5)
         logos.set_border_width(5)
         self.frame_logo.add(logos)
@@ -1319,11 +1113,11 @@ class top_icon_config(gtk.VBox):
         HBox3=gtk.HBox()
         HBox3.pack_start(self.use_other_image, False)
         HBox3.pack_start(self.iconButton, False)
-        logos.pack_start(HBox3, False)
-        
-        label=set_label_size_and_align(gtk.Label("Command to execute when menu icon is clicked"), 250)
-        logos.pack_start(label, False)
-        logos.pack_start(self.command_on_logo_clicked, False)
+#        logos.pack_start(HBox3, False)
+#        
+#        label=set_label_size_and_align(gtk.Label("Command to execute when menu icon is clicked"), 250)
+#        logos.pack_start(label, False)
+#        logos.pack_start(self.command_on_logo_clicked, False)
         
         self.use_smart_top_icon=gtk.CheckButton("Use smart top icon")
         self.use_smart_top_icon.set_active(conf.top_icon_enable_smart_mode)
@@ -1355,7 +1149,7 @@ class top_icon_config(gtk.VBox):
         if conf.top_icon_other_logo!=None and os.path.isfile(conf.top_icon_other_logo):
             self.iconName=conf.top_icon_other_logo
             self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
-        self.command_on_logo_clicked.set_text(conf.command_on_logo_clicked)
+        #self.command_on_logo_clicked.set_text(conf.command_on_logo_clicked)
         
     def to_string(self):
         config=""
@@ -1370,7 +1164,7 @@ class top_icon_config(gtk.VBox):
         
         config+="top_icon_other_logo=" + self.iconName + "\n"
         
-        config+="command_on_logo_clicked="+ self.command_on_logo_clicked.get_text()+"\n"
+        config+="command_on_logo_clicked="+ conf.command_on_logo_clicked+"\n"
         
         if (self.use_smart_top_icon.get_active()):
             config+="top_icon_enable_smart_mode=" + "True" + "\n"
@@ -1409,7 +1203,16 @@ class menu(gtk.Notebook):
 class general_config(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self, spacing=5)
-                
+        
+        
+        self.welcome_text=gtk.Entry()
+        HBoxWelcome=gtk.HBox(spacing=5)
+        HBoxWelcome.pack_start(set_label_size_and_align(gtk.Label("Welcome text:")), False, False)
+        HBoxWelcome.pack_start(self.welcome_text)
+        self.pack_start(HBoxWelcome, False)
+        self.welcome_text.set_text(conf.welcome)
+        
+        
         self.show_fav_bar=gtk.CheckButton("Show favourite applications")
         self.show_fav_bar.set_active(conf.fav_apps_show)
         self.pack_start(self.show_fav_bar, False)
@@ -1425,12 +1228,49 @@ class general_config(gtk.VBox):
         self.top_icon_config=top_icon_config()
         self.pack_start(self.top_icon_config, False)
         
+            
+        ## POPUP POSITION
+#        HBoxPopup=gtk.HBox(spacing=5)
+#        self.height=gtk.SpinButton()
+#        self.height.set_range(0, 100)
+#        self.height.set_value(conf.popupstyle.height)
+#        self.height.set_increments(1, 100)
+#        HBoxPopup.pack_start(set_label_size_and_align(gtk.Label("Popup height:")), False, False)
+#        HBoxPopup.pack_start(self.height, False)
+#        self.pack_start(HBoxPopup, False)
         
-        self.applet_config=applet_conf()
-        applet_frame=gtk.Frame()
-        applet_frame.set_label("Applet config")
-        applet_frame.add(self.applet_config)
+        ##WINDOW DIMENSION
+#        self.win_height=gtk.SpinButton()
+#        self.win_width=gtk.SpinButton()
+#        self.win_height.set_range(200, gtk.gdk.screen_height())
+#        self.win_height.set_value(conf.window_height)
+#        self.win_height.set_increments(1, 100)
+#        
+#        self.win_width.set_range(200, gtk.gdk.screen_width())        
+#        self.win_width.set_value(conf.window_width)
+#        self.win_width.set_increments(1, 100)
+#        
+#        dimension=gtk.HBox(spacing=5)
+#        dimension.pack_start(set_label_size_and_align(gtk.Label("Win height:")), False)
+#        dimension.pack_start(self.win_height, False)
+#        dimension.pack_start(set_label_size_and_align(gtk.Label("Win width:")), False)
+#        dimension.pack_start(self.win_width, False)
+#        self.pack_start(dimension, False)
+        ##END WINDOW DIMENSION
+        
+          
+        
+        applet_frame=gtk.Frame("Applet config")
+        self.applet_conf=applet_conf()
+        applet_frame.add(self.applet_conf)
         self.pack_start(applet_frame, False)
+        
+        
+        ## SAFE_MODE
+        self.safe_mode=gtk.CheckButton("Safe mode, will work without rounded borders.")
+        self.safe_mode.set_active(conf.safe_mode)
+        self.pack_start(self.safe_mode, False)
+        ## END SAFE_MODE 
     
     def to_string(self):
         config=""
@@ -1443,8 +1283,21 @@ class general_config(gtk.VBox):
         if (self.show_exec_bar.get_active()):
             config+="execution_box_show=" + "True" + "\n"
         else: config+="execution_box_show=" + "False" + "\n"
+        
+        config+="position=" + conf.startposition.to_string() + "\n"
+        config+="top_position="  + conf.top_position.get_str() + "\n"
+        config+="popup_style=" + conf.popupstyle.get_str() + "_" + str(conf.popupstyle.width) + "_" + str(conf.popupstyle.height) +  "\n"
+        #config+="window_height=" + str(self.win_height.get_value()) +"\n"
+        #config+="window_width=" + str(self.win_width.get_value()) + "\n"
+        config+="window_height=" + str(conf.window_height) +"\n"
+        config+="window_width=" + str(conf.window_width) + "\n"
+        config+="welcome_text=" + self.welcome_text.get_text() + "\n"
+        if (self.safe_mode.get_active()):
+            config+= "safe_mode=True\n"
+        else: config+= "safe_mode=False\n"
         config+=self.top_icon_config.to_string()
-        config+=self.applet_config.save_string()
+        config+=self.applet_conf.save_string()
+        
         return config
 
 class UpdateToSvn(gtk.VBox):

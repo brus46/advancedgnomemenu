@@ -55,34 +55,22 @@ class Config(gtk.Window):
         ButtonBox.pack_end(cancelButton)
         
         ##GENERAL
-        self.bars_conf=AGM_config_tabs.general_config()
-        
-        ##POSITION
-        self.positions=AGM_config_tabs.window_config()
-        
-        ##FAV APPS
+        self.general_conf=AGM_config_tabs.general_config()
         self.fav_apps=AGM_config_tabs.config_fav_apps()
-        
-        ##THEME
         self.theme = AGM_config_tabs.config_themes()
-        
-        ##MENU
         self.menu=AGM_config_tabs.menu()
         
         notebook=gtk.Notebook()
         notebook.set_tab_pos(gtk.POS_LEFT)
         notebook.set_scrollable(True)
         
-        self.bars_conf.set_border_width(5)
-        notebook.append_page(self.bars_conf , gtk.Label("General"))
+        self.general_conf.set_border_width(5)
+        notebook.append_page(self.general_conf , gtk.Label("General"))
         
         theme_label=gtk.Label("Themes")
         theme_label.set_size_request(80, -1)
         notebook.append_page(self.theme , theme_label)
-        
-        self.positions.set_border_width(5)
-        notebook.append_page(self.positions , gtk.Label("Window"))
-        
+            
         self.fav_apps.set_border_width(5)
         notebook.append_page(self.fav_apps , gtk.Label("Fav apps"))
         self.menu.set_border_width(5)
@@ -108,9 +96,7 @@ class Config(gtk.Window):
         file_config=""
         file_config+=self.theme.save_config()
         file_config+=self.menu.save_string()
-        
-        file_config+=self.positions.save_string()
-        file_config+=self.bars_conf.to_string()
+        file_config+=self.general_conf.to_string()
         
         try:
             file=open(conf.config_path, "w")

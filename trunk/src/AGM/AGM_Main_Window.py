@@ -476,16 +476,7 @@ class AGM:
            todo=todo.replace("%U", "")
            todo=todo.replace("%u", "")
            todo=todo.replace("\n", "")
-           if os.fork()==0:
-               try:
-                   os.chdir(os.path.expanduser("~"))
-                   command=todo.split(" ")
-                   os.execvp(command[0], command)
-               except: print "Command fail: " + str(todo)
-               command=todo.split(" ")
-               print command
-               os.execvp(command[0], command)
-               sys.exit(-1)
+           utils.ExecCommand(todo.split(" "))
            if conf.hide_on_program_launch:
                self.hide()
     
@@ -518,7 +509,7 @@ class AGM:
         else:
             self.hide()
     
-    def show(self, x=-1, y=-1, popup=AGM_default_config.popup_style(), top_icon=AGM_default_config.top_position()):
+    def show(self, x=-1, y=-1, popup=AGM_default_config.popup_style(), top_icon=AGM_default_config.top_position(), gravity=gtk.gdk.GRAVITY_NORTH_WEST):
         self.hidden=False
         conf.startposition.move_window(self.win)
         self.menu.goHome()
@@ -546,7 +537,8 @@ class AGM:
             position.set_position(position.CENTER, self.X, self.Y)
         else:
             position.set_position(position.MANUAL, self.X, self.Y)
-        position.move_window(self.win)
+        
+        position.move_window(self.win, gravity)
         
         self.win.show()
         #self.win.present()

@@ -15,19 +15,31 @@ sudo cp -R ./src/AGMplugins/ /usr/local/lib/python/
 #Installing translation pack
 sudo cp -R ./src/locale/ /usr/share/AGM/
 
-#install default config if necessary
+#make config dir
+mkdir ~/.config/agm/
+
+#move old config if exist
 CFILE=~/.AGM_config
 if [ -f $CFILE ];
+then mv ~/.AGM_config ~/.config/agm/AGM_config
+
+#install default config if necessary
+CFILE=~/.config/agm/AGM_config
+if [ -f $CFILE ];
 then echo "config file already exists, skipping"
-else cp ./src/AGM_default_config ~/.AGM_config
+else cp ./src/AGM_default_config ~/.config/agm/AGM_config
 fi
 
+#move old fav apps if exist
 CFILE=~/.AGM_fav_app
+if [ -f $CFILE ];
+then mv ~/.AGM_fav_app ~/.config/agm/AGM_fav_app
 
 #install default fav apps if necessary
+CFILE=~/.config/agm/AGM_fav_app
 if [ -f $CFILE ]; 
 then echo "favourite apps already configured, skipping"
-else cp ./src/AGM_default_fav_app ~/.AGM_fav_app
+else cp ./src/AGM_default_fav_app ~/.config/agm/AGM_fav_app
 fi
 
 #Installing runnable files

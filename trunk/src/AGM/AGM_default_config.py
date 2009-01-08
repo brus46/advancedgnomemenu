@@ -39,17 +39,24 @@ class conf:
             self.install_picture_dir="/usr/share/pixmaps/"
             self.install_data_dir="/usr/share/AGM/"
             self.plugin_folder="/usr/local/lib/python/AGMplugins/"
-            
+        
+        self.config_dir=os.path.expanduser("~")+"/.config/agm/"
 
-        self.theme_path=os.path.expanduser("~")+"/.AGM/themes/"
+        self.theme_path=self.config_dir+"themes/"
         
         self.home_logo_path=os.path.expanduser("~")+"/.face"
         if (os.path.exists(self.home_logo_path)==False):
             self.home_logo_path=self.install_picture_dir+"AGM.png"
         self.default_logo_path=self.install_picture_dir+"AGM.png"
-        self.config_path=os.path.expanduser("~")+"/.AGM_config"
-        self.show_path=os.path.expanduser("~")+"/.AGM_show"
-        self.favorites_path=os.path.expanduser("~")+"/.AGM_fav_app"
+        self.config_path=self.config_dir+"AGM_config"
+        self.show_path=self.config_dir+"AGM_show"
+        self.favorites_path=self.config_dir+"AGM_fav_app"
+        try:
+            os.mkdir(self.config_dir)
+        except: pass
+        try:
+            os.mkdir(self.theme_path)
+        except:pass
         self.args=""
         
         

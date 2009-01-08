@@ -28,6 +28,7 @@ import AGM.AGM_CairoWin as CairoWin
 from AGM import AGM_trayicon
 from AGM.AGM_menu import Menu
 from AGM.AGM_default_config import conf as config
+import AGM_default_config
 from AGM.AGM_info import Info
 from AGM.AGM_config import Config
 #from AGM.AGM_show_thread import ShowThread
@@ -44,6 +45,10 @@ class AGM:
         self.applet=applet
         self.show_trayicon=show_trayicon
         self.show_topbuttons=top_buttons
+        
+        self.X, self.Y=-1, -1
+        self.top_icon=None
+        self.popup=None
         
         self.obj=[]
         
@@ -315,6 +320,7 @@ class AGM:
             self.layout.pack_start(MenuBox, True, True)
             self.layout.pack_end(MainBox, False, False)
         elif (top_style==conf.top_position.DW_RIGHT):
+            print "config down right"
             IconBox=gtk.VBox()
             IconBox.pack_end(self.EBox, False, False)
             IconBox.add(gtk.Label())
@@ -512,12 +518,36 @@ class AGM:
         else:
             self.hide()
     
-    def show(self):
+    def show(self, x=-1, y=-1, popup=AGM_default_config.popup_style(), top_icon=AGM_default_config.top_position()):
         self.hidden=False
         conf.startposition.move_window(self.win)
         self.menu.goHome()
         self.search_box.set_text("")
         self.execution_box.set_text("")
+        
+        if popup!=conf.popupstyle or top_icon!=conf.top_position:
+            if isinstance(popup, AGM_default_config.popup_style):
+                conf.popupstyle=popup
+            else: conf.popupstyle=AGM_default_config.popup_style()
+        
+            if isinstance(top_icon, AGM_default_config.top_position):
+                conf.top_position=top_icon
+            else: conf.top_position=AGM_default_config.top_position()
+            
+            conf.rewrite()
+            self.reboot()
+            self.win.do_expose_event()
+    
+        #print conf.top_position.get_str()
+        
+        self.X, self.Y=x, y
+        position=AGM_default_config.positions()
+        if self.X==-1 or self.Y==-1:
+            position.set_position(position.CENTER, self.X, self.Y)
+        else:
+            position.set_position(position.MANUAL, self.X, self.Y)
+        position.move_window(self.win)
+        
         self.win.show()
         #self.win.present()
         
@@ -541,6 +571,7 @@ class AGM:
     def reboot(self):
         if conf.read_conf():
             print "Configuration changed"
+            
             for obj in self.obj:
                 self.layout.remove(obj)
             self.obj=[]

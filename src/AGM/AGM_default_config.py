@@ -319,7 +319,8 @@ class conf:
                         if (self.execution_box_terminal_command!=data[1]): difference=True                        
                         self.execution_box_terminal_command=data[1]
                     else:
-                        print "Unknow config ", data[0]
+                        #print "Unknow config ", data[0]
+                        pass
         fav_changes=self.read_fav_apps()
         return (difference or fav_changes)
     
@@ -358,16 +359,88 @@ class conf:
 
         return differences
     
+    def rewrite(self):
+        file=None
+        try:
+            file=open(self.config_path, "w")
+        except:
+            print "Cannot write config: " + self.config_path + " This is a problem!"
+        if file!=None:
+            file.write("opacity="+str(self.opacity)+"\n")
+            file.write("welcome_text="+self.welcome+"\n")
+            file.write("top_icon_mode="+self.top_icon_mode+"\n")
+            file.write("top_icon_other_logo="+str(self.top_icon_other_logo)+"\n")
+            if self.top_icon_show_logo:file.write("top_icon_show_logo=True"+"\n")
+            else:file.write("top_icon_show_logo=False"+"\n")
+            if self.top_icon_enable_smart_mode: file.write("top_icon_enable_smart_mode=True"+"\n")
+            else: file.write("top_icon_enable_smart_mode=False"+"\n")
+            if self.safe_mode: file.write("safe_mode=True"+"\n")
+            else: file.write("safe_mode=False"+"\n")
+            file.write("command_on_logo_clicked="+self.command_on_logo_clicked+"\n")
+            file.write("bgcolor="+self.bgcolor+"\n")
+            file.write("fgcolor="+self.fgcolor+"\n")
+            file.write("selectedbgcolor="+self.selectedbgcolor+"\n")
+            file.write("selectedfgcolor="+self.selectedfgcolor+"\n")
+            file.write("activebgcolor="+self.activebgcolor+"\n")
+            file.write("activefgcolor="+self.activefgcolor+"\n")
+            file.write("gradient_color1="+self.gradient_color1+"\n")
+            file.write("gradient_color2="+self.gradient_color2+"\n")
+            file.write("gradient_color3="+self.gradient_color3+"\n")
+            if (self.gradient_enable_3color): file.write("gradient_enable_3color=True"+"\n")
+            else: file.write("gradient_enable_3color=False"+"\n")
+            file.write("lightingbgcolor="+self.lightingcolor+"\n")
+            if (self.show_lighting): file.write("show_lighting=True"+"\n")
+            else: file.write("show_lighting=False"+"\n")
+            file.write("gradient_direction="+self.gradient_direction.to_string()+"\n")
+            file.write("iconbgcolor="+self.iconbgcolor+"\n")
+            file.write("iconbordercolor="+self.iconbordercolor+"\n")
+            if (self.use_system_color): file.write("use_system_color=True"+"\n")
+            else: file.write("use_system_color=False"+"\n")
+            string=""
+            for el in self.menu_order:
+                string+=el+"#"
+            file.write("menu="+string+"\n")
+            file.write("menu_icon_size="+str(self.menu_icon_size)+"\n")
+            file.write("position="+self.startposition.to_string()+"\n")
+            file.write("top_position="+self.top_position.get_str()+"\n")
+            file.write("popup_style="+self.popupstyle.get_str()+"\n")
+            file.write("applet_icon="+self.applet_icon+"\n")
+            file.write("applet_text="+self.applet_text+"\n")
+            
+            if (self.applet_show_text): file.write("applet_show_text=True"+"\n")
+            else: file.write("applet_show_text=False"+"\n")                         
+            file.write("applet_fg_color="+self.applet_fg_color+"\n")
+            if (self.hide_on_program_launch): file.write("hide_on_program_launch=True"+"\n")                        
+            else: file.write("hide_on_program_launch=False"+"\n")
+            if (self.hide_menu_after_launch_fav_app): file.write("hide_menu_after_launch_fav_app=True"+"\n")
+            else: file.write("hide_menu_after_launch_fav_app=False"+"\n")
+            file.write("window_height="+str(self.window_height)+"\n")
+            file.write("window_width="+str(self.window_width)+"\n")
+            file.write("fav_apps_icon_dimension="+str(self.fav_apps_icon_dimension)+"\n")           
+            if (self.fav_apps_show_text): file.write("fav_apps_show_text=True"+"\n")
+            else: file.write("fav_apps_show_text=False"+"\n")                        
+            if (self.fav_apps_text_bold): file.write("fav_apps_text_bold=True"+"\n")
+            else: file.write("fav_apps_text_bold=False"+"\n") 
+            if (self.fav_apps_show): file.write("fav_apps_show=True"+"\n")
+            else: file.write("fav_apps_show=False"+"\n") 
+            file.write("fav_apps_orientation="+self.fav_apps_orientation+"\n")
+            file.write("theme="+str(self.theme)+"\n")
+            file.write("open_folder_command="+self.open_folder_command+"\n")
+            file.write("open_file_command="+self.open_file_command+"\n")
+            if (self.search_box_show): file.write("search_box_show=True"+"\n")
+            else: file.write("search_box_show=False"+"\n")
+            if (self.search_box_top_position): file.write("search_box_top_position=True"+"\n")
+            else: file.write("search_box_top_position=False"+"\n")
+            if (self.execution_box_show): file.write("execution_box_show=True"+"\n")
+            else: file.write("execution_box_show=False"+"\n")
+            if (self.execution_box_top_position): file.write("execution_box_top_position=True"+"\n")
+            else: file.write("execution_box_top_position=False"+"\n")
+            file.write("execution_box_terminal_command="+self.execution_box_terminal_command+"\n")
+    
 class positions:
     def __init__(self):
         self.CENTER=0
-        self.UP_LEFT=1
-        self.UP_CENTER=2
-        self.UP_RIGHT=3
-        self.DW_LEFT=4
-        self.DW_CENTER=5
-        self.DW_RIGHT=6    
-        self.MANUAL=7
+        self.MANUAL=1
         
         self.x=0
         self.y=0
@@ -381,20 +454,7 @@ class positions:
             str=str.split("_")
             if str[0]=="CENTER":
                 pos=self.CENTER
-            elif str[0]=="UP LEFT":
-                pos=self.UP_LEFT
-            elif str[0]=="UP CENTER":
-                pos=self.UP_CENTER
-            elif str[0]=="UP RIGHT":
-                pos=self.UP_RIGHT
-            elif str[0]=="DOWN LEFT":
-                pos=self.DW_LEFT
-            elif str[0]=="DOWN RIGHT":
-                pos=self.DW_RIGHT
-            elif str[0]=="DOWN CENTER":
-                pos=self.DW_CENTER
-            elif str[0]=="MANUAL":
-                pos=self.MANUAL
+            else: pos=self.MANUAL
                 
             if len(str)>=3:
                 x=int(str[1].replace(".0", ""))
@@ -410,7 +470,7 @@ class positions:
                 self.y=y
                 return True
             return False
-    
+   
     def get_position(self):
         return (self.pos, self.x, self.y)
     def get_pos_name(self):
@@ -422,36 +482,16 @@ class positions:
         self.y=y
     
     def get_list(self):
-        return ["CENTER", "UP LEFT", "UP CENTER", "UP RIGHT", "DOWN LEFT", "DOWN CENTER", "DOWN RIGHT", "MANUAL"]
+        return ["CENTER", "MANUAL"]
         pass
     
-    def move_window(self, win):
+    def move_window(self, win, gravity=gtk.gdk.GRAVITY_NORTH_WEST):
         (width, height)=win.get_size()
         win.set_position(gtk.WIN_POS_NONE)
         if self.pos==self.CENTER:
             win.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-            
-        elif self.pos==self.UP_LEFT:
-            win.set_gravity(gtk.gdk.GRAVITY_NORTH_WEST)
-            win.move(0, 0)
-        elif self.pos==self.UP_CENTER:
-            win.set_gravity(gtk.gdk.GRAVITY_NORTH_WEST)
-            win.move((gtk.gdk.screen_width() - width)/2, 0)
-        elif self.pos==self.UP_RIGHT:
-            win.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
-            win.move(gtk.gdk.screen_width(), 0)
-            
-        elif self.pos==self.DW_LEFT:
-            win.set_gravity(gtk.gdk.GRAVITY_SOUTH_WEST)
-            win.move(0, gtk.gdk.screen_height())
-        elif self.pos==self.DW_CENTER:
-            win.set_gravity(gtk.gdk.GRAVITY_SOUTH_WEST)
-            win.move((gtk.gdk.screen_width() - width)/2, gtk.gdk.screen_height())
-        elif self.pos==self.DW_RIGHT:
-            win.set_gravity(gtk.gdk.GRAVITY_SOUTH_EAST)
-            win.move(gtk.gdk.screen_width(), gtk.gdk.screen_height())
-        elif self.pos==self.MANUAL:
-            win.set_gravity(gtk.gdk.GRAVITY_NORTH_WEST)
+        else:
+            win.set_gravity(gravity)
             x=self.x
             y=self.y
             if x<0: x=gtk.gdk.screen_width()-width
@@ -500,9 +540,12 @@ class popup_style:
             self.style=pos
             return True
         return False
-    
+   
     def get_str(self):
         return self.get_list()[self.style]
+    
+    def set(self, style):
+        self.style=style
     
     def get_style(self):
         return self.style, self.width, self.height
@@ -532,6 +575,9 @@ class top_position:
             self.top=pos
             return True
         return False
+    
+    def set_pos(self, pos):
+        self.top=pos
     
     def get_str(self):
         return self.get_list()[self.top]

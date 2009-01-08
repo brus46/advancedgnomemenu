@@ -173,6 +173,7 @@ class conf:
             except:
                 print "Cannot read even default config. This can be a trouble."
         if file!=None:
+            first_difference=True
             for line in file.readlines():
                 data=line.split("=")
                 if len(data)>=2:
@@ -250,8 +251,18 @@ class conf:
                         if (self.use_system_color!=(data[1]=="True")): difference=True
                         self.use_system_color=(data[1]=="True")
                     elif data[0]=="menu":
-                        if (self.menu_order!=data[1].split("#")): difference=True
-                        self.menu_order=data[1].split("#")
+                        i=0
+                        newmenu=[]
+                        for el in data[1].split("#"):
+                            if el!="":
+                                newmenu.append(el)
+                                if (i<len(self.menu_order)):
+                                    if (self.menu_order[i]!=el):
+                                        difference=True
+                            elif (i<len(self.menu_order)):
+                                difference=True
+                            i+=1
+                        self.menu_order=newmenu
                     elif data[0]=="menu_icon_size":
                         if (self.menu_icon_size!=int(data[1])): difference=True
                         self.menu_icon_size=int(data[1])
@@ -326,8 +337,11 @@ class conf:
                         if (self.execution_box_terminal_command!=data[1]): difference=True                        
                         self.execution_box_terminal_command=data[1]
                     else:
-                        #print "Unknow config ", data[0]
+                        print "Unknow config ", data[0]
                         pass
+                if difference and first_difference: 
+                    print "difference", data[0]
+                    first_difference=False
         fav_changes=self.read_fav_apps()
         return (difference or fav_changes)
     
@@ -517,8 +531,8 @@ class popup_style:
         self.RIGHT=3
         
         self.style=self.NONE
-        self.width=48
-        self.height=32
+        self.width=0
+        self.height=0
         pass
     
     def get_list(self):
@@ -540,7 +554,7 @@ class popup_style:
         if len(str)>=2:
             width=int(str[1].replace(".0", ""))
         if len(str)>=3:
-            height=int(str[2].replace(".0", ""))            
+            height=int(str[2].replace(".0", ""))       
         if pos!=self.style or width!=self.width or height!=self.height:
             self.height=height
             self.width=width

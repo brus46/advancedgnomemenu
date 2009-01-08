@@ -54,10 +54,12 @@ class Plugin(plugin):
             folder+="/"
             listafile=os.listdir(folder)
             listafile.sort()
-            for file in listafile:
-              try:
-                if gnomevfs.get_mime_type(folder+file).split("/")[0]=="x-directory":
-                    if (file.split(".")[0]!=""):
+            i=0
+            while i<len(listafile):
+                file=listafile[i]
+                i+=1
+                if (file.split(".")[0]!=""):
+                    if os.path.isdir(folder+file):
                         current_folder=folder+file
                         el={
                           "icon":"folder",
@@ -71,27 +73,22 @@ class Plugin(plugin):
                           "tooltip":_("Open folder")+": " + file}
                         menu.append(el)
                         listafile.remove(file)
-              except: pass
+                        i-=1
+                else:
+                    listafile.remove(file)
+                    i-=1
               
             for file in listafile:
-              try:
-                if gnomevfs.get_mime_type(folder+file).split("/")[0]!="x-directory":
-                    if (file.split(".")[0]!=""):
-                        mime=gnomevfs.get_mime_type(folder+file)
-                        mime=mime.replace("/", "-")
-                        current_file=folder+file
-                        el={
-                          "icon":mime,
-                          "name":file,
-                          "type":"openFile",
-                          "obj":current_file,
-                          "other_options":[{"name":_("Open folder"), "command":["nautilus", folder] , "icon":"folder"},
-                                           {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + folder.replace(" ", "\ ") + ""], "icon":"folder"},
-                                           {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                                           {"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"execute"}
-                                           ],
-                          "tooltip":_("Open")+": " + file}
-                        menu.append(el)
-                        listafile.remove(file)
-              except: pass
+                mime=gnomevfs.get_mime_type(folder+file)
+                mime=mime.replace("/", "-")
+                current_file=folder+file
+                el={
+                  "icon":mime,
+                  "name":file,
+                  "type":"openFile",
+                  "obj":current_file,
+                  "other_options":[{"name":_("Open as root"), "command":["gksu", "gnome-open " + current_file.replace(" ", "\ ") + ""], "icon":"execute"}
+                                   ],
+                  "tooltip":_("Open")+": " + file}
+                menu.append(el)
         return menu

@@ -17,11 +17,14 @@ sudo cp -R ./src/locale/ /usr/share/AGM/
 
 #make config dir
 mkdir ~/.config/agm/
+#make theme dir
+mkdir ~/.config/agm/themes/
 
 #move old config if exist
 CFILE=~/.AGM_config
 if [ -f $CFILE ];
 then mv ~/.AGM_config ~/.config/agm/AGM_config
+fi
 
 #install default config if necessary
 CFILE=~/.config/agm/AGM_config
@@ -34,6 +37,7 @@ fi
 CFILE=~/.AGM_fav_app
 if [ -f $CFILE ];
 then mv ~/.AGM_fav_app ~/.config/agm/AGM_fav_app
+fi
 
 #install default fav apps if necessary
 CFILE=~/.config/agm/AGM_fav_app
@@ -41,6 +45,10 @@ if [ -f $CFILE ];
 then echo "favourite apps already configured, skipping"
 else cp ./src/AGM_default_fav_app ~/.config/agm/AGM_fav_app
 fi
+
+#move old themes if exist
+mv ~/.AGM/themes/* ~/.config/agm/themes/
+rm -R ~/.AGM/
 
 #Installing runnable files
 sudo cp ./install_files/advancedgnomemenu /usr/bin/
@@ -58,3 +66,4 @@ sudo chmod +r /usr/share/AGM/gnomeAgmApplet.py
 sudo cp -R ./src/gnomeAgmApplet.server /usr/lib/bonobo/servers/
 sudo chmod +x /usr/lib/bonobo/servers/gnomeAgmApplet.server
 sudo chmod +r /usr/lib/bonobo/servers/gnomeAgmApplet.server
+

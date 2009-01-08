@@ -57,8 +57,9 @@ class AGM_applet(gnomeapplet.Applet):
         self.mybutton.add(self.label)
         
         self.X, self.Y=0, 0
-        self.popup=None
-        self.top_icon=None
+        self.popup=AGM.AGM_default_config.popup_style()
+        self.top_icon=AGM.AGM_default_config.top_position()
+        self.gravity=gtk.gdk.GRAVITY_NORTH_WEST
         
         self.orientation = self.applet.get_orient()
         
@@ -163,7 +164,8 @@ class AGM_applet(gnomeapplet.Applet):
     def showMenu(self):
         if (self.AGM.get_hidden()):
            self.define_menu()
-           self.AGM.show(self.X, self.Y, self.popup, self.top_icon)
+           
+           self.AGM.show(self.X, self.Y, self.popup, self.top_icon, self.gravity)
            #self.AGM.show()
         else:
            self.AGM.hide()
@@ -209,9 +211,23 @@ class AGM_applet(gnomeapplet.Applet):
         rootwin = widget.get_screen().get_root_window()
         x, y, mods = rootwin.get_pointer()
         w, h=self.applet.get_size_request()
-        self.X=x-xw
-        self.Y=y-yw+h
-        #print "Mouse position is: x=%d y=%d" % (self.X, self.Y)
+        
+        if self.orientation == gnomeapplet.ORIENT_UP:
+            self.X=x-xw
+            self.Y=y-yw+h
+            self.popup.set_width(w)
+        elif self.orientation == gnomeapplet.ORIENT_DOWN:
+            self.X=x-xw
+            self.Y=y-yw
+            self.popup.set_width(w)
+        elif self.orientation == gnomeapplet.ORIENT_LEFT:
+            self.X=x-xw
+            self.Y=y-yw
+            self.popup.set_width(0)
+        elif self.orientation == gnomeapplet.ORIENT_RIGHT:
+            self.X=x-xw+w
+            self.Y=y-yw
+            self.popup.set_width(0)
         
     def define_menu(self):
         screen_w, screen_h=(gtk.gdk.screen_width(), gtk.gdk.screen_height())
@@ -225,20 +241,26 @@ class AGM_applet(gnomeapplet.Applet):
             if (self.X<=screen_w/2):
                 #Top icon east
                 self.top_icon.set_pos(self.top_icon.DW_RIGHT)
+                self.gravity=gtk.gdk.GRAVITY_NORTH_WEST
             else:
                 #top icon west
                 self.top_icon.set_pos(self.top_icon.DW_LEFT)
+                self.gravity=gtk.gdk.GRAVITY_NORTH_EAST
         else:
             #Top icon nord
             if (self.X<=screen_w/2):
                 #Top icon east
                 self.top_icon.set_pos(self.top_icon.TOP_RIGHT)
+                self.gravity=gtk.gdk.GRAVITY_SOUTH_WEST
             else:
                 #top icon west
                 self.top_icon.set_pos(self.top_icon.TOP_LEFT)
+                self.gravity=gtk.gdk.GRAVITY_SOUTH_EAST
         
-        if (self.X<=screen_w/3):
+        if (self.X<=screen_w/2):
             self.popup.set(self.popup.LEFT)
+        else:
+            self.popup.set(self.popup.RIGHT)
         
         
 gobject.type_register(AGM_applet)    

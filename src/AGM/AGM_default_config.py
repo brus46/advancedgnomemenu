@@ -547,6 +547,9 @@ class popup_style:
     def set(self, style):
         self.style=style
     
+    def set_width(self, width):
+        self.width=width
+    
     def get_style(self):
         return self.style, self.width, self.height
 

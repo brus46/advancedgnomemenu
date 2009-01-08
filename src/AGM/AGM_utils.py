@@ -239,8 +239,9 @@ class GetFolder:
             return self.filename
         return None
     
-class ExecCommand:
-    def __init__(self, command):
+def ExecCommand(command):
+        gtk.main_quit()
         if os.fork()==0:
             os.chdir(os.path.expanduser("~"))
             os.execvp(command[0], command)
+        gtk.main()

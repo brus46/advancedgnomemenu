@@ -517,7 +517,7 @@ class AGM:
         self.menu.goHome()
         self.search_box.set_text("")
         self.execution_box.set_text("")
-        
+        conf.read_conf()
         if popup!=conf.popupstyle or top_icon!=conf.top_position:
             if isinstance(popup, AGM_default_config.popup_style):
                 conf.popupstyle=popup

@@ -536,6 +536,7 @@ class behavior(gtk.VBox):
         self.SizeVal.set_value(conf.menu_icon_size)
         self.pack_start(SizeBox, False)
         
+        self.pack_end(UpdateToSvn(), False)
         #Gnome
         #open-file: gnome-open
         #open-folder: nautilus

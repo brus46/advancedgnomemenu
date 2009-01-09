@@ -71,8 +71,9 @@ class TransparentWindow(gtk.Window):
              # che non stiamo utilizzando i classici decoratori
              # del window manager e non gestendo qeusto segnale
              # non sarebbe possibile spostare la finestra
-             self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-             self.connect('button-press-event', self.on_button_press)
+             
+             #self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+             #self.connect('button-press-event', self.on_button_press)
 
              # Inizializziamo lo schermo
              self.do_screen_changed()
@@ -225,7 +226,7 @@ class TransparentWindow(gtk.Window):
          cr.curve_to(x0+radius, y1, x0 , y1, x0, y1-radius)
          cr.close_path()
 
-     def do_expose_event(self, event=None, force=False):
+     def do_expose_event(self, event=None):
          
          cr = self.window.cairo_create()
          self.do_screen_changed()

@@ -77,9 +77,9 @@ class Config(gtk.Window):
         self.menu.set_border_width(5)
         notebook.append_page(self.menu , gtk.Label(_("Menu")))
         
-        update_label=gtk.Label(_("Update"))
-        update_label.set_size_request(80, -1)
-        notebook.append_page(AGM_config_tabs.UpdateToSvn() , update_label)
+        #update_label=gtk.Label(_("Update"))
+        #update_label.set_size_request(80, -1)
+        #notebook.append_page(AGM_config_tabs.UpdateToSvn() , update_label)
                 
         VBox=gtk.VBox(spacing=5)
         VBox.set_border_width(5)

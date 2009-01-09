@@ -421,7 +421,6 @@ class AGM:
             if (conf.top_icon_enable_smart_mode):
                 myimage=utils.getPixbufFromName(image, 80, "app")
                 self.EBox.get_child().set_from_pixbuf(myimage)
-                self.EBox.connect("button_release_event", self.edit_personal_info)
         else:
             self.set_default_logo()
     
@@ -515,18 +514,18 @@ class AGM:
         self.search_box.set_text("")
         self.execution_box.set_text("")
         conf.read_conf()
-        if popup!=conf.popupstyle or top_icon!=conf.top_position:
-            if isinstance(popup, AGM_default_config.popup_style):
-                conf.popupstyle=popup
-            else: conf.popupstyle=AGM_default_config.popup_style()
         
-            if isinstance(top_icon, AGM_default_config.top_position):
+        need_reboot=False
+        if isinstance(popup, AGM_default_config.popup_style):
+            if popup!=conf.popupstyle:
+                conf.popupstyle=popup
+                need_reboot=True
+        if isinstance(top_icon, AGM_default_config.top_position):
+            if top_icon!=conf.top_position:
                 conf.top_position=top_icon
-            else: conf.top_position=AGM_default_config.top_position()
-            
+        if need_reboot:
             conf.rewrite()
             self.reboot()
-            self.win.do_expose_event()
     
         #print conf.top_position.get_str()
         
@@ -551,9 +550,10 @@ class AGM:
         if not self.applet: self.showThread.stopThread()        
         if kill: sys.exit(0)
     
-    def reboot(self):
-        if conf.read_conf():
-            print "Configuration changed"
+    def reboot(self, force=False):
+        if conf.read_conf() or force:
+            if not force: print "Configuration changed"
+            print "Rebooting"
             
             for obj in self.obj:
                 self.layout.remove(obj)

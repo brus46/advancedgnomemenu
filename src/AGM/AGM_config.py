@@ -19,8 +19,9 @@
 
 import gtk, sys, os
 from AGM.AGM_default_config import conf as config
-
 from AGM import AGM_config_tabs
+import localization
+_=localization.Translate
 
 conf=config()
 
@@ -32,7 +33,7 @@ class Config(gtk.Window):
         self.main_win=win
         self.stand_alone=stand_alone
         self.set_position(gtk.WIN_POS_CENTER)
-        self.set_title("AGM Configuration")
+        self.set_title(_("AGM Configuration"))
         self.set_icon_from_file(conf.default_logo_path)
         
         ButtonBox = gtk.HButtonBox()
@@ -65,18 +66,18 @@ class Config(gtk.Window):
         notebook.set_scrollable(True)
         
         self.general_conf.set_border_width(5)
-        notebook.append_page(self.general_conf , gtk.Label("General"))
+        notebook.append_page(self.general_conf , gtk.Label(_("General")))
         
-        theme_label=gtk.Label("Themes")
+        theme_label=gtk.Label(_("Themes"))
         theme_label.set_size_request(80, -1)
         notebook.append_page(self.theme , theme_label)
             
         self.fav_apps.set_border_width(5)
-        notebook.append_page(self.fav_apps , gtk.Label("Fav apps"))
+        notebook.append_page(self.fav_apps , gtk.Label(_("Fav apps")))
         self.menu.set_border_width(5)
-        notebook.append_page(self.menu , gtk.Label("Menu"))
+        notebook.append_page(self.menu , gtk.Label(_("Menu")))
         
-        update_label=gtk.Label("Update")
+        update_label=gtk.Label(_("Update"))
         update_label.set_size_request(80, -1)
         notebook.append_page(AGM_config_tabs.UpdateToSvn() , update_label)
                 

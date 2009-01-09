@@ -55,10 +55,7 @@ class AGM:
         self.nameLabel = gtk.Label()
         self.EBox=gtk.EventBox()
         self.EBox.add(gtk.Image())
-        self.EBox.set_size_request(80, 80)
-        #self.EBox.get_child().set_from_pixbuf(IconLabel)
-        self.EBox.connect("button_release_event", self.edit_personal_info)
-        
+        self.EBox.set_size_request(80, 80)        
         
         self.backbutton=gtk.Button()
         self.homebutton=gtk.Button()
@@ -548,14 +545,6 @@ class AGM:
     def hide(self):
         self.win.hide()
         self.hidden=True
-            
-    def edit_personal_info(self, widget, event):
-        if event.button == 3 and widget==self.EBox:
-             if (os.fork()==0):
-                command=conf.command_on_logo_clicked.split(" ")
-                print command
-                os.execvp(command[0], command)
-                sys.exit(-1)
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()

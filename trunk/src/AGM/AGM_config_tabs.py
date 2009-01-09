@@ -24,6 +24,8 @@ conf=config()
 import AGM.AGM_utils as utils
 import AGM.AGM_plugins as plugins
 from AGM.AGM_color_config import ColorButton as ColorButtonTr
+from AGM import localization
+_=localization.Translate
 
 def reload_conf():
     conf.read_conf()
@@ -31,6 +33,7 @@ def reload_conf():
 def set_label_size_and_align(label, size=150):
     label.set_size_request(size, -1)
     x, y=label.get_alignment()
+    label.set_text(_(label.get_text()))
     label.set_alignment(0.0, y)
     return label
 
@@ -502,7 +505,7 @@ class fav_apps_list(gtk.TreeView):
 class behavior(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self, spacing=5)
-        self.hide_after_launch_program=gtk.CheckButton("Hide menu after lunching a menu app")
+        self.hide_after_launch_program=gtk.CheckButton(_("Hide menu after lunching a menu app"))
         self.hide_after_launch_program.set_active(conf.hide_on_program_launch)
         # add config. Hide menu fav-app launch.
         # in the default_config is the var: conf.hide_menu_after_launch_fav_app
@@ -576,13 +579,13 @@ class applet_conf(gtk.VBox):
         iconBox.pack_start(set_label_size_and_align(gtk.Label("Applet icon:")), False)
         iconBox.pack_start(self.applet_icon, False)
 
-        self.txtBox=gtk.CheckButton("Show text: 'Menu' in the applet")
+        self.txtBox=gtk.CheckButton(_("Show text: 'Menu' in the applet"))
         self.txtBox.set_active(conf.applet_show_text)
         
         self.pack_start(iconBox, False)
         self.pack_start(self.txtBox, False)
         self.pack_start(HBoxFgcolor, False)
-        self.pack_start(gtk.Label("All changes on the applet will be applied on rebooting"))
+        self.pack_start(gtk.Label(_("All changes on the applet will be applied on rebooting")))
     
     def change_image(self, obj):
         filename=utils.OpenImage().get_file()
@@ -612,7 +615,7 @@ class config_themes(gtk.Notebook):
         self.activebgcolor=gtk.ColorButton()
         self.activefgcolor=gtk.ColorButton()
         
-        self.use_system_colors=gtk.CheckButton(label="Use system colors for buttons (need restart)")
+        self.use_system_colors=gtk.CheckButton(label=_("Use system colors for buttons (need restart)"))
         
         ##THEME
         ThemeWinPanel = gtk.VBox(spacing=5)
@@ -626,7 +629,7 @@ class config_themes(gtk.Notebook):
         
         ## WINDOW
         HBoxOpacity=gtk.HBox(spacing=5)
-        HBoxOpacity.pack_start(gtk.Label("Window opacity:"), False, False)
+        HBoxOpacity.pack_start(gtk.Label(_("Window opacity:")), False, False)
         HBoxOpacity.pack_start(self.opacity, False, False)    
         HBoxOpacity.pack_start(gtk.Label("%"), False, False)
         
@@ -637,24 +640,24 @@ class config_themes(gtk.Notebook):
         HBoxSysColor.pack_start(self.use_system_colors)
         
         HBoxBgcolor=gtk.HBox(spacing=5)
-        HBoxBgcolor.pack_start(gtk.Label("Background:"), False, False)
+        HBoxBgcolor.pack_start(gtk.Label(_("Background:")), False, False)
         HBoxBgcolor.pack_end(self.bgcolor, False, False)
         HBoxFgcolor=gtk.HBox(spacing=5)
-        HBoxFgcolor.pack_start(gtk.Label("Foreground:"), False, False)
+        HBoxFgcolor.pack_start(gtk.Label(_("Foreground:")), False, False)
         HBoxFgcolor.pack_end(self.fgcolor, False, False)
         
         HBoxSelBgcolor=gtk.HBox(spacing=5)
-        HBoxSelBgcolor.pack_start(gtk.Label("Selected background:"), False, False)
+        HBoxSelBgcolor.pack_start(gtk.Label(_("Selected background:")), False, False)
         HBoxSelBgcolor.pack_end(self.selectedbgcolor, False, False)
         HBoxSelFgcolor=gtk.HBox(spacing=5)
-        HBoxSelFgcolor.pack_start(gtk.Label("Selected foreground:"), False, False)
+        HBoxSelFgcolor.pack_start(gtk.Label(_("Selected foreground:")), False, False)
         HBoxSelFgcolor.pack_end(self.selectedfgcolor, False, False)
         
         HBoxActBgcolor=gtk.HBox(spacing=5)
-        HBoxActBgcolor.pack_start(gtk.Label("Active background:"), False, False)
+        HBoxActBgcolor.pack_start(gtk.Label(_("Active background:")), False, False)
         HBoxActBgcolor.pack_end(self.activebgcolor, False, False)
         HBoxActFgcolor=gtk.HBox(spacing=5)
-        HBoxActFgcolor.pack_start(gtk.Label("Active foreground:"), False, False)
+        HBoxActFgcolor.pack_start(gtk.Label(_("Active foreground:")), False, False)
         HBoxActFgcolor.pack_end(self.activefgcolor, False, False)
         
         ThemeButtonPanel.pack_start(HBoxSysColor, False)
@@ -666,15 +669,15 @@ class config_themes(gtk.Notebook):
         ThemeButtonPanel.pack_start(HBoxActFgcolor, False)
         
         ##CAIRO
-        self.gradient_color1=ColorButtonTr("Gradient color 1", conf.gradient_color1)
-        self.gradient_color2=ColorButtonTr("Gradient color 2", conf.gradient_color2)
-        self.gradient_color3=ColorButtonTr("Gradient color 3", conf.gradient_color3)
-        self.gradient_use_color3=gtk.CheckButton(label="Use the third color (will be the center color)")
+        self.gradient_color1=ColorButtonTr(_("Gradient color 1"), conf.gradient_color1)
+        self.gradient_color2=ColorButtonTr(_("Gradient color 2"), conf.gradient_color2)
+        self.gradient_color3=ColorButtonTr(_("Gradient color 3"), conf.gradient_color3)
+        self.gradient_use_color3=gtk.CheckButton(label=_("Use the third color (will be the center color)"))
         self.gradient_direction=gradient_direction()
-        self.lightingbgcolor=ColorButtonTr("Top light color", conf.lightingcolor)
-        self.show_light=gtk.CheckButton(label="Show top light")
-        self.iconbordercolor=ColorButtonTr("Icon border color", conf.iconbordercolor)
-        self.iconbgcolor=ColorButtonTr("Icon bg color", conf.iconbgcolor)        
+        self.lightingbgcolor=ColorButtonTr(_("Top light color"), conf.lightingcolor)
+        self.show_light=gtk.CheckButton(label=_("Show top light"))
+        self.iconbordercolor=ColorButtonTr(_("Icon border color"), conf.iconbordercolor)
+        self.iconbgcolor=ColorButtonTr(_("Icon bg color"), conf.iconbgcolor)        
         
         
         ThemeCairoPanel.pack_start(self.gradient_color1, False)
@@ -691,9 +694,9 @@ class config_themes(gtk.Notebook):
         SaveThemePanel=gtk.VBox()
         ThemeButtonBox = gtk.HButtonBox()
         ThemeButtonBox.set_layout(gtk.BUTTONBOX_END)
-        ExportTheme=gtk.Button("Export Theme")
+        ExportTheme=gtk.Button(_("Export Theme"))
         ExportTheme.connect("clicked", self.ExportTheme)
-        SaveTheme=gtk.Button("Save Theme")
+        SaveTheme=gtk.Button(_("Save Theme"))
         
         SaveTheme.connect("clicked", self.SaveTheme)
         ThemeButtonBox.add(ExportTheme)
@@ -701,7 +704,7 @@ class config_themes(gtk.Notebook):
         self.themeName=gtk.Entry()
         SaveThemePanel.pack_end(ThemeButtonBox, False)
         SaveThemePanel.pack_end(self.themeName, False)
-        SaveThemePanel.pack_end(gtk.Label("Theme name:"), False)
+        SaveThemePanel.pack_end(gtk.Label(_("Theme name:")), False)
         
         ThemeInfoPanel=gtk.HBox()
         SaveThemePanel.pack_start(ThemeInfoPanel)
@@ -714,11 +717,11 @@ class config_themes(gtk.Notebook):
         ScreenshotPlace.add_with_viewport(self.screenshot)
         ScreenshotPanel.pack_start(ScreenshotPlace)
         ScreenshotOption=gtk.HButtonBox()
-        LoadScreenshot=gtk.Button("New")
+        LoadScreenshot=gtk.Button(_("New"))
         LoadScreenshot.connect("clicked", self.LoadScreenshot)
-        ClearScreenshot=gtk.Button("Clear")
+        ClearScreenshot=gtk.Button(_("Clear"))
         ClearScreenshot.connect("clicked", self.ClearScreenshot)        
-        ShowScreenshot=gtk.Button("Show")
+        ShowScreenshot=gtk.Button(_("Show"))
         ShowScreenshot.connect("clicked", self.EnlargeScreenshot)
         ScreenshotOption.add(LoadScreenshot)
         ScreenshotOption.add(ClearScreenshot)
@@ -726,7 +729,7 @@ class config_themes(gtk.Notebook):
         ScreenshotPanel.pack_end(ScreenshotOption, False)
         
         DescriptionPane=gtk.VBox()
-        DescriptionPane.pack_start(gtk.Label("Theme description: "), False)
+        DescriptionPane.pack_start(gtk.Label(_("Theme description: ")), False)
         self.description=gtk.TextView()
         DescriptionPlace=gtk.ScrolledWindow()
         DescriptionPlace.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
@@ -739,10 +742,10 @@ class config_themes(gtk.Notebook):
         ## Edit theme notebook
         themeNotebook=gtk.Notebook()
         themeNotebook.set_scrollable(True)
-        themeNotebook.append_page(ThemeWinPanel , gtk.Label("Window"))
-        themeNotebook.append_page(ThemeButtonPanel , gtk.Label("Buttons"))
-        themeNotebook.append_page(ThemeCairoPanel , gtk.Label("Background"))
-        themeNotebook.append_page(SaveThemePanel , gtk.Label("Theme"))
+        themeNotebook.append_page(ThemeWinPanel , gtk.Label(_("Window")))
+        themeNotebook.append_page(ThemeButtonPanel , gtk.Label(_("Buttons")))
+        themeNotebook.append_page(ThemeCairoPanel , gtk.Label(_("Background")))
+        themeNotebook.append_page(SaveThemePanel , gtk.Label(_("Theme")))
         ##END THEME       
         
         ## THEMES AVAIBLE
@@ -750,9 +753,9 @@ class config_themes(gtk.Notebook):
         ImportButtonBox = gtk.HButtonBox()
         ImportButtonBox.set_layout(gtk.BUTTONBOX_END)
         ImportButtonBox.set_spacing(5)
-        ImportTheme=gtk.Button("Import Theme")
+        ImportTheme=gtk.Button(_("Import Theme"))
         ImportTheme.connect("clicked", self.ImportTheme)
-        DeleteTheme=gtk.Button("Delete Theme")
+        DeleteTheme=gtk.Button(_("Delete Theme"))
         DeleteTheme.connect("clicked", self.DeleteTheme)
         #LoadTheme=gtk.Button("Load Theme")
         #LoadTheme.connect("clicked", self.LoadSelected)
@@ -767,10 +770,10 @@ class config_themes(gtk.Notebook):
         themes.pack_start(ScrolledList)
         ## END THEMES AVAIBLE        
         
-        self.append_page(themes, gtk.Label("Themes"))
+        self.append_page(themes, gtk.Label(_("Themes")))
         editTheme=gtk.HBox()
         editTheme.add(themeNotebook)
-        self.append_page(editTheme, gtk.Label("Edit Theme"))
+        self.append_page(editTheme, gtk.Label(_("Edit Theme")))
         
         self.load_config()
     
@@ -1003,11 +1006,11 @@ class theme_list(gtk.TreeView):
         self.treeselection.set_mode (gtk.SELECTION_SINGLE)
 
         cell = gtk.CellRendererPixbuf ()
-        column = gtk.TreeViewColumn ('Screenshot', cell, pixbuf = COL_ICON)
+        column = gtk.TreeViewColumn (_('Screenshot'), cell, pixbuf = COL_ICON)
         self.append_column (column)
 
         cell = gtk.CellRendererText ()
-        column = gtk.TreeViewColumn ('Description', cell, text = COL_NAME)
+        column = gtk.TreeViewColumn (_('Description'), cell, text = COL_NAME)
         self.append_column (column)
         
         self.load()
@@ -1029,7 +1032,7 @@ class theme_list(gtk.TreeView):
                         file=open(theme_folder+theme+"/description")
                         description=file.read()
                     except: pass
-                    description="Theme name: " + theme + "\n\n"+description
+                    description=_("Theme name")+": " + theme + "\n\n"+description
                     self.model.append([utils.getPixbufFromName(theme_folder + theme + "/screenshot.png", 128, "theme"), description, theme_folder+theme+"/"])
     
     def get_selected(self):
@@ -1060,9 +1063,9 @@ class gradient_direction(gtk.HBox):
         self.start.connect("changed", self.change_direction)
         self.end.connect("changed", self.change_direction)
         
-        self.pack_start(gtk.Label("Start pos:"), False)
+        self.pack_start(gtk.Label(_("Start pos:")), False)
         self.pack_start(self.start)
-        self.pack_start(gtk.Label("End pos:"), False)
+        self.pack_start(gtk.Label(_("End pos:")), False)
         self.pack_start(self.end)
         
     def change_direction(self, obj):
@@ -1080,8 +1083,8 @@ class top_icon_config(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)
         self.set_spacing(5)
-        self.use_user_login_logo=gtk.RadioButton(label="Use user login image")
-        self.use_other_image=gtk.RadioButton(group=self.use_user_login_logo, label="Use this image: ")
+        self.use_user_login_logo=gtk.RadioButton(label=_("Use user login image"))
+        self.use_other_image=gtk.RadioButton(group=self.use_user_login_logo, label=_("Use this image: "))
         self.use_user_login_logo.set_size_request(150, -1)
         self.use_other_image.set_size_request(150, -1)
         self.iconButton=gtk.Button()
@@ -1091,14 +1094,14 @@ class top_icon_config(gtk.VBox):
         self.iconButton.set_image(self.icon)
         self.iconButton.connect("clicked", self.click, "set_image")
 
-        self.show_logo=gtk.CheckButton("Show icon in menu")
+        self.show_logo=gtk.CheckButton(_("Show icon in menu"))
         self.show_logo.connect("toggled", self.changed)
         
 #        self.command_on_logo_clicked=gtk.Entry()
         
         self.pack_start(self.show_logo, False)
         
-        self.frame_logo=gtk.Frame("Menu icon")
+        self.frame_logo=gtk.Frame(_("Menu icon"))
         logos=gtk.VBox(spacing=5)
         logos.set_border_width(5)
         self.frame_logo.add(logos)
@@ -1119,7 +1122,7 @@ class top_icon_config(gtk.VBox):
 #        logos.pack_start(label, False)
 #        logos.pack_start(self.command_on_logo_clicked, False)
         
-        self.use_smart_top_icon=gtk.CheckButton("Use smart top icon")
+        self.use_smart_top_icon=gtk.CheckButton(_("Use smart top icon"))
         self.use_smart_top_icon.set_active(conf.top_icon_enable_smart_mode)
         logos.pack_start(self.use_smart_top_icon, False)
         
@@ -1172,20 +1175,6 @@ class top_icon_config(gtk.VBox):
         
         return config
 
-#This should config the fast option buttons.
-class other_option_config(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self)
-        # Use fast-buttons
-        # Use right-click->Menu
-        # No other options.
-        
-        # Fast buttons config
-        # Right align
-        # Left align
-        # 4 corners align
-        # Button size.
-
 class menu(gtk.Notebook):
     def __init__(self):
         gtk.Notebook.__init__(self)
@@ -1194,8 +1183,8 @@ class menu(gtk.Notebook):
         self.menu_elements=config_plugin()
         self.menu_elements.set_border_width(5)
         
-        self.append_page(self.menu_behaviour, gtk.Label("Behaviour"))
-        self.append_page(self.menu_elements, gtk.Label("Elements"))
+        self.append_page(self.menu_behaviour, gtk.Label(_("Behaviour")))
+        self.append_page(self.menu_elements, gtk.Label(_("Elements")))
     
     def save_string(self):
         return self.menu_behaviour.save_string() + self.menu_elements.save_string()
@@ -1213,15 +1202,15 @@ class general_config(gtk.VBox):
         self.welcome_text.set_text(conf.welcome)
         
         
-        self.show_fav_bar=gtk.CheckButton("Show favourite applications")
+        self.show_fav_bar=gtk.CheckButton(_("Show favourite applications"))
         self.show_fav_bar.set_active(conf.fav_apps_show)
         self.pack_start(self.show_fav_bar, False)
         
-        self.show_search_bar=gtk.CheckButton("Show search box")
+        self.show_search_bar=gtk.CheckButton(_("Show search box"))
         self.show_search_bar.set_active(conf.search_box_show)
         self.pack_start(self.show_search_bar, False)
         
-        self.show_exec_bar=gtk.CheckButton("Show execution box")
+        self.show_exec_bar=gtk.CheckButton(_("Show execution box"))
         self.show_exec_bar.set_active(conf.execution_box_show)
         self.pack_start(self.show_exec_bar, False)
         
@@ -1260,14 +1249,14 @@ class general_config(gtk.VBox):
         
           
         
-        applet_frame=gtk.Frame("Applet config")
+        applet_frame=gtk.Frame(_("Applet config"))
         self.applet_conf=applet_conf()
         applet_frame.add(self.applet_conf)
         self.pack_start(applet_frame, False)
         
         
         ## SAFE_MODE
-        self.safe_mode=gtk.CheckButton("Safe mode, will work without rounded borders.")
+        self.safe_mode=gtk.CheckButton(_("Safe mode, will work without rounded borders."))
         self.safe_mode.set_active(conf.safe_mode)
         self.pack_start(self.safe_mode, False)
         ## END SAFE_MODE 
@@ -1303,11 +1292,13 @@ class general_config(gtk.VBox):
 class UpdateToSvn(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)
-        stable_svn=gtk.Button("Update to the latest stable version")
-        trunk_svn=gtk.Button("Update to the latest version of the SVN")
+        stable_svn=gtk.Button(_("Update to the latest stable version"))
+        trunk_svn=gtk.Button(_("Update to the latest version of the SVN"))
         VButtonBox=gtk.VButtonBox()
         VButtonBox.add(stable_svn)
         VButtonBox.add(trunk_svn)
+        VButtonBox.set_spacing(5)
+        VButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
         
         
         self.add(VButtonBox)

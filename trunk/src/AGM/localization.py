@@ -40,7 +40,7 @@ def Translate(string):
     if dict.has_key(string):
         return dict[string]
     else:
-        #print "Warning: " + string + " translation not avaible!"
+        print "Warning: " + string + " translation not avaible!"
         return string
 
 language = locale.getlocale(locale.LC_ALL)[0]

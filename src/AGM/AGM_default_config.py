@@ -339,9 +339,10 @@ class conf:
                     else:
                         print "Unknow config ", data[0]
                         pass
-                if difference and first_difference: 
-                    print "difference", data[0]
-                    first_difference=False
+                #if difference and first_difference: 
+                    #print "difference", data[0]
+                    #first_difference=False
+            file.close()
         fav_changes=self.read_fav_apps()
         return (difference or fav_changes)
     
@@ -377,6 +378,7 @@ class conf:
             else:
                 differences=True
             self.fav_apps=newFavApps
+            file.close()
 
         return differences
     
@@ -457,6 +459,7 @@ class conf:
             if (self.execution_box_top_position): file.write("execution_box_top_position=True"+"\n")
             else: file.write("execution_box_top_position=False"+"\n")
             file.write("execution_box_terminal_command="+self.execution_box_terminal_command+"\n")
+            file.close()
     
 class positions:
     def __init__(self):

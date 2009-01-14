@@ -547,7 +547,6 @@ class AGM:
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()
-        if not self.applet: self.showThread.stopThread()        
         if kill: sys.exit(0)
     
     def reboot(self, force=False):

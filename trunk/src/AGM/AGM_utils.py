@@ -240,11 +240,19 @@ class GetFolder:
         return None
     
 def ExecCommand(command):
-        #gtk.main_quit()
-        if os.fork()==0:
-            for par in command:
+        tr=newThread(command)
+        tr.start()
+            
+from threading import Thread
+class newThread(Thread):
+    def __init__(self, command):
+        Thread.__init__(self)
+        self.command=command
+        for par in self.command:
                 if par=="":
-                    command.pop(par)
-            os.chdir(os.path.expanduser("~"))
-            os.execvp(command[0], command)
-        #gtk.main()
+                    self.command.pop(par)
+    
+    def run(self):
+        os.chdir(os.path.expanduser("~"))
+        os.spawnvp(False, self.command[0], self.command)
+        #print self.command[0], "finisched"

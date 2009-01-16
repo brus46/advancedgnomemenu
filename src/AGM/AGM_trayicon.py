@@ -175,11 +175,11 @@ class TrayMenu(gtk.Menu):
         self.append(configFA)
         self.append(configGM)
     
-        config.connect("activate", self.config)
-        configGM.connect("activate", self.configGM)
-        configFA.connect("activate", self.configFA)
-        info.connect("activate", self.info)        
-        exit.connect("activate", self.close)
+        config.connect("button-press-event", self.config)
+        configGM.connect("button-press-event", self.configGM)
+        configFA.connect("button-press-event", self.configFA)
+        info.connect("button-press-event", self.info)        
+        exit.connect("button-press-event", self.close)
         
         config.show()
         configFA.show()
@@ -188,27 +188,25 @@ class TrayMenu(gtk.Menu):
         exit.show()
         pass
 
-    def config(self, obj=None):
+    def config(self, obj=None, event=None):
         Config()
 
-    def configFA(self, obj=None):
+    def configFA(self, obj=None, event=None):
         from AGM.AGM_config_fav_apps import ConfigFavApps
         ConfigFavApps()
         
-    def configGM(self, obj=None):
+    def configGM(self, obj=None, event=None):
         if os.fork()==0:
             try:
                 os.execvp("alacarte", ["alacarte"])
             except: print "Launching Alacarte."
             sys.exit(-1)
     
-    def info(self, obj=None):
+    def info(self, obj=None, event=None):
         Info()
 
-    def close(self, obj=None):
+    def close(self, obj=None, event=None):
         gtk.main_quit()
     
     def show(self, button_clicked):
         self.popup(None, None, None, 0, 0)
-        #Exit, Info, Config, Edit menu
-        pass

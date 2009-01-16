@@ -64,25 +64,11 @@ class AGM_menu_button(gtk.EventBox):
         self.images=[gtk.Image(), gtk.Image(), gtk.Image(), gtk.Image()]
         
         #Button positionating
-        if len(self.menu_list)>=1:
-            self.configure_button(0)
-            self.row.pack_start(self.buttons[0], False)
-        if len(self.menu_list)>=3:
-            self.configure_button(2)
-            self.row.pack_start(self.buttons[2], False)
-        #LSpacing=gtk.Label()
-        #LSpacing.set_size_request(self.button_size, -1)
-        #self.layoutL.pack_start(LSpacing)
-        
-        if len(self.menu_list)>=2:
-            self.configure_button(1)
-            self.row.pack_start(self.buttons[1], False)
-        if len(self.menu_list)>=4:
-            self.configure_button(3)
-            self.row.pack_start(self.buttons[3], False)
-        #RSpacing=gtk.Label()
-        #RSpacing.set_size_request(self.button_size, -1)
-        #self.layoutR.pack_start(RSpacing)
+        i=0
+        while i<len(self.menu_list) and i<4:
+            self.configure_button(i)
+            self.row.pack_start(self.buttons[i], False)
+            i+=1
         
         self.layout.set_border_width(5)
         self.layout.pack_start(self.icon, False)

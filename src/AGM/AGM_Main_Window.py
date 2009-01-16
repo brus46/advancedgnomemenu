@@ -454,6 +454,7 @@ class AGM:
                 else: label=gtk.Label(fav_app["name"])
                 label.set_justify(gtk.JUSTIFY_LEFT)
                 label.set_use_markup(True)
+                label.set_size_request(100, conf.fav_apps_icon_dimension)
                 self.color(label)
                 content.pack_start(label, True)
             content.pack_start(gtk.Label())

@@ -104,6 +104,20 @@ class TransparentWindow(gtk.Window):
          top_popup=False
          if conf.top_position.get_top()==conf.top_position.DW_LEFT or conf.top_position.get_top()==conf.top_position.DW_RIGHT:
              top_popup=True
+             
+         icon_x, icon_y, icon_dx, icon_dy=self.get_icon_position()
+         if top_popup:
+             icon_x=icon_x+icon_dx-3
+             icon_y=icon_y+icon_dy+10
+             icon_dx=99
+             icon_dy=87
+         else:
+             icon_x=icon_x+icon_dx-3
+             icon_y=icon_y+icon_dy
+             icon_dx=99
+             icon_dy=87
+         icon_radius=10
+         
          x0 = x
          y0 = y
          rect_width = w
@@ -142,6 +156,13 @@ class TransparentWindow(gtk.Window):
                  cr.line_to(x1, y)
              cr.line_to(x1 , y1 - radius)
              cr.curve_to(x1, y1-radius, x1, y1, x1 - radius, y1)
+             if conf.top_icon_show_logo:
+                 cr.line_to(icon_x+icon_dx, y1)
+                 cr.line_to(icon_x+icon_dx, icon_y+icon_dy-icon_radius)
+                 cr.curve_to(icon_x+icon_dx, icon_y+icon_dy-icon_radius, icon_x+icon_dx, icon_y+icon_dy, icon_x+icon_dx-icon_radius, icon_y+icon_dy)
+                 cr.line_to(icon_x+icon_radius, icon_y+icon_dy)
+                 cr.curve_to(icon_x+icon_radius, icon_y+icon_dy, icon_x, icon_y+icon_dy, icon_x, icon_y+icon_dy-icon_radius)
+                 cr.line_to(icon_x, y1)
              cr.line_to(x0+radius, y1)
              cr.curve_to(x0+radius, y1, x0 , y1, x0, y1-radius)
              cr.close_path()
@@ -153,6 +174,14 @@ class TransparentWindow(gtk.Window):
              
              cr.move_to(x0, y0 + radius)
              cr.curve_to(x0, y0 + radius, x0, y0, x0 + radius, y0)                
+             if conf.top_icon_show_logo:
+                 cr.line_to(icon_x, y0)
+                 cr.line_to(icon_x, icon_y+icon_radius)
+                 cr.curve_to(icon_x, icon_y+icon_radius, icon_x, icon_y, icon_x+icon_radius, icon_y)
+                 cr.line_to(icon_x+icon_dx-icon_radius, icon_y)
+                 cr.curve_to(icon_x+icon_dx-icon_radius, icon_y, icon_x+icon_dx, icon_y, icon_x+icon_dx, icon_y+icon_radius)
+                 cr.line_to(icon_x+icon_dx, y0)
+             
              cr.line_to(x1 - radius, y0)
              cr.curve_to(x1 -radius , y0, x1, y0, x1, y0 + radius)
              if (popup_style!=conf.popupstyle.RIGHT):
@@ -276,58 +305,11 @@ class TransparentWindow(gtk.Window):
 
          cr.set_operator(cairo.OPERATOR_OVER)
 
-         gradient_coord=[]
-         
-         startx, starty=self.get_point(conf.gradient_direction.get_start_point(), height, width, x, y)
-         endx, endy=self.get_point(conf.gradient_direction.get_end_point(), height, width, x, y)
-         #if not down:
-         #    pat = cairo.LinearGradient(0.0, 0.0, 0.0, height)
-         #else:
-         #    pat = cairo.LinearGradient(0.0, 0.0, 0.0, height-40)
-         pat = cairo.LinearGradient(startx, starty, endx, endy)
-         #Color1
-         col = hex2float(conf.gradient_color1)
-         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
-
-         #Color3 if enabled
-         if (conf.gradient_enable_3color):
-             col = hex2float(conf.gradient_color3)
-             pat.add_color_stop_rgba(0.5, col[0], col[1], col[2], col[3])
-
-         #Color2
-         col = hex2float(conf.gradient_color2)
-         pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
-
+         pat=self.get_gradient()
          self.render_rect(cr, x, y, width, height, 10)
          cr.set_source(pat)
          cr.fill()
 
-         # bordo luminoso
-         hex="fffcfce4"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_rect(cr, x+1.5, y+1.5, width - 3 , height - 3, 10)
-         cr.stroke()
-
-         # bordo
-         hex="#00151Fe0"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_rect(cr, x+0.5, y+0.5, width - 1 , height - 1, 10)
-         cr.stroke()
-
-         hex="#FFFFFFFF"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_rect(cr, x, y, width , height, 10)
-         cr.stroke()
-
-         pat = cairo.LinearGradient(0.0, 0.0, 0.0, height)
-         cr.set_source(pat)
-         
-         hex="#FFFFFFbb"
-         col = hex2float(hex)
-         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
 
          #Lightening
          if (conf.show_lighting):
@@ -368,6 +350,43 @@ class TransparentWindow(gtk.Window):
 
          cr.set_operator(cairo.OPERATOR_OVER)
 
+         pat=self.get_gradient()
+         self.render_safe_rect(cr, x, y, width, height)
+         cr.set_source(pat)
+         cr.fill()
+     
+     def get_icon_position(self):
+         (width, height) = self.get_size()
+         top=conf.top_position.get_top()
+         if top==conf.top_position.DW_LEFT:
+             (x, y)=(0, height-95)
+             (dx, dy) = (31, -5)
+         elif top==conf.top_position.DW_RIGHT:
+             (x, y)=(width-95, height-95)
+             (dx, dy) = (-31, -5)
+         elif top==conf.top_position.TOP_RIGHT:
+             (x, y)=(width-95, 0)
+             (dx, dy) = (-31, 5)
+         else:
+             (x, y)=(0, 0)
+             (dx, dy) = (31, 5)
+         
+         return (x, y, dx, dy)
+     
+     def draw_icon_place(self, cr):
+         x, y, dx, dy=self.get_icon_position()
+
+         gradient=self.get_gradient()
+         cr.set_source(gradient)
+         self.render_icon_rect(cr, x + dx + 5, y + dy +5, 85, 85, 0)
+         
+         cr.fill()
+         pass
+     
+     def get_gradient(self):
+         (width, height) = self.get_size()
+         x=0
+         y=0
          gradient_coord=[]
          
          startx, starty=self.get_point(conf.gradient_direction.get_start_point(), height, width, x, y)
@@ -386,67 +405,7 @@ class TransparentWindow(gtk.Window):
          #Color2
          col = hex2float(conf.gradient_color2)
          pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
-
-         self.render_safe_rect(cr, x, y, width, height)
-         cr.set_source(pat)
-         cr.fill()
-
-         # bordo luminoso
-         hex="fffcfce4"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_safe_rect(cr, x+1.5, y+1.5, width - 3 , height - 3)
-         cr.stroke()
-
-         # bordo
-         hex="#00151Fe0"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_safe_rect(cr, x+0.5, y+0.5, width - 1 , height - 1)
-         cr.stroke()
-
-         hex="#FFFFFFFF"
-         col = hex2float(hex)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_safe_rect(cr, x, y, width , height)
-         cr.stroke()
-
-         pat = cairo.LinearGradient(0.0, 0.0, 0.0, height)
-         cr.set_source(pat)
-         
-         hex="#FFFFFFbb"
-         col = hex2float(hex)
-         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
-     
-     def draw_icon_place(self, cr, Icon=None):
-         (width, height) = self.get_size()
-         top=conf.top_position.get_top()
-         if top==conf.top_position.DW_LEFT:
-             (x, y)=(0, height-95)
-             (dx, dy) = (31, -5)
-         elif top==conf.top_position.DW_RIGHT:
-             (x, y)=(width-95, height-95)
-             (dx, dy) = (-31, -5)
-         elif top==conf.top_position.TOP_RIGHT:
-             (x, y)=(width-95, 0)
-             (dx, dy) = (-31, 5)
-         else:
-             (x, y)=(0, 0)
-             (dx, dy) = (31, 5)
-         
-         #Icon border
-         col = hex2float(conf.iconbordercolor)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         
-         
-         self.render_icon_rect(cr, x +dx, y +dy, 95, 95, 0)
-         cr.fill()
-         #Icon background
-         col = hex2float(conf.iconbgcolor)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
-         self.render_icon_rect(cr, x + dx + 5, y + dy +5, 85, 85, 0)
-         cr.fill()
-         pass
+         return pat
      
      def do_screen_changed(self, old_screen=None):
              screen = self.get_screen()

@@ -186,7 +186,7 @@ class AGM:
 
         self.homebutton=gtk.Button()
         imagehome=gtk.Image()
-        imagehome.set_from_stock(gtk.STOCK_HOME, gtk.ICON_SIZE_SMALL_TOOLBAR)
+        imagehome.set_from_pixbuf(utils.getPixbufFromName("user-home", 32, "folder"))
         self.homebutton.set_image(imagehome)
         self.homebutton.set_relief(gtk.RELIEF_NONE)
         self.homebutton.connect("clicked", self.gohome);
@@ -227,8 +227,12 @@ class AGM:
         if requestH<32: requestH=32
         TopPanel.set_size_request(requestW, requestH)
         
-        TopPanel.pack_start(self.backbutton, False, False)
-        TopPanel.pack_start(self.homebutton, False, False)
+        #TopPanel.pack_start(self.backbutton, False, False)
+        #TopPanel.pack_start(self.homebutton, False, False)
+        
+        MenuBar=gtk.HBox()
+        MenuBar.add(self.backbutton)
+        MenuBar.pack_end(self.homebutton, False)
         
         BottomPanel=gtk.VBox()
         if (conf.fav_apps_orientation=="HB"):
@@ -245,7 +249,11 @@ class AGM:
         space_label.set_size_request(100, h)
         
         MenuBox=gtk.HBox(spacing=5)
-        MenuBox.pack_start(self.menu)
+        
+        MainMenu=gtk.VBox(spacing=5)
+        MainMenu.pack_start(MenuBar, False)
+        MainMenu.pack_end(self.menu)
+        MenuBox.pack_start(MainMenu)
         FavBarV=gtk.VBox()
         top=conf.top_position.get_top()
         if top==conf.top_position.TOP_RIGHT or top==conf.top_position.TOP_LEFT:
@@ -415,12 +423,28 @@ class AGM:
                 if (os.path.exists(conf.top_icon_other_logo)==True):
                     IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
             self.EBox.get_child().set_from_pixbuf(IconLabel)
+            
+            myimage=utils.getPixbufFromName(conf.applet_icon, 32, "folder")
+            image=gtk.Image()
+            image.set_from_pixbuf(myimage)
+            self.backbutton.set_image(image)
+            self.backbutton.set_label("Menu")
     
-    def change_icon(self, image=None):
+    def change_icon(self, image, text):
         if image!=None:
+            #print image
             if (conf.top_icon_enable_smart_mode):
-                myimage=utils.getPixbufFromName(image, 80, "app")
+                myimage=utils.getPixbufFromName(image, 80, "folder")
                 self.EBox.get_child().set_from_pixbuf(myimage)
+                myimage=utils.scale_pixbuf(myimage, 32)
+            else:
+                myimage=utils.getPixbufFromName(image, 32, "folder")
+                
+            image=gtk.Image()
+            image.set_from_pixbuf(myimage)
+            self.backbutton.set_image(image)
+            #label=gtk.Label("Home")
+            self.backbutton.set_label(text)
         else:
             self.set_default_logo()
     
@@ -481,13 +505,13 @@ class AGM:
     
     def showPrecParentButton(self, show):
         self.win.show_all()
-        if (show):
+        #if (show):
             #print "show buttons"
-            self.backbutton.show()
-            self.homebutton.show()
-        else:
-            self.backbutton.hide()
-            self.homebutton.hide()
+        self.backbutton.show()
+        self.homebutton.show()
+        #else:
+        #    self.backbutton.hide()
+        #    self.homebutton.hide()
     
     def goback(self, obj=None):
         self.menu.goToParent()

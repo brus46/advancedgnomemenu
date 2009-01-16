@@ -175,7 +175,6 @@ class AGM_applet(gnomeapplet.Applet):
                 <popup name="button3">
                 <menuitem name="About" verb="About" label="_About" pixtype="stock" pixname="gtk-about"/>
                 <menuitem name="EditGnomeMenu" verb="EditGnomeMenu" label="Edit Gnome Menu" pixtype="stock" pixname="gtk-preferences"/>
-                <menuitem name="ConfigFavApps" verb="ConfigFavApps" label="Config FavApps" pixtype="stock" pixname="gtk-preferences"/>
                 <menuitem name="Config" verb="Config" label="Config AGM" pixtype="stock" pixname="gtk-preferences"/>
                 <menuitem name="Reload" verb="Reload" label="Reload" pixtype="stock" pixname="gtk-refresh"/>
                 </popup>

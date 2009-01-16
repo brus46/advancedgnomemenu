@@ -34,16 +34,16 @@ class AGM_menu_button(gtk.EventBox):
         self.button_size=32
         self.container=gtk.HBox()
         self.layout=gtk.HBox(spacing=5)
-        self.layoutL=gtk.VBox()
-        self.layoutR=gtk.VBox()
-        self.row1=gtk.HBox()
-        self.row2=gtk.HBox()
-        self.layoutR.pack_start(self.row1, False)
-        self.layoutR.pack_end(self.row2, False)
+        self.row_layout=gtk.VBox()
+
+        self.row=gtk.HBox()
+        self.row_layout.pack_start(self.row, False)
+        #self.layoutR.pack_start(self.row1, False)
+        #self.layoutR.pack_end(self.row2, False)
                 
         h=conf.menu_icon_size+20
-        if h<self.button_size*2:
-            h=self.button_size*2
+        if h<self.button_size:
+            h=self.button_size
         self.set_size_request(-1, h)
         width, height=self.size_request()
         
@@ -66,22 +66,22 @@ class AGM_menu_button(gtk.EventBox):
         #Button positionating
         if len(self.menu_list)>=1:
             self.configure_button(0)
-            self.row1.pack_start(self.buttons[0], False)
+            self.row.pack_start(self.buttons[0], False)
         if len(self.menu_list)>=3:
             self.configure_button(2)
-            self.row1.pack_start(self.buttons[2], False)
-        LSpacing=gtk.Label()
-        LSpacing.set_size_request(self.button_size, -1)
+            self.row.pack_start(self.buttons[2], False)
+        #LSpacing=gtk.Label()
+        #LSpacing.set_size_request(self.button_size, -1)
         #self.layoutL.pack_start(LSpacing)
         
         if len(self.menu_list)>=2:
             self.configure_button(1)
-            self.row2.pack_start(self.buttons[1], False)
+            self.row.pack_start(self.buttons[1], False)
         if len(self.menu_list)>=4:
             self.configure_button(3)
-            self.row2.pack_start(self.buttons[3], False)
-        RSpacing=gtk.Label()
-        RSpacing.set_size_request(self.button_size, -1)
+            self.row.pack_start(self.buttons[3], False)
+        #RSpacing=gtk.Label()
+        #RSpacing.set_size_request(self.button_size, -1)
         #self.layoutR.pack_start(RSpacing)
         
         self.layout.set_border_width(5)
@@ -94,7 +94,7 @@ class AGM_menu_button(gtk.EventBox):
         
         #self.container.pack_start(self.layoutL, False)
         self.container.pack_start(self.layout)
-        self.container.pack_end(self.layoutR, False)
+        self.container.pack_end(self.row_layout, False)
         self.add(self.container)
         
         self.connect("button_press_event", self.clicked)

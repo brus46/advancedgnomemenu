@@ -677,7 +677,7 @@ class config_themes(gtk.Notebook):
         self.gradient_direction=gradient_direction()
         self.lightingbgcolor=ColorButtonTr(_("Top light color"), conf.lightingcolor)
         self.show_light=gtk.CheckButton(label=_("Show top light"))
-        self.iconbordercolor=ColorButtonTr(_("Icon border color"), conf.iconbordercolor)
+        #self.iconbordercolor=ColorButtonTr(_("Icon border color"), conf.iconbordercolor)
         self.iconbgcolor=ColorButtonTr(_("Icon bg color"), conf.iconbgcolor)        
         
         
@@ -688,7 +688,7 @@ class config_themes(gtk.Notebook):
         ThemeCairoPanel.pack_start(self.gradient_direction, False)
         ThemeCairoPanel.pack_start(self.show_light, False)
         ThemeCairoPanel.pack_start(self.lightingbgcolor, False)
-        ThemeCairoPanel.pack_start(self.iconbordercolor, False)
+        #ThemeCairoPanel.pack_start(self.iconbordercolor, False)
         ThemeCairoPanel.pack_start(self.iconbgcolor, False)
 
         ##THEME INFO
@@ -954,7 +954,7 @@ class config_themes(gtk.Notebook):
         self.gradient_color3.set_complete_color(conf.gradient_color3)
         self.lightingbgcolor.set_complete_color(conf.lightingcolor)
         self.iconbgcolor.set_complete_color(conf.iconbgcolor)
-        self.iconbordercolor.set_complete_color(conf.iconbordercolor)
+        #self.iconbordercolor.set_complete_color(conf.iconbordercolor)
         
         self.use_system_colors.set_active(conf.use_system_color)
         
@@ -976,7 +976,7 @@ class config_themes(gtk.Notebook):
         file_config+="gradient_color3=" + self.gradient_color3.parse_color() + "\n"
         file_config+="lightingbgcolor=" + self.lightingbgcolor.parse_color() + "\n"
         file_config+="iconbgcolor=" + self.iconbgcolor.parse_color() + "\n"
-        file_config+="iconbordercolor=" + self.iconbordercolor.parse_color() + "\n"
+        #file_config+="iconbordercolor=" + self.iconbordercolor.parse_color() + "\n"
         
         if (self.use_system_colors.get_active()):
             file_config+="use_system_color=True\n"

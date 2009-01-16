@@ -91,6 +91,9 @@ class AGM_menu_button(gtk.EventBox):
     def get_image(self):
         return self.element["el"]["icon"]
     
+    def get_name(self):
+        return self.element["el"]["name"]
+    
     def configure_button(self, index):
         name=self.menu_list[index]["name"]
         command=self.menu_list[index]["command"]

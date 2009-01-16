@@ -24,6 +24,9 @@ import AGM.AGM_utils as utils
 from AGM_plugin_menu import PluginMenu
 from AGM import AGM_plugin
 from AGM_menu_button import AGM_menu_button
+import localization
+
+_=localization.Translate
 
 conf=config()
 
@@ -96,12 +99,12 @@ class Menu(gtk.ScrolledWindow):
         if len(self.history)>2:
             self.history.pop(len(self.history)-1)
             self.history_icon.pop(len(self.history_icon)-1)
-            self.change_icon(self.history_icon[len(self.history_icon)-1])
+            self.change_icon(self.history_icon[len(self.history_icon)-1]["icon"], self.history_icon[len(self.history_icon)-1]["name"])
             prec=self.history[len(self.history)-1]
         else:
             self.history=[]
             self.history_icon=[]
-            self.change_icon()
+            self.change_icon(None, None)
             self.currentPlugin=None
             prec=None
         #print prec, self.history
@@ -112,7 +115,7 @@ class Menu(gtk.ScrolledWindow):
                 self.currentPlugin=None
                 self.history=[]
                 self.history_icon=[]
-                self.change_icon()
+                self.change_icon(None, None)
                 self.refresh()
     
     def ShowMenu(self, obj, event, menu):
@@ -128,9 +131,9 @@ class Menu(gtk.ScrolledWindow):
                self.history.append(None)
                self.history_icon.append(None)
            self.history.append(obj)
-           self.history_icon.append(caller.get_image())
+           self.history_icon.append({"icon":caller.get_image(), "name":caller.get_name()})
            self.refresh(obj)
-           self.change_icon(caller.get_image())
+           self.change_icon(caller.get_image(), caller.get_name())
        elif "exec"==type: 
            print "Execute->" + obj
            obj=obj.replace("%U", "")
@@ -190,7 +193,7 @@ class Menu(gtk.ScrolledWindow):
             self.history.append(None)
             self.history.append("search#"+key)
             self.history_icon=[None, "stock_search"] #image_search
-            self.change_icon("stock_search")
+            self.change_icon("stock_search", _("Search"))
             found_list=[]
             for plugin in self.menus:
                 if plugin.type==AGM_plugin.TYPE_SEARCH or plugin.type==AGM_plugin.TYPE_MIX:
@@ -203,5 +206,5 @@ class Menu(gtk.ScrolledWindow):
             self.currentPlugin=None
             self.history=[]
             self.history_icon=[]
-            self.change_icon()
+            self.change_icon(None, None)
             self.refresh()

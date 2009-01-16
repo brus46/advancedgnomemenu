@@ -141,14 +141,14 @@ class TrayMenu(gtk.Menu):
         configGMBox.show_all()
         configGM.add(configGMBox)
         
-        configFA=gtk.MenuItem()
-        configFABox=gtk.HBox(spacing=5)
-        configFAImage=gtk.Image()
-        configFAImage.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
-        configFABox.pack_start(configFAImage, False, False)
-        configFABox.pack_start(gtk.Label("Config Fav apps"), False, False)
-        configFABox.show_all()
-        configFA.add(configFABox)
+#        configFA=gtk.MenuItem()
+#        configFABox=gtk.HBox(spacing=5)
+#        configFAImage=gtk.Image()
+#        configFAImage.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
+#        configFABox.pack_start(configFAImage, False, False)
+#        configFABox.pack_start(gtk.Label("Config Fav apps"), False, False)
+#        configFABox.show_all()
+#        configFA.add(configFABox)
         
         
         info=gtk.MenuItem()
@@ -172,17 +172,17 @@ class TrayMenu(gtk.Menu):
         self.append(info)
         self.append(exit)
         self.append(config)
-        self.append(configFA)
+        #self.append(configFA)
         self.append(configGM)
     
         config.connect("button-press-event", self.config)
         configGM.connect("button-press-event", self.configGM)
-        configFA.connect("button-press-event", self.configFA)
+        #configFA.connect("button-press-event", self.configFA)
         info.connect("button-press-event", self.info)        
         exit.connect("button-press-event", self.close)
         
         config.show()
-        configFA.show()
+        #configFA.show()
         configGM.show()
         info.show()
         exit.show()
@@ -191,9 +191,9 @@ class TrayMenu(gtk.Menu):
     def config(self, obj=None, event=None):
         Config()
 
-    def configFA(self, obj=None, event=None):
-        from AGM.AGM_config_fav_apps import ConfigFavApps
-        ConfigFavApps()
+#    def configFA(self, obj=None, event=None):
+#        from AGM.AGM_config_fav_apps import ConfigFavApps
+#        ConfigFavApps()
         
     def configGM(self, obj=None, event=None):
         if os.fork()==0:

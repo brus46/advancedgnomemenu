@@ -23,7 +23,7 @@ class ColorButton(gtk.HBox):
     def __init__(self, title="", color="#FFFFFFFF"):
         gtk.HBox.__init__(self, spacing=5)
         titleLabel=gtk.Label(title)
-        titleLabel.set_size_request(100, 30)
+        #titleLabel.set_size_request(100, 30)
         self.pack_start(titleLabel, False, False)
         self.Color=gtk.ColorButton()
         self.Color.set_use_alpha(True)

@@ -43,7 +43,8 @@ class NavButton(gtk.EventBox):
         self.w=conf.window_width
         self.h=conf.window_height
         
-        print "Text", self.text
+        self.bgcolor=conf.bgcolor
+        
         self.label=gtk.Label(self.text)
         self.label.show_all()
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
@@ -74,7 +75,7 @@ class NavButton(gtk.EventBox):
     def draw_button(self):
         cr=self.cr
         if cr!=None:
-            cr.set_operator(cairo.OPERATOR_OVER)
+            #cr.set_operator(cairo.OPERATOR_OVER)
             #cr.set_source_rgb(0, 0, 0)
             
             rect = self.get_allocation()
@@ -89,24 +90,13 @@ class NavButton(gtk.EventBox):
             cr.set_source(self.get_gradient(-rect.x, -rect.y))
             cr.fill()
             
-            col = hex2float(conf.bgcolor)
-            cr.set_source_rgba(col[0], col[1], col[2], 1.0)
+            col = hex2float(self.bgcolor)
+            darkness=0.05
+            cr.set_source_rgb(col[0]-darkness, col[1]-darkness, col[2]-darkness)
             self.draw_shape(cr, x0, y0, x1, y1, r)
             cr.fill()
-            
-            cr.set_source_rgb(col[0]-0.1, col[1]-0.1, col[2]-0.1)
-            self.draw_shape(cr, x0, y0, x1, y1, r, True)
-            cr.stroke()
-            
-            if self.text!=None:
-                text=self.text
-                print "writing", self.text
-                col = hex2float(conf.fgcolor)
-                cr.set_source_rgb(col[0], col[1], col[2])
-                cr.move_to(40, 20)
-                cr.text_path(self.text)
                     
-            cr.set_source_pixbuf(self.image, 2, 3)
+            cr.set_source_pixbuf(self.image, conf.menu_bar_icon_x, conf.menu_bar_icon_y)
             cr.paint()
     
     def draw_shape(self, cr, x0, y0, x1, y1, r, no_bottom=False):

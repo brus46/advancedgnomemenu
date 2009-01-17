@@ -53,8 +53,9 @@ class AGM_applet(gnomeapplet.Applet):
         if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
         self.icon.set_size_request(size, size)
-        self.mybutton.add(self.icon)
+        self.mybutton.pack_start(self.icon, False)
         self.mybutton.add(self.label)
+        
         
         self.X, self.Y=0, 0
         self.popup=AGM.AGM_default_config.popup_style()
@@ -67,12 +68,13 @@ class AGM_applet(gnomeapplet.Applet):
         self.applet.add_events(gtk.gdk.MOTION_NOTIFY | gtk.gdk.BUTTON_PRESS)
 
         self.applet.connect("motion_notify_event", self.motion_notify)
-        self.applet.connect("button_press_event", self.showHelpMenu, applet)
+        self.applet.connect("button-press-event", self.showHelpMenu, applet)
         self.applet.connect("destroy-event",self.cleanup)
         self.applet.connect("delete-event",self.cleanup)
         self.applet.connect("change-size", self.on_change_size)
         self.applet.connect("change-background", self.change_background)
         self.applet.connect("change-orient",self.change_orientation)
+        
         #self.ShowThread=ShowThread(self.AGM.win.has_toplevel_focus, self.has_focus, self.AGM.get_hidden, self.AGM.set_hidden, self.AGM.setOnFocus)
         self.applet.show_all()
         self.change_orientation(None, None)
@@ -105,6 +107,8 @@ class AGM_applet(gnomeapplet.Applet):
             if width > size:
                 height=height*size/width
                 width=size
+        #width-=12
+        #height-=12
         pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
         self.icon.set_from_pixbuf(pixbuf)
         self.icon.set_size_request(width, size)
@@ -136,7 +140,9 @@ class AGM_applet(gnomeapplet.Applet):
 
         # now remove the link between big_evbox and the box
         self.applet.remove(self.applet.get_children()[0])
-        self.mybutton = tmpbox
+        for child in self.mybutton:
+            self.mybutton.remove(child)
+        self.mybutton.add(tmpbox)
         self.applet.add(self.mybutton)
         self.on_change_size()
         self.applet.show_all()
@@ -156,8 +162,10 @@ class AGM_applet(gnomeapplet.Applet):
         del self.applet
     
     def showHelpMenu(self, widget, event, applet):
+        print event.type, event.button
         if event.type == gtk.gdk.BUTTON_PRESS:
             if event.button == 3:
+                print "show menu"
                 self.create_menu(applet)
             else: self.showMenu()
     
@@ -284,6 +292,96 @@ if __name__ == '__main__':
 	print "Starting factory"
 	gnomeapplet.bonobo_factory("OAFIID:Gnome_Panel_Agm_Factory", AGM_applet.__gtype__, "An eye candy menu for gnome", "1.0", factory)
 
+class TrayMenu(gtk.Menu):
+    def __init__(self):
+        gtk.Menu.__init__(self)
+        
+        config=gtk.MenuItem()
+        configBox=gtk.HBox(spacing=5)
+        configImage=gtk.Image()
+        configImage.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
+        configBox.pack_start(configImage, False, False)
+        configBox.pack_start(gtk.Label("Config AGM"), False, False)
+        configBox.show_all()
+        config.add(configBox)
+        
+        configGM=gtk.MenuItem()
+        configGMBox=gtk.HBox(spacing=5)
+        configGMImage=gtk.Image()
+        configGMImage.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
+        configGMBox.pack_start(configGMImage, False, False)
+        configGMBox.pack_start(gtk.Label("Edit gnome menu"), False, False)
+        configGMBox.show_all()
+        configGM.add(configGMBox)
+        
+#        configFA=gtk.MenuItem()
+#        configFABox=gtk.HBox(spacing=5)
+#        configFAImage=gtk.Image()
+#        configFAImage.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
+#        configFABox.pack_start(configFAImage, False, False)
+#        configFABox.pack_start(gtk.Label("Config Fav apps"), False, False)
+#        configFABox.show_all()
+#        configFA.add(configFABox)
+        
+        
+        info=gtk.MenuItem()
+        infoBox=gtk.HBox(spacing=5)
+        infoImage=gtk.Image()
+        infoImage.set_from_stock(gtk.STOCK_INFO, gtk.ICON_SIZE_MENU)
+        infoBox.pack_start(infoImage, False, False)
+        infoBox.pack_start(gtk.Label("Info about AGM"), False, False)
+        infoBox.show_all()
+        info.add(infoBox)
+        
+        exit=gtk.MenuItem()
+        exitBox=gtk.HBox(spacing=5)
+        exitImage=gtk.Image()
+        exitImage.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+        exitBox.pack_start(exitImage, False, False)
+        exitBox.pack_start(gtk.Label("Reload"), False, False)
+        exitBox.show_all()
+        exit.add(exitBox)
+        
+        self.append(info)
+        self.append(exit)
+        self.append(config)
+        #self.append(configFA)
+        self.append(configGM)
+    
+        config.connect("button-press-event", self.config)
+        configGM.connect("button-press-event", self.configGM)
+        #configFA.connect("button-press-event", self.configFA)
+        info.connect("button-press-event", self.info)        
+        exit.connect("button-press-event", self.close)
+        
+        config.show()
+        #configFA.show()
+        configGM.show()
+        info.show()
+        exit.show()
+        pass
 
+    def config(self, obj=None, event=None):
+        Config()
+
+#    def configFA(self, obj=None, event=None):
+#        from AGM.AGM_config_fav_apps import ConfigFavApps
+#        ConfigFavApps()
+        
+    def configGM(self, obj=None, event=None):
+        if os.fork()==0:
+            try:
+                os.execvp("alacarte", ["alacarte"])
+            except: print "Launching Alacarte."
+            sys.exit(-1)
+    
+    def info(self, obj=None, event=None):
+        Info()
+
+    def close(self, obj=None, event=None):
+        gtk.main_quit()
+    
+    def show(self, button_clicked):
+        self.popup(None, None, None, 0, 0)
 
 

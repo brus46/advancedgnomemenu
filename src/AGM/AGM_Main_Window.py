@@ -137,8 +137,8 @@ class AGM:
             self.menu.get_child().modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.bgcolor))
             self.menu.get_child().modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.bgcolor))
             
-            self.color(self.backbutton)
-            self.color(self.homebutton)
+            #self.color(self.backbutton)
+            #self.color(self.homebutton)
             self.color(self.infobutton)
             self.color(self.configbutton)
             for button in self.fav_apps_buttons:
@@ -177,19 +177,19 @@ class AGM:
     def setObjects(self):
         self.favApps()
         
-        self.backbutton=gtk.Button()
+        import AGM_Navigation_Button
+        
+        self.backbutton=AGM_Navigation_Button.NavButton()
         imageback=gtk.Image()
         imageback.set_from_stock(gtk.STOCK_GO_BACK, gtk.ICON_SIZE_SMALL_TOOLBAR)
         self.backbutton.set_image(imageback)
-        self.backbutton.set_relief(gtk.RELIEF_NONE)
-        self.backbutton.connect("clicked", self.goback);
+        self.backbutton.connect("button-press-event", self.goback);
 
-        self.homebutton=gtk.Button()
+        self.homebutton=AGM_Navigation_Button.NavButton()
         imagehome=gtk.Image()
         imagehome.set_from_pixbuf(utils.getPixbufFromName("user-home", 32, "folder"))
         self.homebutton.set_image(imagehome)
-        self.homebutton.set_relief(gtk.RELIEF_NONE)
-        self.homebutton.connect("clicked", self.gohome);
+        self.homebutton.connect("button-press-event", self.gohome);
         
         MainBox=gtk.HBox()
         
@@ -230,9 +230,11 @@ class AGM:
         #TopPanel.pack_start(self.backbutton, False, False)
         #TopPanel.pack_start(self.homebutton, False, False)
         
-        MenuBar=gtk.HBox()
-        MenuBar.add(self.backbutton)
-        MenuBar.pack_end(self.homebutton, False)
+        MenuBar=gtk.HBox(spacing=5)
+        MenuBar.pack_start(self.backbutton)
+        self.homebutton.set_size_request(40, 40)
+        MenuBar.pack_start(self.homebutton, False)
+        MenuBar.set_size_request(-1, 40)
         
         BottomPanel=gtk.VBox()
         if (conf.fav_apps_orientation=="HB"):
@@ -250,7 +252,7 @@ class AGM:
         
         MenuBox=gtk.HBox(spacing=5)
         
-        MainMenu=gtk.VBox(spacing=5)
+        MainMenu=gtk.VBox()
         MainMenu.pack_start(MenuBar, False)
         MainMenu.pack_end(self.menu)
         MenuBox.pack_start(MainMenu)

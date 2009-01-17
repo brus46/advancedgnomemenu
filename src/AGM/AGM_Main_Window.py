@@ -36,6 +36,8 @@ import AGM.AGM_info_menu as info_menu
 import AGM.AGM_utils as utils
 from AGM.AGM_execute_box import ExecuteBar
 
+from AGM_Navigation_Bar import NavBar
+
 conf=config()
 
 class AGM:
@@ -57,8 +59,9 @@ class AGM:
         self.EBox.add(gtk.Image())
         self.EBox.set_size_request(80, 80)        
         
-        self.backbutton=gtk.Button()
-        self.homebutton=gtk.Button()
+        #self.backbutton=gtk.Button()
+        #self.homebutton=gtk.Button()
+
         
         self.infobutton=gtk.Button()
         imageinfo=gtk.Image()
@@ -91,6 +94,9 @@ class AGM:
         self.win.set_skip_taskbar_hint(True)
         self.win.set_title("AdvancedGnomeMenu") 
         self.eb = gtk.EventBox()
+        self.NavBar=NavBar(self.win.get_gradient)
+        self.menu=Menu(self.showPrecParentButton, self.hide, self.change_icon)
+        self.NavBar.set_functions(self.menu.goHome, self.menu.goTo)
         
         gtk.gdk.threads_init()
         self.win.set_opacity(conf.opacity)
@@ -114,7 +120,7 @@ class AGM:
             self.tray=AGM_trayicon.TrayIcon(self)
             
         
-        self.showPrecParentButton(False)
+        self.showPrecParentButton([[],[]])
         
         
         
@@ -175,17 +181,16 @@ class AGM:
     def setObjects(self):
         self.favApps()
         
-        import AGM_Navigation_Button
         
         
         
-        self.backbutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("go-back", conf.menu_bar_icon_h, "folder"))
-        self.backbutton.connect("button-press-event", self.goback);
-
-        self.homebutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("user-home", conf.menu_bar_icon_h, "folder"))
-        #self.homebutton.set_image(imagehome)
-        self.homebutton.connect("button-press-event", self.gohome);
-        
+#        self.backbutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("go-back", conf.menu_bar_icon_h, "folder"))
+#        self.backbutton.connect("button-press-event", self.goback);
+#
+#        self.homebutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("user-home", conf.menu_bar_icon_h, "folder"))
+#        #self.homebutton.set_image(imagehome)
+#        self.homebutton.connect("button-press-event", self.gohome);
+#        
         MainBox=gtk.HBox()
         
         top_style=conf.top_position.get_top()
@@ -225,10 +230,10 @@ class AGM:
         #TopPanel.pack_start(self.backbutton, False, False)
         #TopPanel.pack_start(self.homebutton, False, False)
         
-        MenuBar=gtk.HBox(spacing=5)
-        MenuBar.pack_start(self.backbutton)
-        self.homebutton.set_size_request(conf.menu_bar_h, conf.menu_bar_h)
-        MenuBar.pack_start(self.homebutton, False)
+        MenuBar=self.NavBar
+#        MenuBar.pack_start(self.backbutton)
+#        self.homebutton.set_size_request(conf.menu_bar_h, conf.menu_bar_h)
+#        MenuBar.pack_start(self.homebutton, False)
         MenuBar.set_size_request(-1, conf.menu_bar_h)
         
         BottomPanel=gtk.VBox()
@@ -237,9 +242,6 @@ class AGM:
             if conf.search_box_top_position==False and conf.search_box_show:
                 BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10 + 48)
             else: BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
-        
-        
-        self.menu=Menu(self.showPrecParentButton, self.hide, self.change_icon)
         
         popup_style, w,h=conf.popupstyle.get_style()
         space_label=gtk.Label()
@@ -422,8 +424,8 @@ class AGM:
             self.EBox.get_child().set_from_pixbuf(IconLabel)
             
             myimage=utils.getPixbufFromName(conf.applet_icon, conf.menu_bar_icon_h, "folder")
-            self.backbutton.set_image(myimage)
-            self.backbutton.set_label("Menu")
+            #self.backbutton.set_image(myimage)
+            #self.backbutton.set_label("Menu")
     
     def change_icon(self, image, text):
         if image!=None:
@@ -431,12 +433,12 @@ class AGM:
             if (conf.top_icon_enable_smart_mode):
                 myimage=utils.getPixbufFromName(image, 80, "folder")
                 self.EBox.get_child().set_from_pixbuf(myimage)
-                myimage=utils.scale_pixbuf(myimage, conf.menu_bar_icon_h)
-            else:
-                myimage=utils.getPixbufFromName(image, conf.menu_bar_icon_h, "folder")
+                #myimage=utils.scale_pixbuf(myimage, conf.menu_bar_icon_h)
+            #else:
+            #    myimage=utils.getPixbufFromName(image, conf.menu_bar_icon_h, "folder")
                 
-            self.backbutton.set_image(myimage)
-            self.backbutton.set_label(text)
+            #self.backbutton.set_image(myimage)
+            #self.backbutton.set_label(text)
         else:
             self.set_default_logo()
     
@@ -495,12 +497,13 @@ class AGM:
            if conf.hide_on_program_launch:
                self.hide()
     
-    def showPrecParentButton(self, show):
+    def showPrecParentButton(self, history):
         self.win.show_all()
+        self.NavBar.update(history[0], history[1])
         #if (show):
             #print "show buttons"
-        self.backbutton.show()
-        self.homebutton.show()
+        #self.backbutton.show()
+        #self.homebutton.show()
         #else:
         #    self.backbutton.hide()
         #    self.homebutton.hide()

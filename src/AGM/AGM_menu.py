@@ -58,7 +58,7 @@ class Menu(gtk.ScrolledWindow):
         self.refresh()
         
     def show_prec(self):
-        return self.history!=[]
+        return [self.history, self.history_icon]
     
     def refresh(self, newParent=None, searchMode=None):
         #conf.read_conf()
@@ -109,6 +109,15 @@ class Menu(gtk.ScrolledWindow):
             prec=None
         #print prec, self.history
         self.refresh(prec)
+    
+    def goTo(self, index):
+        i=index
+        where=self.history[index-1]
+        while i<len(self.history):
+            self.history.pop(i)
+            self.history_icon.pop(i)
+        self.refresh(where)
+        pass
     
     def goHome(self):
         if len(self.history)!=0:
@@ -192,7 +201,7 @@ class Menu(gtk.ScrolledWindow):
             self.history=[]
             self.history.append(None)
             self.history.append("search#"+key)
-            self.history_icon=[None, "stock_search"] #image_search
+            self.history_icon=[None, {"name":_("Search"),"icon":"stock_search"}] #image_search
             self.change_icon("stock_search", _("Search"))
             found_list=[]
             for plugin in self.menus:

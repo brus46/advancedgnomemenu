@@ -30,7 +30,7 @@ def hex2float(hex_code):
 
 class NavButton(gtk.EventBox):
     #__gsignals__ = { "expose-event": "override" }
-    def __init__(self, get_gradient, Image, Text=None):
+    def __init__(self, get_gradient, Image, Text, show_text=False):
         super(NavButton, self).__init__()
         self.set_app_paintable(True)
         self.get_gradient=get_gradient
@@ -50,7 +50,8 @@ class NavButton(gtk.EventBox):
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
         self.label.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
         self.label.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
-        self.add(self.label)
+        if show_text: self.add(self.label)
+        self.set_tooltip_text(self.text)
     
     def set_image(self, Image):
         self.image=Image
@@ -58,6 +59,7 @@ class NavButton(gtk.EventBox):
     
     def set_label(self, label):
         self.text=label
+        self.set_tooltip_text(self.text)
         self.label.set_text(self.text)
     
     def do_expose_event(self, widget, event):

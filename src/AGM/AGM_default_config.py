@@ -153,8 +153,10 @@ class conf:
             "LogOut"]
         self.menu_icon_size=48
         
-        self.menu_bar_h=30
-        self.menu_bar_icon_h=26
+        self.menu_bar_h=35
+        self.menu_bar_icon_h=25
+        self.menu_bar_icon_x=5
+        self.menu_bar_icon_y=5        
         
         self.read_conf()
         pass

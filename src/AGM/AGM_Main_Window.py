@@ -137,8 +137,6 @@ class AGM:
             self.menu.get_child().modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.bgcolor))
             self.menu.get_child().modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.bgcolor))
             
-            #self.color(self.backbutton)
-            #self.color(self.homebutton)
             self.color(self.infobutton)
             self.color(self.configbutton)
             for button in self.fav_apps_buttons:
@@ -179,16 +177,13 @@ class AGM:
         
         import AGM_Navigation_Button
         
-        self.backbutton=AGM_Navigation_Button.NavButton()
-        imageback=gtk.Image()
-        imageback.set_from_stock(gtk.STOCK_GO_BACK, gtk.ICON_SIZE_SMALL_TOOLBAR)
-        self.backbutton.set_image(imageback)
+        
+        
+        self.backbutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("go-back", conf.menu_bar_icon_h, "folder"))
         self.backbutton.connect("button-press-event", self.goback);
 
-        self.homebutton=AGM_Navigation_Button.NavButton()
-        imagehome=gtk.Image()
-        imagehome.set_from_pixbuf(utils.getPixbufFromName("user-home", 32, "folder"))
-        self.homebutton.set_image(imagehome)
+        self.homebutton=AGM_Navigation_Button.NavButton(self.win.get_gradient, utils.getPixbufFromName("user-home", conf.menu_bar_icon_h, "folder"))
+        #self.homebutton.set_image(imagehome)
         self.homebutton.connect("button-press-event", self.gohome);
         
         MainBox=gtk.HBox()
@@ -232,9 +227,9 @@ class AGM:
         
         MenuBar=gtk.HBox(spacing=5)
         MenuBar.pack_start(self.backbutton)
-        self.homebutton.set_size_request(40, 40)
+        self.homebutton.set_size_request(conf.menu_bar_h, conf.menu_bar_h)
         MenuBar.pack_start(self.homebutton, False)
-        MenuBar.set_size_request(-1, 40)
+        MenuBar.set_size_request(-1, conf.menu_bar_h)
         
         BottomPanel=gtk.VBox()
         if (conf.fav_apps_orientation=="HB"):
@@ -426,10 +421,8 @@ class AGM:
                     IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
             self.EBox.get_child().set_from_pixbuf(IconLabel)
             
-            myimage=utils.getPixbufFromName(conf.applet_icon, 32, "folder")
-            image=gtk.Image()
-            image.set_from_pixbuf(myimage)
-            self.backbutton.set_image(image)
+            myimage=utils.getPixbufFromName(conf.applet_icon, conf.menu_bar_icon_h, "folder")
+            self.backbutton.set_image(myimage)
             self.backbutton.set_label("Menu")
     
     def change_icon(self, image, text):
@@ -438,14 +431,11 @@ class AGM:
             if (conf.top_icon_enable_smart_mode):
                 myimage=utils.getPixbufFromName(image, 80, "folder")
                 self.EBox.get_child().set_from_pixbuf(myimage)
-                myimage=utils.scale_pixbuf(myimage, 32)
+                myimage=utils.scale_pixbuf(myimage, conf.menu_bar_icon_h)
             else:
-                myimage=utils.getPixbufFromName(image, 32, "folder")
+                myimage=utils.getPixbufFromName(image, conf.menu_bar_icon_h, "folder")
                 
-            image=gtk.Image()
-            image.set_from_pixbuf(myimage)
-            self.backbutton.set_image(image)
-            #label=gtk.Label("Home")
+            self.backbutton.set_image(myimage)
             self.backbutton.set_label(text)
         else:
             self.set_default_logo()
@@ -515,13 +505,15 @@ class AGM:
         #    self.backbutton.hide()
         #    self.homebutton.hide()
     
-    def goback(self, obj=None):
-        self.menu.goToParent()
-        self.search_box.set_text("")
-    
-    def gohome(self, obj=None):
-        self.menu.goHome()
-        self.search_box.set_text("")
+    def goback(self, obj=None, event=None):
+        if event==None or event.button==1:
+            self.menu.goToParent()
+            self.search_box.set_text("")
+        
+    def gohome(self, obj=None, event=None):
+        if event==None or event.button==1:
+            self.menu.goHome()
+            self.search_box.set_text("")
     
     def get_hidden(self):
         return self.hidden

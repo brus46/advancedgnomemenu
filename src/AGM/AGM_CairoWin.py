@@ -385,10 +385,8 @@ class TransparentWindow(gtk.Window):
          cr.fill()
          pass
      
-     def get_gradient(self):
+     def get_gradient(self, x=0, y=0):
          (width, height) = self.get_size()
-         x=0
-         y=0
          gradient_coord=[]
          
          startx, starty=self.get_point(conf.gradient_direction.get_start_point(), height, width, x, y)

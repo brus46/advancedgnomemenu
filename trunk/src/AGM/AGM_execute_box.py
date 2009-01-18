@@ -23,12 +23,14 @@ from AGM.AGM_default_config import conf as config
 conf=config()
 import localization
 _=localization.Translate
+import AGM_Entry
 
 class ExecuteBar(gtk.HBox):
-    def __init__(self):
+    def __init__(self, get_gradient):
         gtk.HBox.__init__(self)
         conf.read_conf()
-        self.command=gtk.Entry()
+        self.command=AGM_Entry.Entry(get_gradient)
+        #self.command.do_expose_event()
         self.run_in_terminal=gtk.Button()
         terminal_icon=gtk.Image()
         icon=utils.getPixbufFromName("terminal", 22, "app")
@@ -36,17 +38,15 @@ class ExecuteBar(gtk.HBox):
         self.run_in_terminal.set_image(terminal_icon)
         
         self.label=gtk.Label(_("Execute")+ ":")
+        self.label.set_size_request(50, -1)
         
-        
-        
-        self.run_in_terminal.set_size_request(32, 32)
+        self.run_in_terminal.set_relief(gtk.RELIEF_NONE)
         self.pack_end(self.run_in_terminal, False)
-        self.pack_end(self.command, False)
+        self.pack_end(self.command)
         
         self.command.set_tooltip_text(_("Execute"))
         self.command.connect("activate", self.execute_command)
         self.run_in_terminal.connect("clicked", self.terminal_execution)
-        self.command.set_size_request(conf.window_width -70 - 32, -1)
         self.pack_start(self.label, False)
         
     def execute_command(self, obj):
@@ -76,10 +76,8 @@ class ExecuteBar(gtk.HBox):
                 sys.exit(-1)
 
     def modify_bg(self, state, color):
-        self.command.modify_base(state, color)
         self.run_in_terminal.modify_bg(state, color)
     def modify_fg(self, state, color):
-        self.command.modify_text(state, color)
         self.label.modify_fg(state, color)
     def set_text(self, string):
         self.command.set_text(str(string))

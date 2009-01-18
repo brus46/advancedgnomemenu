@@ -3,6 +3,32 @@ import gtk, os
 from AGM_default_config import conf as config
 conf=config()
 
+def hex2float(hex_code):
+    hex_code=hex_code.replace("#", "")
+    c=["", "", "", ""]
+    i=0
+    if len(hex_code)==12:
+        hex_code=hex_code[0]+hex_code[1]+hex_code[4]+hex_code[5]+hex_code[8]+hex_code[9]
+    for h in hex_code:
+       if (i<=1):
+           c[0]+=h
+       elif (i<=3):
+           c[1]+=h
+       elif (i<=5):
+           c[2]+=h
+       elif (i<=7):
+           c[3]+=h
+       i+=1 
+    ret=[]
+    for h in c:
+        if h=="": h="00"
+        hex=int(h,16)
+        
+        ic = int(hex)
+        ret.append( ic / 255.0 )
+    return ret
+
+
 def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
     #print iconName, size, type
     if isinstance(iconName ,gtk.gdk.Pixbuf)==False:

@@ -1,32 +1,9 @@
 import gtk
 import cairo
+import AGM_utils as utils
 from AGM.AGM_default_config import conf as config
 
 conf=config()
-def hex2float(hex_code):
-    hex_code=hex_code.replace("#", "")
-    c=["", "", "", ""]
-    i=0
-    if len(hex_code)==12:
-        hex_code=hex_code[0]+hex_code[1]+hex_code[4]+hex_code[5]+hex_code[8]+hex_code[9]
-    for h in hex_code:
-       if (i<=1):
-           c[0]+=h
-       elif (i<=3):
-           c[1]+=h
-       elif (i<=5):
-           c[2]+=h
-       elif (i<=7):
-           c[3]+=h
-       i+=1 
-    ret=[]
-    for h in c:
-        if h=="": h="00"
-        hex=int(h,16)
-        
-        ic = int(hex)
-        ret.append( ic / 255.0 )
-    return ret
 
 class NavButton(gtk.EventBox):
     #__gsignals__ = { "expose-event": "override" }
@@ -92,7 +69,7 @@ class NavButton(gtk.EventBox):
             cr.set_source(self.get_gradient(-rect.x, -rect.y))
             cr.fill()
             
-            col = hex2float(self.bgcolor)
+            col = utils.hex2float(self.bgcolor)
             darkness=0.05
             cr.set_source_rgb(col[0]-darkness, col[1]-darkness, col[2]-darkness)
             self.draw_shape(cr, x0, y0, x1, y1, r)

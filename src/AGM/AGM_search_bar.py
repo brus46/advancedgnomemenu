@@ -45,6 +45,7 @@ class search_box(gtk.HBox):
         
         self.label.set_size_request(50, -1)
         self.search_button.set_relief(gtk.RELIEF_NONE)
+        self.search_button.connect("clicked", self.external_search)
         
         
         self.pack_end(self.search_button, False)
@@ -59,6 +60,9 @@ class search_box(gtk.HBox):
     
     def get_text(self):
         return self.search_text.get_text()
+    
+    def external_search(self, obj):
+        utils.ExecCommand(["tracker-search-tool", self.search_text.get_text()])
     
     def modify_bg(self, state, color):
         #self.search_text.do_expose_event()

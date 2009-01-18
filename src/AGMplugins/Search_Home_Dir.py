@@ -29,7 +29,7 @@ class Plugin(plugin):
         self.author="Marco Mosconi <brus46@gmail.com>"
         self.author_site="http://www.sciallo.net"
         self.name="Search in home"
-        self.description="This plugin allow you to search in your home directory using the search-box"
+        self.description="This plugin allow you to search in your home directory using the search-box, with only 2 deep folders."
         self.license="GPL"
         self.type=AGM_plugin.TYPE_SEARCH
         self.is_configurable=False

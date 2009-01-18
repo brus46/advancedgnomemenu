@@ -37,11 +37,11 @@ class NavBar(gtk.HBox):
                         newButton=Button.NavButton(self.get_gradient, utils.getPixbufFromName("user-home", conf.menu_bar_icon_h, "folder"), "Menu")
                         newButton.connect("button-press-event", self.clicked, -1)
                     newButton.set_size_request(conf.menu_bar_h, conf.menu_bar_h)
-                self.pack_start(newButton, i==len(history_icon))
+                self.pack_end(newButton, i==len(history_icon))
         else:
             newButton=Button.NavButton(self.get_gradient, utils.getPixbufFromName("user-home", conf.menu_bar_icon_h, "folder"), "Menu", True)
             newButton.connect("button-press-event", self.clicked, -1)
-            self.pack_start(newButton)
+            self.pack_end(newButton)
         self.show_all()
     
     def clicked(self, obj, event, index):

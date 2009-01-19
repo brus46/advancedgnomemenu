@@ -414,60 +414,22 @@ class AGM:
             self.set_default_logo()
     
     def favApps(self):
-        try:
-            for button in self.fav_apps_buttons:
-                self.fav_apps_bar_H.remove(button)
-        except: print "Cannot remove buttons, probably first time config loading"
-        try:
-            for button in self.fav_apps_buttons:
-                self.fav_apps_bar_V.remove(button)
-        except: print "Cannot remove buttons, probably first time config loading"
-
-        self.fav_apps_buttons=[]
+        for child in self.fav_apps_bar_H.get_children():
+            self.fav_apps_bar_H.remove(child)
+        
+        for child in self.fav_apps_bar_V.get_children():
+            self.fav_apps_bar_V.remove(child)
         
         if (conf.fav_apps_orientation=="H") and (conf.fav_apps_show):
             fav_apps_bar=self.fav_apps_bar_H
         elif (conf.fav_apps_show):
             fav_apps_bar=self.fav_apps_bar_V
-            
-        for fav_app in conf.fav_apps:
-            button=gtk.Button()
-            button.set_relief(gtk.RELIEF_NONE)
-            icon=gtk.Image()
-            icon.set_from_pixbuf(utils.getPixbufFromName(fav_app["icon"], conf.fav_apps_icon_dimension, "app"))
-            content=gtk.HBox()
-            content.pack_start(icon, False)
-            if (conf.fav_apps_show_text): 
-                if conf.fav_apps_text_bold:
-                    label=gtk.Label("<b>" + fav_app["name"] + "</b>")
-                else: label=gtk.Label(fav_app["name"])
-                label.set_justify(gtk.JUSTIFY_LEFT)
-                label.set_use_markup(True)
-                label.set_size_request(100, conf.fav_apps_icon_dimension)
-                self.color(label)
-                content.pack_start(label, True)
-            content.pack_start(gtk.Label())
-            button.add(content)
-            button.set_tooltip_text(fav_app["name"])
-            button.connect("clicked", self.exec_command, fav_app["command"])
-            self.fav_apps_buttons.append(button)
-            if (conf.fav_apps_show): 
-                fav_apps_bar.pack_start(button, False)
-   
-    def exec_command(self, obj=None, data=""):
-       command=data.split("#")[0]
-       todo=data.split("#")[1]
-       if "exec"==command: 
-           print "Execute->" + todo
-           todo=todo.replace("%U", "")
-           todo=todo.replace("%u", "")
-           todo=todo.replace("%F", "")
-           todo=todo.replace("%f", "")
-           todo=todo.replace("\n", "")
-           utils.ExecCommand(todo.split(" "))
-           if conf.hide_on_program_launch:
-               self.hide()
-    
+        import AGM_Fav_apps_bar
+        bar=AGM_Fav_apps_bar.FavAppsBar(self.hide)
+        bar.show_all()
+        fav_apps_bar.pack_start(bar, False)
+        self.color(bar)
+           
     def showPrecParentButton(self, history):
         self.win.show_all()
         self.NavBar.update(history[0], history[1])

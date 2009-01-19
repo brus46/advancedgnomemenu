@@ -273,10 +273,12 @@ from threading import Thread
 class newThread(Thread):
     def __init__(self, command):
         Thread.__init__(self)
+        print command
         self.command=command
-        for par in self.command:
-                if par=="":
-                    self.command.pop(par)
+        if len(command)>0:
+            for par in self.command:
+                    if par=="":
+                        self.command.pop(par)
     
     def run(self):
         os.chdir(os.path.expanduser("~"))

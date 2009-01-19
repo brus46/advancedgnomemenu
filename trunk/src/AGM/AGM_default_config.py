@@ -27,6 +27,7 @@ class conf:
         self.install_dir="./"
         self.install_data_dir="./"
         self.plugin_folder="./AGMplugins/"
+        self.model_folder="./AGM_Fav_apps_models/"
 
         FILEPATH = os.path.abspath(__file__)
         pwd, dirname = os.path.split(os.path.dirname(FILEPATH))
@@ -34,11 +35,11 @@ class conf:
         dirname.reverse()
         dirname=dirname[0]
         if dirname != "src":
-            #print 'Running installed agm, modifying paths.'
             self.install_dir="/usr/bin/"
             self.install_picture_dir="/usr/share/pixmaps/"
             self.install_data_dir="/usr/share/AGM/"
             self.plugin_folder="/usr/local/lib/python/AGMplugins/"
+            self.model_folder="/usr/local/lib/python/AGM_Fav_apps_models/"
         
         self.config_dir=os.path.expanduser("~")+"/.config/agm/"
 
@@ -131,9 +132,9 @@ class conf:
         
         #FAV APPS
         self.fav_apps=[
-                       {"name":"Firefox", "icon":"firefox", "command":"exec#firefox"},
-                       {"name":"Pidgin", "icon":"pidgin", "command":"exec#pidgin"},
-                       {"name":"Terminal", "icon":"gnome-terminal", "command":"exec#gnome-terminal"}                       
+                       {"model":"Custom", "name":"Firefox", "icon":"firefox", "command":"firefox", "tooltip":"Browser Web"},
+                       {"model":"Custom", "name":"Pidgin", "icon":"pidgin", "command":"pidgin", "tooltip":"Istant Messaging"},
+                       {"model":"Custom", "name":"Terminal", "icon":"gnome-terminal", "command":"gnome-terminal", "tooltip":"Terminal"}
                        ]
         self.fav_apps_orientation="V" 
         #"V" Horizontal, Vertical 
@@ -365,9 +366,11 @@ class conf:
         
         if file!=None:
             for line in file.readlines():
+                line=line.replace("\n", "")
+                line=line.replace("exec#", "")
                 data=line.split(";")
                 if len(data)>=3:
-                    newFavApps.append({"name":data[0], "icon":data[1], "command":data[2]})
+                    newFavApps.append({"model":"Custom", "name":data[0], "icon":data[1], "tooltip":data[0], "command":data[2]})
             
             if len(newFavApps)==len(self.fav_apps):
                 equals=True

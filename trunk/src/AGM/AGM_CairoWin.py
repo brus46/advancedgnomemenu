@@ -267,7 +267,7 @@ class TransparentWindow(gtk.Window):
          cr.set_operator(cairo.OPERATOR_SOURCE)
          cr.paint()
          if conf.read_conf():
-             self.change()
+             self.change(force=True)
          
          if self.supports_alpha and conf.safe_mode==False:
               self.draw_window(cr)

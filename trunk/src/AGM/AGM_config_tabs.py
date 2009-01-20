@@ -335,8 +335,7 @@ class config_fav_apps(gtk.HBox):
         if action=="add":
             self.list.add()
         elif action=="edit":
-            if (self.name_app.get_text()!="" and self.command.get_text()!=""):
-                self.list.edit(self.name_app.get_text(), self.iconName, self.command.get_text())
+            self.list.edit()
         elif action=="delete":
             self.list.remove()
         elif action=="moveup":
@@ -440,17 +439,18 @@ class fav_apps_list(gtk.TreeView):
                model.swap(iter, first)
            self.rewrite_config()
     
-    def edit (self, name, icon, command, tooltip=""):
-        if icon=="None": icon=command.split(" ")[0]
-        model, iter = self.treeselection.get_selected()
-        if iter:
-            model.set_value(iter, 0, utils.getPixbufFromName(icon, 24, "app"))
-            model.set_value(iter, 1, name)
-            model.set_value(iter, 2, icon)
-            model.set_value(iter, 3, command)
-            model.set_value(iter, 4, tooltip)
-            self.rewrite_config()
+    def edit (self):
         pass
+#        if icon=="None": icon=command.split(" ")[0]
+#        model, iter = self.treeselection.get_selected()
+#        if iter:
+#            model.set_value(iter, 0, utils.getPixbufFromName(icon, 24, "app"))
+#            model.set_value(iter, 1, name)
+#            model.set_value(iter, 2, icon)
+#            model.set_value(iter, 3, command)
+#            model.set_value(iter, 4, tooltip)
+#            self.rewrite_config()
+#        pass
     
     def add(self):
         import AGM_new_fav_app
@@ -458,20 +458,23 @@ class fav_apps_list(gtk.TreeView):
         NewFA=AGM_new_fav_app.newFavApp().get_new_fav_app()
         if NewFA!=None and isinstance(NewFA, AGM_Fav_app.FavApp):
             conf.fav_apps.append({"name":NewFA.FA_name, "icon":NewFA.FA_icon, "command": NewFA.FA_command, "tooltip": NewFA.FA_tooltip})
+
             self.refresh()
         else: print "Cancel pressed"
 
     def remove(self):
-        (name, icon, command)=self.get_selected()
+        (name, icon, command, tooltip)=self.get_selected()
         if name!=None:
-            conf.fav_apps.remove({"name":name, "icon":icon, "command": "exec#"+command})
+            try:
+                conf.fav_apps.remove({"name":name, "icon":icon, "command": command, "tooltip":tooltip})
+            except: print name, "not in list."
             self.refresh()
 
     def get_list(self):
         lista = []
         iter = self.model.get_iter_first ()
         while iter:
-                lista.append([self.model.get_value (iter, 1), self.model.get_value (iter, 2), "exec#" + self.model.get_value (iter, 3)])
+                lista.append([self.model.get_value (iter, 1), self.model.get_value (iter, 2), self.model.get_value (iter, 3)])
                 iter=self.model.iter_next(iter)
 
         return lista

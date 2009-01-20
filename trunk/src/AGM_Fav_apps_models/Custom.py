@@ -1,16 +1,15 @@
 from AGM.AGM_Fav_app_model import model
 from AGM.AGM_Fav_app import FavApp
-import gtk
+import gtk, os
 import AGM.AGM_utils as utils
 
 class Model(model):
     def __init__(self):
         model.__init__(self)
         self.model_code_name="Custom"
-        self.model_icon="gnome-preferences"
+        self.model_icon="gtk-preferences"
         self.model_name="Custom fav app"
         self.model_description="Use this if you want to create a custom fav app"
-        self.to_execute=""
     
     def get_fav_app(self):
         command=AskNewCustomCommand().get_command()
@@ -29,6 +28,15 @@ class AskNewCustomCommand(gtk.Window):
         self.tooltip=gtk.Entry()
         self.cancel=False
         
+        okButton=gtk.Button("Ok")
+        okButton.connect("clicked", self.ok_pressed)
+        cancelButton=gtk.Button("Cancel")
+        cancelButton.connect("clicked", self.cancel_pressed)
+        HButtonBox=gtk.HButtonBox()
+        HButtonBox.add(okButton)
+        HButtonBox.add(cancelButton)
+        
+        
         VBox=gtk.VBox()
         HBox=gtk.HBox()
         HBox.pack_start(gtk.Label("Name"))
@@ -37,6 +45,7 @@ class AskNewCustomCommand(gtk.Window):
         HBox=gtk.HBox()
         HBox.pack_start(gtk.Label("Icon"))
         HBox.pack_end(self.icon)
+        self.icon.connect("clicked", self.change_icon)
         VBox.add(HBox)
         HBox=gtk.HBox()
         HBox.pack_start(gtk.Label("Tooltip"))
@@ -45,14 +54,27 @@ class AskNewCustomCommand(gtk.Window):
         HBox=gtk.HBox()
         HBox.pack_start(gtk.Label("Command"))
         HBox.pack_end(self.command)
+        self.command.connect("changed", self.text_changed)
         VBox.add(HBox)
         
+        VBox.pack_end(HButtonBox, False)
         self.set_icon()
         self.add(VBox)
         
         self.set_title("Add custom command")
         self.show_all()
         gtk.main()
+    
+    def text_changed(self, obj):
+        if utils.searchPictureFromName(self.command.get_text())==True:
+            self.iconname=self.command.get_text()
+            self.set_icon()
+        
+    def change_icon(self, obj):
+        icon=utils.OpenImage().get_file()
+        if os.path.isfile(icon)==True:
+            self.iconname=icon
+            self.set_icon()
     
     def set_icon(self):
         image=gtk.Image()

@@ -28,7 +28,19 @@ def hex2float(hex_code):
         ret.append( ic / 255.0 )
     return ret
 
-
+def searchPictureFromName(iconName):
+    icon_theme = gtk.icon_theme_get_default()
+    pixbuf = None
+    try:
+        pixbuf = icon_theme.load_icon(iconName, 32, 0)
+    except: pass
+    if pixbuf==None:
+        if os.path.isfile(iconName):
+            return True
+        else:
+            return False
+    else: return True
+                
 def getPixbufFromName(iconName, size=conf.menu_icon_size, type="folder"):
     #print iconName, size, type
     if isinstance(iconName ,gtk.gdk.Pixbuf)==False:

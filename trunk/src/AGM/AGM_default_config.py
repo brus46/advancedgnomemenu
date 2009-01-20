@@ -369,9 +369,10 @@ class conf:
                 line=line.replace("\n", "")
                 line=line.replace("exec#", "")
                 data=line.split(";")
-                if len(data)>=3:
-                    newFavApps.append({"model":"Custom", "name":data[0], "icon":data[1], "tooltip":data[0], "command":data[2]})
-            
+                if len(data)==3:
+                    newFavApps.append({"name":data[0], "icon":data[1], "tooltip":data[0], "command":data[2]})
+                elif len(data)>=4:
+                    newFavApps.append({"name":data[0], "icon":data[1], "tooltip":data[2], "command":data[3]})
             if len(newFavApps)==len(self.fav_apps):
                 equals=True
                 index=0

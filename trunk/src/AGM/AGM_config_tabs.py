@@ -301,30 +301,6 @@ class config_fav_apps(gtk.HBox):
         self.list.connect("cursor-changed", self.el_changed)
         self.add(self.list)
         
-        self.edit_place=gtk.VBox(spacing=5)
-        self.iconButton=gtk.Button()
-        self.iconName="None"
-        self.icon=gtk.Image()
-        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
-        self.iconButton.set_image(self.icon)
-        self.iconButton.connect("clicked", self.click, "set_image")
-        ButtonPlace=gtk.VButtonBox()
-        ButtonPlace.add(self.iconButton)
-        
-        name=gtk.HBox()
-        name.pack_start(gtk.Label("Name:"), False)
-        self.name_app=gtk.Entry()
-        name.add(self.name_app)
-        
-        command=gtk.HBox()
-        command.pack_start(gtk.Label("Command:"), False)
-        self.command=gtk.Entry()
-        command.add(self.command)
-        
-        self.edit_place.pack_start(ButtonPlace, False)
-        self.edit_place.pack_start(name, False)
-        self.edit_place.pack_start(command, False)
-        
         
         self.commands=gtk.VButtonBox()
         add=gtk.Button(gtk.STOCK_ADD)
@@ -350,16 +326,14 @@ class config_fav_apps(gtk.HBox):
         self.commands.add(movedw)
         
         self.LeftBox=gtk.VBox()
-        self.LeftBox.pack_start(self.edit_place, False)
-        self.LeftBox.pack_end(self.commands, False)
+        self.LeftBox.pack_start(self.commands, False)
         
         self.pack_end(self.LeftBox, False)
     
     def click(self, obj, action):
         print action
         if action=="add":
-            if (self.name_app.get_text()!="" and self.command.get_text()!=""):
-                self.list.add(self.name_app.get_text(), self.iconName, self.command.get_text())
+            self.list.add()
         elif action=="edit":
             if (self.name_app.get_text()!="" and self.command.get_text()!=""):
                 self.list.edit(self.name_app.get_text(), self.iconName, self.command.get_text())
@@ -378,33 +352,28 @@ class config_fav_apps(gtk.HBox):
     def to_string(self):
         file_fav_app=""
         for fav_app in conf.fav_apps:
-            file_fav_app+= fav_app["name"] + ";" + fav_app["icon"] + ";" + fav_app["command"] + "\n"
+            file_fav_app+= fav_app["name"] + ";" + fav_app["icon"] + ";" + fav_app["tooltip"] + ";" + fav_app["command"] + "\n"
         return file_fav_app
     
     def el_changed(self, obj=None):
         name=""
         icon="None"
         command=""
+        tooltip=""
         el_sel = self.list.get_selected()
         if el_sel!=None:
-            (name, icon, command)=el_sel
-        self.name_app.set_text(name)
-        self.command.set_text(command.replace("\n", ""))
-        self.iconName=icon
-        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.iconName, 48, "app"))
-        self.iconButton.set_image(self.icon)
-        pass
+            (name, icon, command, tooltip)=el_sel
     
     def refreshList(self):
         self.list.refresh()
         pass
-    
+
 class fav_apps_list(gtk.TreeView):
     def __init__(self):
         gtk.TreeView.__init__(self)
         
-        self.model = gtk.ListStore (gtk.gdk.Pixbuf, str, str, str)
-        COL_ICON, COL_NAME, COL_ICON_NAME, COL_COMMAND = (0, 1, 2, 3)
+        self.model = gtk.ListStore (gtk.gdk.Pixbuf, str, str, str, str)
+        COL_ICON, COL_NAME, COL_ICON_NAME, COL_COMMAND, COL_TOOLTIP = (0, 1, 2, 3, 4)
         
         self.set_model(self.model)
         self.treeselection = self.get_selection()
@@ -422,12 +391,13 @@ class fav_apps_list(gtk.TreeView):
         
     def load(self):
         for fav_app in conf.fav_apps:
-            self.model.append([utils.getPixbufFromName(fav_app["icon"], 24, "app"), fav_app["name"], fav_app["icon"], fav_app["command"].replace("exec#", "")])
+            command=fav_app["command"]
+            self.model.append([utils.getPixbufFromName(fav_app["icon"], 24, "app"), fav_app["name"], fav_app["icon"],  command, fav_app["tooltip"]])
     
     def get_selected(self):
         model, iter = self.treeselection.get_selected()
         if iter:
-           return model.get_value (iter, 1), model.get_value (iter, 2), model.get_value (iter, 3)
+           return model.get_value (iter, 1), model.get_value (iter, 2), model.get_value (iter, 3), model.get_value(iter, 4)
         return None
         
     def refresh(self):
@@ -437,7 +407,7 @@ class fav_apps_list(gtk.TreeView):
     def rewrite_config(self):
         conf.fav_apps=[]
         for el in self.get_list():
-            conf.fav_apps.append({"name":el[0], "icon":el[1], "command":el[2]})
+            conf.fav_apps.append({"name":el[0], "icon":el[1], "command":el[2], "tooltip":el[3]})
     
     def clean_list(self):
         self.model.clear()
@@ -470,7 +440,7 @@ class fav_apps_list(gtk.TreeView):
                model.swap(iter, first)
            self.rewrite_config()
     
-    def edit (self, name, icon, command):
+    def edit (self, name, icon, command, tooltip=""):
         if icon=="None": icon=command.split(" ")[0]
         model, iter = self.treeselection.get_selected()
         if iter:
@@ -478,14 +448,18 @@ class fav_apps_list(gtk.TreeView):
             model.set_value(iter, 1, name)
             model.set_value(iter, 2, icon)
             model.set_value(iter, 3, command)
+            model.set_value(iter, 4, tooltip)
             self.rewrite_config()
         pass
     
-    def add(self, name, icon, command):
-        if icon=="None": icon=command.split(" ")[0]
-        conf.fav_apps.append({"name":name, "icon":icon, "command": "exec#"+command})
-        self.refresh()
-        pass
+    def add(self):
+        import AGM_new_fav_app
+        import AGM_Fav_app
+        NewFA=AGM_new_fav_app.newFavApp().get_new_fav_app()
+        if NewFA!=None and isinstance(NewFA, AGM_Fav_app.FavApp):
+            conf.fav_apps.append({"name":NewFA.FA_name, "icon":NewFA.FA_icon, "command": NewFA.FA_command, "tooltip": NewFA.FA_tooltip})
+            self.refresh()
+        else: print "Cancel pressed"
 
     def remove(self):
         (name, icon, command)=self.get_selected()

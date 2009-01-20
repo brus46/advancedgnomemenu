@@ -1,29 +1,24 @@
 from AGM.AGM_Fav_app_model import model
 from AGM.AGM_Fav_app import FavApp
 import gtk
+import AGM.AGM_utils as utils
 
 class Model(model):
     def __init__(self):
         model.__init__(self)
         self.model_code_name="Custom"
+        self.model_icon="gnome-preferences"
+        self.model_name="Custom fav app"
+        self.model_description="Use this if you want to create a custom fav app"
         self.to_execute=""
     
     def get_fav_app(self):
         command=AskNewCustomCommand().get_command()
         if command!=None:
             (name, icon, tooltip, command)=command
-            return FavApps(name, icon, tooltip, command.split(" "))
+            return FavApp(name, icon, tooltip, command.split(" "))
         return None
-        
-    def get_from_string(self, string):
-        string=string.split("#")
-        print string
-        if len(string)>=4:
-            self.to_execute=string[3]
-            return FavApp(string[0], string[1], string[2], string[3].split(" "))
-        return None
-        
-        
+                
 class AskNewCustomCommand(gtk.Window):
     def __init__(self, text=None, icon=None, tooltip=None, command=None):
         gtk.Window.__init__(self)
@@ -35,14 +30,35 @@ class AskNewCustomCommand(gtk.Window):
         self.cancel=False
         
         VBox=gtk.VBox()
-        VBox.add(self.text)
-        VBox.add(self.icon)
-        VBox.add(self.command)
-        VBox.add(self.name)
+        HBox=gtk.HBox()
+        HBox.pack_start(gtk.Label("Name"))
+        HBox.pack_end(self.text)
+        VBox.add(HBox)
+        HBox=gtk.HBox()
+        HBox.pack_start(gtk.Label("Icon"))
+        HBox.pack_end(self.icon)
+        VBox.add(HBox)
+        HBox=gtk.HBox()
+        HBox.pack_start(gtk.Label("Tooltip"))
+        HBox.pack_end(self.tooltip)
+        VBox.add(HBox)
+        HBox=gtk.HBox()
+        HBox.pack_start(gtk.Label("Command"))
+        HBox.pack_end(self.command)
+        VBox.add(HBox)
         
+        self.set_icon()
         self.add(VBox)
+        
+        self.set_title("Add custom command")
         self.show_all()
         gtk.main()
+    
+    def set_icon(self):
+        image=gtk.Image()
+        pixbuf=utils.getPixbufFromName(self.iconname, 48, "app")
+        image.set_from_pixbuf(pixbuf)
+        self.icon.set_image(image)
     
     def get_command(self):
         if self.cancel:

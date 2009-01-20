@@ -6,7 +6,10 @@ conf=config()
 class FavApp(gtk.Button):
     def __init__(self, text, icon, tooltip, command):
         gtk.Button.__init__(self)
-        self.command=command
+        self.FA_command=command
+        self.FA_icon=icon
+        self.FA_name=text
+        self.FA_tooltip=tooltip
         show_text=conf.fav_apps_show_text
         image=gtk.Image()
         image.set_from_pixbuf(utils.getPixbufFromName(icon, conf.fav_apps_icon_dimension, "app"))

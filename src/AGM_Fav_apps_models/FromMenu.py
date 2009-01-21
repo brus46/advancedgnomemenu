@@ -5,14 +5,16 @@ import AGM.AGM_utils as utils
 from Alacarte.MenuEditor import MenuEditor
 from Alacarte import util
 import gmenu, cgi, sys
+import AGM.localization
+_=AGM.localization.Translate
 
 class Model(model):
     def __init__(self):
         model.__init__(self)
         self.model_code_name="FromMenu"
         self.model_icon="gtk-preferences"
-        self.model_name="Get fav app from the menu."
-        self.model_description="Use this if you want to create a fav app from an existing app in the menu."
+        self.model_name=_("Get fav app from the menu.")
+        self.model_description=_("Use this if you want to create a fav app from an existing app in the menu.")
     
     def get_fav_app(self):
         command=AskNewCustomCommand().get_command()
@@ -30,11 +32,16 @@ class AskNewCustomCommand(gtk.Window):
         self.tooltip=""
         self.cancel=False
         
-        okButton=gtk.Button("Ok")
+        okButton=gtk.Button(gtk.STOCK_OK)
+        okButton.set_use_stock(True)
+        cancelButton=gtk.Button(gtk.STOCK_CANCEL)
+        cancelButton.set_use_stock(True)
         okButton.connect("clicked", self.ok_pressed)
-        cancelButton=gtk.Button("Cancel")
         cancelButton.connect("clicked", self.cancel_pressed)
+        
         HButtonBox=gtk.HButtonBox()
+        HButtonBox.set_layout(gtk.BUTTONBOX_END)
+        HButtonBox.set_spacing(5)
         HButtonBox.add(okButton)
         HButtonBox.add(cancelButton)
         
@@ -42,16 +49,22 @@ class AskNewCustomCommand(gtk.Window):
         self.list=AppList()
         Scroll.add_with_viewport(self.list)
         
-        VBox=gtk.VBox()
+        VBox=gtk.VBox(spacing=5)
         
+        VBox.pack_start(gtk.Label(_("Select program to add")+" :"), False)
         VBox.pack_start(Scroll)
         VBox.pack_end(HButtonBox, False)
         self.add(VBox)
         
-        self.set_title("Add Fav app from menu.")
-        self.set_size_request(500, 400)
+        self.set_title(_("Add Fav app from menu."))
+        self.set_icon_list(utils.getPixbufFromName("gtk-preferences", 16, "app"))
+        self.set_resizable(False)
+        self.set_modal(True)
+        self.set_size_request(300, 400)
+        self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.show_all()
         gtk.main()
+        
     def get_command(self):
         if self.cancel:
             return None

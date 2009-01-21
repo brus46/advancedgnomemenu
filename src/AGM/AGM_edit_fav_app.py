@@ -1,6 +1,14 @@
 import gtk
 import AGM_Fav_app_models
 import AGM_utils as utils
+import AGM.localization
+_=AGM.localization.Translate
+
+def get_label(text):
+    label=gtk.Label(text+":")
+    label.set_size_request(80, -1)
+    return label
+    
 
 class editFavApp(gtk.Window):
     def __init__(self, FavApp):
@@ -32,35 +40,36 @@ class editFavApp(gtk.Window):
         HButtonBox.add(cancelButton)
         
         
-        VBox=gtk.VBox()
+        VBox=gtk.VBox(spacing=5)
         HBox=gtk.HBox()
-        HBox.pack_start(gtk.Label("Name"))
+        HBox.pack_start(get_label(_("Name")), False)
         HBox.pack_end(self.text)
-        VBox.add(HBox)
+        VBox.pack_start(HBox, False)
         HBox=gtk.HBox()
-        HBox.pack_start(gtk.Label("Icon"))
-        HBox.pack_end(self.icon)
+        HBox.pack_start(get_label(_("Icon")), False)
+        HBox.pack_start(self.icon, False)
         self.icon.connect("clicked", self.change_icon)
-        VBox.add(HBox)
+        self.icon.set_size_request(60, 60)
+        VBox.pack_start(HBox, False)
         HBox=gtk.HBox()
-        HBox.pack_start(gtk.Label("Tooltip"))
+        HBox.pack_start(get_label(_("Tooltip")), False)
         HBox.pack_end(self.tooltip)
-        VBox.add(HBox)
+        VBox.pack_start(HBox, False)
         HBox=gtk.HBox()
-        HBox.pack_start(gtk.Label("Command"))
+        HBox.pack_start(get_label(_("Command")), False)
         HBox.pack_end(self.command)
         self.command.connect("changed", self.text_changed)
-        VBox.add(HBox)
+        VBox.pack_start(HBox, False)
         
         VBox.pack_end(HButtonBox, False)
         self.set_icon()
         self.add(VBox)
         
-        self.set_title("Edit fav app")
+        self.set_title(_("Edit fav app"))
         self.set_icon_list(utils.getPixbufFromName("gtk-preferences", 16, "app"))
         self.set_resizable(False)
         self.set_modal(True)
-        self.set_size_request(300, 300)
+        self.set_size_request(300, 200)
         self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.show_all()
         gtk.main()

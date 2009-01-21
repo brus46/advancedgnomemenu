@@ -294,5 +294,7 @@ class newThread(Thread):
     
     def run(self):
         os.chdir(os.path.expanduser("~"))
-        os.spawnvp(False, self.command[0], self.command)
+        if os.path.isfile(self.command[0]):
+            os.spawnv(False, self.command[0], self.command)
+        else: os.spawnvp(False, self.command[0], self.command)
         #print self.command[0], "finisched"

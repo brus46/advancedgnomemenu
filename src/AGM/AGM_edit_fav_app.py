@@ -1,40 +1,33 @@
-from AGM.AGM_Fav_app_model import model
-from AGM.AGM_Fav_app import FavApp
-import gtk, os
-import AGM.AGM_utils as utils
-import AGM.localization
-_=AGM.localization.Translate
+import gtk
+import AGM_Fav_app_models
+import AGM_utils as utils
 
-class Model(model):
-    def __init__(self):
-        model.__init__(self)
-        self.model_code_name="Custom"
-        self.model_icon="gtk-preferences"
-        self.model_name="Custom fav app"
-        self.model_description="Use this if you want to create a custom fav app"
-    
-    def get_fav_app(self):
-        command=AskNewCustomCommand().get_command()
-        if command!=None:
-            (name, icon, tooltip, command)=command
-            return FavApp(name, icon, tooltip, command)
-        return None
-                
-class AskNewCustomCommand(gtk.Window):
-    def __init__(self, text=None, icon=None, tooltip=None, command=None):
+class editFavApp(gtk.Window):
+    def __init__(self, FavApp):
         gtk.Window.__init__(self)
+
+        self.fav_app=FavApp
         self.text=gtk.Entry()
         self.icon=gtk.Button()
         self.iconname="app"
         self.command=gtk.Entry()
         self.tooltip=gtk.Entry()
         self.cancel=False
+        self.text.set_text(FavApp.FA_name)
+        self.iconname=(FavApp.FA_icon)
+        self.set_icon()
+        self.tooltip.set_text(FavApp.FA_tooltip)
+        self.command.set_text(FavApp.FA_command)
         
-        okButton=gtk.Button("Ok")
+        okButton=gtk.Button(gtk.STOCK_OK)
+        okButton.set_use_stock(True)
+        cancelButton=gtk.Button(gtk.STOCK_CANCEL)
+        cancelButton.set_use_stock(True)
         okButton.connect("clicked", self.ok_pressed)
-        cancelButton=gtk.Button("Cancel")
         cancelButton.connect("clicked", self.cancel_pressed)
         HButtonBox=gtk.HButtonBox()
+        HButtonBox.set_layout(gtk.BUTTONBOX_END)
+        HButtonBox.set_spacing(5)
         HButtonBox.add(okButton)
         HButtonBox.add(cancelButton)
         
@@ -63,11 +56,12 @@ class AskNewCustomCommand(gtk.Window):
         self.set_icon()
         self.add(VBox)
         
-        self.set_title(_("Add custom command"))
+        self.set_title("Edit fav app")
         self.set_icon_list(utils.getPixbufFromName("gtk-preferences", 16, "app"))
         self.set_resizable(False)
         self.set_modal(True)
-        
+        self.set_size_request(300, 300)
+        self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.show_all()
         gtk.main()
     
@@ -88,9 +82,9 @@ class AskNewCustomCommand(gtk.Window):
         image.set_from_pixbuf(pixbuf)
         self.icon.set_image(image)
     
-    def get_command(self):
+    def get_fav_app(self):
         if self.cancel:
-            return None
+            return (self.fav_app.FA_name, self.fav_app.FA_icon, self.fav_app.FA_tooltip, self.fav_app.FA_command)
         return (self.text.get_text(), self.iconname, self.tooltip.get_text(), self.command.get_text())
     
     def ok_pressed(self, obj):
@@ -100,4 +94,4 @@ class AskNewCustomCommand(gtk.Window):
     def cancel_pressed(self, obj):
         self.cancel=True
         self.hide()
-        gtk.main_quit()
+        gtk.main_quit()    

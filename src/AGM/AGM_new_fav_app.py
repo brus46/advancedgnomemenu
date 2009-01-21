@@ -1,10 +1,11 @@
 import gtk
 import AGM_Fav_app_models
 import AGM_utils as utils
+import localization
+_=localization.Translate
 
 class newFavApp():
     def __init__(self):
-        print "newFavApp"
         self.fav_app=None
         Model=selectModule().get_model()
         if Model!=None:
@@ -17,19 +18,31 @@ class selectModule(gtk.Window):
     def __init__(self):
         gtk.Window.__init__(self)
         VBox=gtk.VBox()
-        self.set_title("Select Model")
+        self.set_title(_("Select Model"))
         self.list=ModelList()
         self.model=None
-        okButton=gtk.Button("ok")
-        cancelButton=gtk.Button("cancel")
+        okButton=gtk.Button(gtk.STOCK_OK)
+        okButton.set_use_stock(True)
+        cancelButton=gtk.Button(gtk.STOCK_CANCEL)
+        cancelButton.set_use_stock(True)
         ButtonBox=gtk.HButtonBox()
+        ButtonBox.set_layout(gtk.BUTTONBOX_END)
+        ButtonBox.set_spacing(5)
         ButtonBox.add(okButton)
         okButton.connect("clicked", self.okButton)
         ButtonBox.add(cancelButton)
         cancelButton.connect("clicked", self.cancelButton)
         VBox.pack_end(ButtonBox, False)
-        VBox.pack_start(self.list)
+        Scroll=gtk.ScrolledWindow()
+        Scroll.add_with_viewport(self.list)
+        VBox.pack_start(Scroll)
         self.add(VBox)
+        
+        self.set_size_request(500, 400)
+        self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+        self.set_icon_list(utils.getPixbufFromName("gtk-preferences", 16, "app"))
+        self.set_resizable(False)
+        self.set_modal(True)
         
         self.show_all()
         gtk.main()
@@ -62,18 +75,21 @@ class ModelList(gtk.TreeView):
         self.append_column (column)
     
         cell = gtk.CellRendererText ()
-        column = gtk.TreeViewColumn ('Model', cell, text = COL_NAME)
+        column = gtk.TreeViewColumn (_('Model'), cell, text = COL_NAME)
         self.append_column (column)
         
         cell = gtk.CellRendererText ()
-        column = gtk.TreeViewColumn ('Description', cell, text = COL_DESCR)
+        column = gtk.TreeViewColumn (_('Description'), cell, text = COL_DESCR)
         self.append_column (column)
         
         self.load()
     
     def load(self):
         list=AGM_Fav_app_models.get_child_models()
-        for el in list:
+        name_list=[]
+        for el in list: name_list.append(el)
+        name_list.sort()
+        for el in name_list:
             model=list[el]
             self.model.append([utils.getPixbufFromName(model.model_icon, 48, "app"), model.model_name, model.model_description, model.model_code_name])
     
@@ -85,4 +101,3 @@ class ModelList(gtk.TreeView):
         
     def clean_list(self):
         self.model.clear()
-        pass

@@ -406,7 +406,10 @@ class fav_apps_list(gtk.TreeView):
     def rewrite_config(self):
         conf.fav_apps=[]
         for el in self.get_list():
-            conf.fav_apps.append({"name":el[0], "icon":el[1], "command":el[2], "tooltip":el[3]})
+            if len(el)==3:
+                conf.fav_apps.append({"name":el[0], "icon":el[1], "command":el[2], "tooltip":el[0]})
+            else:
+                conf.fav_apps.append({"name":el[0], "icon":el[1], "command":el[2], "tooltip":el[3]})
     
     def clean_list(self):
         self.model.clear()
@@ -440,7 +443,20 @@ class fav_apps_list(gtk.TreeView):
            self.rewrite_config()
     
     def edit (self):
-        pass
+        (name, icon, command, tooltip)=self.get_selected()
+        if name!=None:
+            import AGM_edit_fav_app, AGM_Fav_app
+            (name2, icon2, tooltip2, command2)=AGM_edit_fav_app.editFavApp(AGM_Fav_app.FavApp(name, icon, tooltip, command)).get_fav_app()
+            model, iter = self.treeselection.get_selected()
+            if iter:
+                model.set_value(iter, 0, utils.getPixbufFromName(icon2, 24, "app"))
+                model.set_value(iter, 1, name2)
+                model.set_value(iter, 2, icon2)
+                model.set_value(iter, 3, command2)
+                model.set_value(iter, 4, tooltip2)
+                self.rewrite_config()
+   
+
 #        if icon=="None": icon=command.split(" ")[0]
 #        model, iter = self.treeselection.get_selected()
 #        if iter:

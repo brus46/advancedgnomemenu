@@ -4,7 +4,7 @@ class model:
         self.model_code_name="model"
         self.model_name="model"
         self.model_icon="app"
-        self.model_description="This is a fav app"
+        self.model_description="This is a favourite application"
         
         self.can_edit=False
     

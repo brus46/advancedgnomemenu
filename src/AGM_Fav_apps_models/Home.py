@@ -10,7 +10,7 @@ class Model(model):
         self.model_code_name="Home"
         self.model_icon="user-home"
         self.model_name=_("Home")
-        self.model_description=_("Open your home directory")
+        self.model_description=_("Pick an application from your home directory")
     
     def get_fav_app(self):
         return FavApp(_("Home"), "user-home", _("Open your home directory"), "nautilus " + os.path.expanduser("~"))

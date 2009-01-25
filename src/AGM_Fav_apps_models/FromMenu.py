@@ -13,8 +13,8 @@ class Model(model):
         model.__init__(self)
         self.model_code_name="FromMenu"
         self.model_icon="gtk-preferences"
-        self.model_name=_("Get fav app from the menu.")
-        self.model_description=_("Use this if you want to create a fav app from an existing app in the menu.")
+        self.model_name=_("The GNOME menu")
+        self.model_description=_("Pick an application already in the GNOME Menu")
     
     def get_fav_app(self):
         command=AskNewCustomCommand().get_command()

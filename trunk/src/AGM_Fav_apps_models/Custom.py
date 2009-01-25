@@ -10,8 +10,8 @@ class Model(model):
         model.__init__(self)
         self.model_code_name="Custom"
         self.model_icon="gtk-preferences"
-        self.model_name=_("Custom fav app")
-        self.model_description=_("Use this if you want to create a custom fav app")
+        self.model_name=_("Pick a custom application")
+        self.model_description=_("Link to a custom application")
     
     def get_fav_app(self):
         command=AskNewCustomCommand().get_command()

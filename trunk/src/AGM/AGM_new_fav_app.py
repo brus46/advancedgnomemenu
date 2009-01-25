@@ -18,7 +18,7 @@ class selectModule(gtk.Window):
     def __init__(self):
         gtk.Window.__init__(self)
         VBox=gtk.VBox()
-        self.set_title(_("Select Model"))
+        self.set_title(_("Choose a source"))
         self.list=ModelList()
         self.model=None
         okButton=gtk.Button(gtk.STOCK_OK)
@@ -64,7 +64,7 @@ class ModelList(gtk.TreeView):
         gtk.TreeView.__init__(self)
         
         self.model = gtk.ListStore (gtk.gdk.Pixbuf, str, str, str)
-        COL_ICON, COL_NAME, COL_DESCR, COL_CODE = (0, 1, 2, 3)
+        COL_ICON, COL_NAME, COL_DESCR, COL_CODE, COL_DESC_NAME = (0, 1, 2, 3, 4)
         
         self.set_model(self.model)
         self.treeselection = self.get_selection()
@@ -75,12 +75,12 @@ class ModelList(gtk.TreeView):
         self.append_column (column)
     
         cell = gtk.CellRendererText ()
-        column = gtk.TreeViewColumn (_('Model'), cell, text = COL_NAME)
+        column = gtk.TreeViewColumn (_('Source'), cell, markup = COL_NAME )
         self.append_column (column)
         
-        cell = gtk.CellRendererText ()
-        column = gtk.TreeViewColumn (_('Description'), cell, text = COL_DESCR)
-        self.append_column (column)
+#         cell = gtk.CellRendererText ()
+#         column = gtk.TreeViewColumn (_('Description'), cell, text = COL_DESCR)
+#         self.append_column (column)
         
         self.load()
     
@@ -91,7 +91,8 @@ class ModelList(gtk.TreeView):
         name_list.sort()
         for el in name_list:
             model=list[el]
-            self.model.append([utils.getPixbufFromName(model.model_icon, 48, "app"), model.model_name, model.model_description, model.model_code_name])
+            self.model.append([utils.getPixbufFromName(model.model_icon, 48, "app"), "<span weight='bold'>" + model.model_name + 
+            "</span>" + "\n" + model.model_description, model.model_description, model.model_code_name])
     
     def get_selected(self):
         model, iter = self.treeselection.get_selected()

@@ -1293,12 +1293,18 @@ class UpdateToSvn(gtk.VBox):
         VButtonBox.add(trunk_svn)
         VButtonBox.set_spacing(5)
         VButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
-        
+        stable_svn.connect("clicked", self.update_stable)
+        trunk_svn.connect("clicked", self.update_svn)        
         
         self.add(VButtonBox)
         
     def update_stable(self, obj):
+    	update="/usr/bin/agm_update"
+    	if os.path.isfile(update):
+    		utils.ExecCommand(["gnome-terminal", "-e", update])
         pass
     
     def update_svn(self, obj):
-        pass
+        update="/usr/bin/agm_update_unstable"
+    	if os.path.isfile(update):
+    		utils.ExecCommand(["gnome-terminal", "-e", update])

@@ -1,6 +1,8 @@
 #!/bin/bash
 # This script will update agm to the latest svn version.
 
+cd /tmp/
+
 echo "gksu apt-get install subversion"
 gksu 'apt-get install subversion'
 

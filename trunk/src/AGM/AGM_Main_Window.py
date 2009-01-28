@@ -186,7 +186,7 @@ class AGM:
         
         top_style=conf.top_position.get_top()
         
-        self.EBox.add(gtk.Image())
+        #self.EBox.add(gtk.Image())
         self.EBox.set_visible_window(False)
         self.set_default_logo()
                 
@@ -308,7 +308,7 @@ class AGM:
             self.layout.pack_start(MenuBox, True, True)
             self.layout.pack_end(MainBox, False, False)
         elif (top_style==conf.top_position.DW_RIGHT):
-            print "config down right"
+            #print "config down right"
             IconBox=gtk.VBox()
             IconBox.pack_end(self.EBox, False, False)
             IconBox.add(gtk.Label())
@@ -490,7 +490,6 @@ class AGM:
         
     def hide(self, widget=None, event=None):
     	if widget!=None:
-    		print event.in_
     		if event.in_==False:
     			self.win.hide()
         		self.hidden=True
@@ -505,7 +504,7 @@ class AGM:
     def reboot(self, force=False):
         if conf.read_conf() or force:
             if not force: print "Configuration changed"
-            print "Rebooting"
+            print "Reloading menu"
             
             for obj in self.obj:
                 self.layout.remove(obj)
@@ -519,4 +518,5 @@ class AGM:
             self.win.resize(conf.window_width, conf.window_height)
             conf.startposition.move_window(self.win)
         else:
-            print "No config changes"
+            #print "No config changes"
+            pass

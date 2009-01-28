@@ -162,10 +162,9 @@ class AGM_applet(gnomeapplet.Applet):
         del self.applet
     
     def showHelpMenu(self, widget, event, applet):
-        print event.type, event.button
+        #print event.type, event.button
         if event.type == gtk.gdk.BUTTON_PRESS:
             if event.button == 3:
-                print "show menu"
                 self.create_menu(applet)
             else: self.showMenu()
     

@@ -87,7 +87,7 @@ class AGM:
         self.win=CairoWin.TransparentWindow(self.reboot)
         self.win.set_skip_taskbar_hint(True)
         self.win.set_title("AdvancedGnomeMenu") 
-        
+        self.win.connect("focus-out-event", self.hide)
         
         self.NavBar=NavBar(self.win.get_gradient)
         
@@ -488,9 +488,15 @@ class AGM:
         
         self.win.show()
         
-    def hide(self):
-        self.win.hide()
-        self.hidden=True
+    def hide(self, widget=None, event=None):
+    	if widget!=None:
+    		print event.in_
+    		if event.in_==False:
+    			self.win.hide()
+        		self.hidden=True
+        else:
+        	self.win.hide()
+        	self.hidden=True
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()

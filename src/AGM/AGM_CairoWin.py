@@ -58,25 +58,31 @@ class TransparentWindow(gtk.Window):
      }
 
      def __init__(self, change_func):
-             gtk.Window.__init__(self)
-             self.change=change_func
-             # Indichiamo alle GTK che vogliammo disegnare noi lo sfondo.
-             self.set_app_paintable(True)
+		 gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
+		 self.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
+		 self.set_skip_taskbar_hint(True)
+		 self.set_skip_pager_hint(True)
+		 self.set_title("")
+		 self.set_keep_above(True)
+		 self.stick()
+		 self.change=change_func
+		 # Indichiamo alle GTK che vogliammo disegnare noi lo sfondo.
+		 self.set_app_paintable(True)
 
-             # non vogliamo le decorazioni del window manager
-             self.set_decorated(False)
-            
-             # usiamo il segnale button-press-event per permettere
-             # il "click e trascina" sulla finestra. Ricordiamo
-             # che non stiamo utilizzando i classici decoratori
-             # del window manager e non gestendo qeusto segnale
-             # non sarebbe possibile spostare la finestra
-             
-             #self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-             #self.connect('button-press-event', self.on_button_press)
+		 # non vogliamo le decorazioni del window manager
+		 self.set_decorated(False)
 
-             # Inizializziamo lo schermo
-             self.do_screen_changed()
+		 # usiamo il segnale button-press-event per permettere
+		 # il "click e trascina" sulla finestra. Ricordiamo
+		 # che non stiamo utilizzando i classici decoratori
+		 # del window manager e non gestendo qeusto segnale
+		 # non sarebbe possibile spostare la finestra
+		 self.add_events(gtk.gdk.FOCUS_CHANGE_MASK)
+		 #self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		 #self.connect('button-press-event', self.on_button_press)
+
+		 # Inizializziamo lo schermo
+		 self.do_screen_changed()
 
      def on_button_press(self, widget, event):
              self.begin_move_drag(

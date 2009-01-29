@@ -1,0 +1,7 @@
+Firefox;firefox;exec#firefox
+Evolution;evolution;exec#evolution
+Pidgin;pidgin;exec#pidgin
+Terminal;gnome-terminal;exec#gnome-terminal
+Openoffice;openoffice;exec#oofromtemplate
+Logout;gnome-session-halt;exec#gnome-session-save --kill
+

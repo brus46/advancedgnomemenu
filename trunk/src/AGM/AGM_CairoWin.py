@@ -63,7 +63,7 @@ class TransparentWindow(gtk.Window):
 		 self.set_skip_taskbar_hint(True)
 		 self.set_skip_pager_hint(True)
 		 self.set_title("")
-		 self.set_keep_above(True)
+		 self.set_keep_above(False)
 		 self.stick()
 		 self.change=change_func
 		 # Indichiamo alle GTK che vogliammo disegnare noi lo sfondo.

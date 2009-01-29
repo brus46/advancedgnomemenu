@@ -186,7 +186,10 @@ class AGM:
         
         top_style=conf.top_position.get_top()
         
-        #self.EBox.add(gtk.Image())
+        for child in self.EBox.get_children():
+            self.EBox.remove(child)
+        
+        self.EBox.add(gtk.Image())
         self.EBox.set_visible_window(False)
         self.set_default_logo()
                 

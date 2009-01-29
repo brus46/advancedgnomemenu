@@ -36,6 +36,7 @@ import AGM.AGM_default_config
 import gnomeapplet
 import gtk
 from AGM.AGM_Main_Window import AGM as agm
+import AGM.AGM_utils as utils
 #from AGM.AGM_focus_thread import FocusThread as ShowThread
 
 conf=config()
@@ -48,7 +49,7 @@ class AGM_applet(gnomeapplet.Applet):
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
         size=self.get_size()
-        self.icon.set_from_pixbuf(gtk.gdk.pixbuf_new_from_file_at_size(conf.applet_icon, size, size))
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
         self.label=gtk.Label()
         if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
@@ -96,7 +97,7 @@ class AGM_applet(gnomeapplet.Applet):
     def on_change_size (self):
         size=self.get_size()
         w, h=self.label.size_request()
-        pixbuf=gtk.gdk.pixbuf_new_from_file(conf.applet_icon)
+        pixbuf=utils.getPixbufFromName(conf.applet_icon)
         width=pixbuf.get_width()
         height=pixbuf.get_height()
         if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:

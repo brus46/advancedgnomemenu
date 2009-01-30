@@ -78,6 +78,6 @@ class Plugin(plugin):
                       "tooltip":_("Open") + " " + line})            
                 
         except: 
-            print "error"
+            print "error no bookmarks file"
         
         return menu

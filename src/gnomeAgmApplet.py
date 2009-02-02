@@ -235,6 +235,7 @@ class AGM_applet(gnomeapplet.Applet):
             self.X=x-xw+w
             self.Y=y-yw
             self.popup.set_width(0)
+        #print self.X, self.Y
         
     def define_menu(self):
         screen_w, screen_h=(gtk.gdk.screen_width(), gtk.gdk.screen_height())

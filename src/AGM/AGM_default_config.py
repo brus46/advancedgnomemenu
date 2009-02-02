@@ -522,14 +522,17 @@ class positions:
         (width, height)=win.get_size()
         win.set_position(gtk.WIN_POS_NONE)
         if self.pos==self.CENTER:
+            print "center"
             win.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         else:
+            
             win.set_gravity(gravity)
             x=self.x
             y=self.y
+            print x,y
             if x<0: x=gtk.gdk.screen_width()-width
             if y<0: y=gtk.gdk.screen_height()-height
-            win.move(x, y)
+            win.move(int(x), int(y))
         
     
     def to_string(self):

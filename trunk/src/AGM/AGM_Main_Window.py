@@ -460,7 +460,10 @@ class AGM:
     
     def show(self, x=-1, y=-1, popup=AGM_default_config.popup_style(), top_icon=AGM_default_config.top_position(), gravity=gtk.gdk.GRAVITY_NORTH_WEST):
         self.hidden=False
-        conf.startposition.move_window(self.win)
+        #conf.startposition.x=x
+        #conf.startposition.y=y
+        #conf.startposition.pos=conf.startposition.MANUAL
+        #conf.startposition.move_window(self.win, gravity)
         self.menu.goHome()
         self.search_box.set_text("")
         self.execution_box.set_text("")

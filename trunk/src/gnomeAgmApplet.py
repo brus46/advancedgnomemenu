@@ -89,6 +89,7 @@ class AGM_applet(gnomeapplet.Applet):
     def get_size(self):
         try:
             size=self.applet.get_size()
+            size+=10
         except: size=24
         if size<24:
             size=24
@@ -97,15 +98,15 @@ class AGM_applet(gnomeapplet.Applet):
     def on_change_size (self):
         size=self.get_size()
         w, h=self.label.size_request()
-        pixbuf=utils.getPixbufFromName(conf.applet_icon)
+        pixbuf=utils.getPixbufFromName(conf.applet_icon, size=256)
         width=pixbuf.get_width()
         height=pixbuf.get_height()
         if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
-            if height > size:
+            if height != size:
                 width=width*size/height
                 height=size
         else:
-            if width > size:
+            if width != size:
                 height=height*size/width
                 width=size
         #width-=12

@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=AGM4K
+Comment=Advanced Gnome Menu for KDE4
+Type=Service
+Icon=preferences-system-time
+ServiceTypes=Plasma/Applet
+X-Plasma-API=python
+ 
+X-KDE-PluginInfo-Author=Marco Mosconi
+X-KDE-PluginInfo-Email=brus46@gmail.com
+X-KDE-PluginInfo-Name=agm4k
+X-KDE-PluginInfo-Version=0.8.3
+X-KDE-PluginInfo-Website=http://www.sciallo.net/AGM/
+X-KDE-PluginInfo-Category=Python
+X-KDE-PluginInfo-Depends=agm
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true

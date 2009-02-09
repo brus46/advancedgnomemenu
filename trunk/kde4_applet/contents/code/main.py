@@ -5,7 +5,7 @@ from PyKDE4 import plasmascript
 from AGM.AGM_Main_Window import AGM as agm
 import AGM.AGM_utils as utils
  
-class HelloPython(plasmascript.Applet):
+class agm4k(plasmascript.Applet):
     def __init__(self,parent,args=None):
         plasmascript.Applet.__init__(self,parent)
  
@@ -21,4 +21,4 @@ class HelloPython(plasmascript.Applet):
         painter.restore()
  
 def CreateApplet(parent):
-    return HelloPython(parent)
+    return agm4k(parent)

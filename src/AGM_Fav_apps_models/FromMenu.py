@@ -50,7 +50,16 @@ class AskNewCustomCommand(gtk.Window):
         Scroll.add_with_viewport(self.list)
         
         VBox=gtk.VBox(spacing=5)
+        VBox.set_border_width(5)
         
+        HBox=gtk.HBox(spacing=5)
+        HBox.pack_start(gtk.Label(_("Search")+" :"), False)
+        self.SearchBox=gtk.Entry()
+        self.SearchBox.connect("changed", self.Search)
+        
+        HBox.add(self.SearchBox)
+        
+        VBox.pack_start(HBox, False)
         VBox.pack_start(gtk.Label(_("Select program to add")+" :"), False)
         VBox.pack_start(Scroll)
         VBox.pack_end(HButtonBox, False)
@@ -64,6 +73,10 @@ class AskNewCustomCommand(gtk.Window):
         self.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.show_all()
         gtk.main()
+    
+    def Search(self, obj):
+        #print "Search ", self.SearchBox.get_text()
+        self.list.search(self.SearchBox.get_text())
         
     def get_command(self):
         if self.cancel:
@@ -86,9 +99,9 @@ class AppList(gtk.TreeView):
         
         self.editor=MenuEditor()
         self.list=self.recursive_search()
-        self.list.sort()
+        #self.list.sort()
         
-        self.model = gtk.ListStore (gtk.gdk.Pixbuf, str, int)
+        self.model = gtk.ListStore (gtk.gdk.Pixbuf, str)
         COL_ICON, COL_NAME, COL_INDEX = (0, 1, 2)
         
         self.set_model(self.model)
@@ -106,47 +119,56 @@ class AppList(gtk.TreeView):
         self.load()
     
     def load(self):
-        
-        index=0
-        for el in self.list:
-            self.model.append([utils.getPixbufFromName(el["icon"], 48, "app"), el["name"], index])
-            index+=1
+        self.search("")
     
     def get_selected(self):
         model, iter = self.treeselection.get_selected()
         if iter:
-            id=model.get_value (iter, 2)
+            id=model.get_value (iter, 1)
             return (self.list[id]["name"], self.list[id]["icon"], self.list[id]["tooltip"], self.list[id]["command"])
         return None
         
     def clean_list(self):
         self.model.clear()
         pass
-
+    
+    def search(self, text=""):
+        self.clean_list()
+        keys=self.list.keys()
+        keys.sort()
+        if text=="":
+            for nameel in keys:
+                el=self.list[nameel]
+                self.model.append([utils.getPixbufFromName(el["icon"], 48, "app"), el["name"]])
+        else:
+            for el in keys:
+                el=self.list[el]
+                if el["name"].lower().find(text.lower())>=0:
+                    self.model.append([utils.getPixbufFromName(el["icon"], 48, "app"), el["name"]])
+    
     def recursive_search(self, obj=None):
-        found=[]
+        found={}
         if obj==None:
             for menu in self.editor.getMenus():
                 newfound=self.recursive_search(menu)
                 for newel in newfound:
-                    found.append(newel)
+                    
+                    found[newel]=newfound[newel]
         else:
             for menu, show in self.editor.getMenus(obj):
                 if show:
                     newfound=self.recursive_search(menu)
                     for newel in newfound:
-                        found.append(newel)
+                        found[newel]=newfound[newel]
             for item, show in self.editor.getItems(obj):
                 if show and item.get_type() == gmenu.TYPE_ENTRY:
                     name = item.get_name()
                     icon = self.getIcon(item)
                     exec_string=item.get_exec()
-                    #print exec_string
-                    found.append({
-                              "icon":icon, 
+                    found[name]={"icon":icon, 
                               "name":name,
                               "command":exec_string,
-                              "tooltip":name})
+                              "tooltip":name}
         return found    
 
     def getIcon(self, item):

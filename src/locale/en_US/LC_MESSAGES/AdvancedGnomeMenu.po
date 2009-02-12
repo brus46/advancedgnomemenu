@@ -1,0 +1,757 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: AdvancedGnomeMenu 0.8.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-12 17:29+0100\n"
+"PO-Revision-Date: 2009-02-12 18:00+0100\n"
+"Last-Translator: Marco Mosconi <brus46@gmail.com>\n"
+"Language-Team:  <http://groups.google.com/group/advanced-gnome-menu?hl=en>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: s\n"
+
+#: AGM/AGM_config.py:36
+msgid "AGM Configuration"
+msgstr "AGM Configuration"
+
+#: AGM/AGM_config.py:69
+msgid "General"
+msgstr "General"
+
+#: AGM/AGM_config.py:71
+#: AGM/AGM_config_tabs.py:767
+msgid "Themes"
+msgstr "Themes"
+
+#: AGM/AGM_config.py:76
+msgid "Fav apps"
+msgstr "Fav apps"
+
+#: AGM/AGM_config.py:78
+msgid "Menu"
+msgstr "Menu"
+
+#: AGM/AGM_config_tabs.py:501
+msgid "Hide menu after lunching a menu app"
+msgstr "Hide menu after lunching a menu app"
+
+#: AGM/AGM_config_tabs.py:576
+msgid "Show text: 'Menu' in the applet"
+msgstr "Show text: 'Menu' in the applet"
+
+#: AGM/AGM_config_tabs.py:582
+msgid "All changes on the applet will be applied on rebooting"
+msgstr "All changes on the applet will be applied on rebooting"
+
+#: AGM/AGM_config_tabs.py:612
+msgid "Use system colors for buttons (need restart)"
+msgstr "Use system colors for buttons (need restart)"
+
+#: AGM/AGM_config_tabs.py:626
+msgid "Window opacity:"
+msgstr "Window opacity:"
+
+#: AGM/AGM_config_tabs.py:637
+msgid "Background:"
+msgstr "Background:"
+
+#: AGM/AGM_config_tabs.py:640
+msgid "Foreground:"
+msgstr "Foreground:"
+
+#: AGM/AGM_config_tabs.py:644
+msgid "Selected background:"
+msgstr "Selected background:"
+
+#: AGM/AGM_config_tabs.py:647
+msgid "Selected foreground:"
+msgstr "Selected foreground:"
+
+#: AGM/AGM_config_tabs.py:651
+msgid "Active background:"
+msgstr "Active background:"
+
+#: AGM/AGM_config_tabs.py:654
+msgid "Active foreground:"
+msgstr "Active foreground:"
+
+#: AGM/AGM_config_tabs.py:666
+msgid "Gradient color 1"
+msgstr "Gradient color 1"
+
+#: AGM/AGM_config_tabs.py:667
+msgid "Gradient color 2"
+msgstr "Gradient color 2"
+
+#: AGM/AGM_config_tabs.py:668
+msgid "Gradient color 3"
+msgstr "Gradient color 3"
+
+#: AGM/AGM_config_tabs.py:669
+msgid "Use the third color (will be the center color)"
+msgstr "Use the third color (will be the center color)"
+
+#: AGM/AGM_config_tabs.py:671
+msgid "Top light color"
+msgstr "Top light color"
+
+#: AGM/AGM_config_tabs.py:672
+msgid "Show top light"
+msgstr "Show top light"
+
+#: AGM/AGM_config_tabs.py:674
+msgid "Icon bg color"
+msgstr "Icon bg color"
+
+#: AGM/AGM_config_tabs.py:691
+msgid "Export Theme"
+msgstr "Export Theme"
+
+#: AGM/AGM_config_tabs.py:693
+msgid "Save Theme"
+msgstr "Save Theme"
+
+#: AGM/AGM_config_tabs.py:701
+msgid "Theme name:"
+msgstr "Theme name:"
+
+#: AGM/AGM_config_tabs.py:714
+msgid "New"
+msgstr "New"
+
+#: AGM/AGM_config_tabs.py:716
+msgid "Clear"
+msgstr "Clear"
+
+#: AGM/AGM_config_tabs.py:718
+msgid "Show"
+msgstr "Show"
+
+#: AGM/AGM_config_tabs.py:726
+msgid "Theme description: "
+msgstr "Theme description: "
+
+#: AGM/AGM_config_tabs.py:739
+msgid "Window"
+msgstr "Window"
+
+#: AGM/AGM_config_tabs.py:740
+msgid "Buttons"
+msgstr "Buttons"
+
+#: AGM/AGM_config_tabs.py:741
+msgid "Background"
+msgstr "Background"
+
+#: AGM/AGM_config_tabs.py:742
+msgid "Theme"
+msgstr "Theme"
+
+#: AGM/AGM_config_tabs.py:750
+msgid "Import Theme"
+msgstr "Import Theme"
+
+#: AGM/AGM_config_tabs.py:752
+msgid "Delete Theme"
+msgstr "Delete Theme"
+
+#: AGM/AGM_config_tabs.py:770
+msgid "Edit Theme"
+msgstr "Edit Theme"
+
+#: AGM/AGM_config_tabs.py:1003
+msgid "Screenshot"
+msgstr "Screenshot"
+
+#: AGM/AGM_config_tabs.py:1007
+msgid "Description"
+msgstr "Description"
+
+#: AGM/AGM_config_tabs.py:1029
+msgid "Theme name"
+msgstr "Theme name"
+
+#: AGM/AGM_config_tabs.py:1060
+msgid "Start pos:"
+msgstr "Start pos:"
+
+#: AGM/AGM_config_tabs.py:1062
+msgid "End pos:"
+msgstr "End pos:"
+
+#: AGM/AGM_config_tabs.py:1080
+msgid "Use user login image"
+msgstr "Use user login image"
+
+#: AGM/AGM_config_tabs.py:1081
+msgid "Use this image: "
+msgstr "Use this image: "
+
+#: AGM/AGM_config_tabs.py:1091
+msgid "Show icon in menu"
+msgstr "Show icon in menu"
+
+#: AGM/AGM_config_tabs.py:1098
+msgid "Menu icon"
+msgstr "Menu icon"
+
+#: AGM/AGM_config_tabs.py:1119
+msgid "Use smart top icon"
+msgstr "Use smart top icon"
+
+#: AGM/AGM_config_tabs.py:1180
+msgid "Behaviour"
+msgstr "Behaviour"
+
+#: AGM/AGM_config_tabs.py:1181
+msgid "Elements"
+msgstr "Elements"
+
+#: AGM/AGM_config_tabs.py:1199
+msgid "Show favourite applications"
+msgstr "Show favourite applications"
+
+#: AGM/AGM_config_tabs.py:1203
+msgid "Show search box"
+msgstr "Show search box"
+
+#: AGM/AGM_config_tabs.py:1207
+msgid "Show execution box"
+msgstr "Show execution box"
+
+#: AGM/AGM_config_tabs.py:1246
+msgid "Applet config"
+msgstr "Applet config"
+
+#: AGM/AGM_config_tabs.py:1253
+msgid "Safe mode, will work without rounded borders."
+msgstr "Safe mode, will work without rounded borders."
+
+#: AGM/AGM_config_tabs.py:1289
+msgid "Update to the latest stable version"
+msgstr "Update to the latest stable version"
+
+#: AGM/AGM_config_tabs.py:1290
+msgid "Update to the latest version of the SVN"
+msgstr "Update to the latest version of the SVN"
+
+#: AGM/AGM_edit_fav_app.py:45
+#: AGM_Fav_apps_models/Custom.py:52
+msgid "Name"
+msgstr "Name"
+
+#: AGM/AGM_edit_fav_app.py:49
+#: AGM_Fav_apps_models/Custom.py:56
+msgid "Icon"
+msgstr "Icon"
+
+#: AGM/AGM_edit_fav_app.py:55
+#: AGM_Fav_apps_models/Custom.py:62
+msgid "Tooltip"
+msgstr "Tooltip"
+
+#: AGM/AGM_edit_fav_app.py:59
+#: AGM_Fav_apps_models/Custom.py:66
+msgid "Command"
+msgstr "Command"
+
+#: AGM/AGM_edit_fav_app.py:68
+msgid "Edit fav app"
+msgstr "Edit fav app"
+
+#: AGM/AGM_execute_box.py:40
+#: AGM/AGM_execute_box.py:47
+msgid "Execute"
+msgstr "Esegui"
+
+#: AGM/AGM_menu.py:204
+#: AGM/AGM_menu.py:205
+#: AGM/AGM_search_bar.py:33
+#: AGM/AGM_search_bar.py:34
+#: AGMplugins/Search.py:44
+#: AGMplugins/Search.py:47
+#: AGM_Fav_apps_models/FromMenu.py:56
+msgid "Search"
+msgstr "Search"
+
+#: AGM/AGM_new_fav_app.py:21
+msgid "Choose a source"
+msgstr "Choose a source"
+
+#: AGM/AGM_new_fav_app.py:78
+msgid "Source"
+msgstr "Source"
+
+#: AGMplugins/Bookmarks.py:51
+#: AGMplugins/Browse_Bookmarks.py:48
+#: AGMplugins/MorePlaces.py:95
+msgid "Bookmarks"
+msgstr "Bookmarks"
+
+#: AGMplugins/Bookmarks.py:54
+#: AGMplugins/Browse_Bookmarks.py:51
+msgid "Browse your bookmarks"
+msgstr "Browse your bookmarks"
+
+#: AGMplugins/Bookmarks.py:75
+#: AGMplugins/Browse_Bookmarks.py:72
+#: AGMplugins/Browse_Bookmarks.py:94
+#: AGMplugins/Browse_Bookmarks.py:111
+#: AGMplugins/Browse_Files.py:90
+#: AGMplugins/Home.py:48
+#: AGMplugins/Home.py:67
+#: AGMplugins/Home.py:83
+#: AGMplugins/LastUsedFiles.py:73
+#: AGMplugins/MorePlaces.py:63
+#: AGMplugins/MorePlaces.py:74
+#: AGMplugins/Places.py:57
+#: AGMplugins/Places.py:61
+#: AGMplugins/Search_Home_Dir.py:69
+#: AGMplugins/Search_Home_Dir.py:93
+#: AGMplugins/Search_with_locate.py:80
+#: AGMplugins/Search_with_locate.py:95
+msgid "Open as root"
+msgstr "Open as root"
+
+#: AGMplugins/Bookmarks.py:76
+#: AGMplugins/Browse_Bookmarks.py:73
+#: AGMplugins/Browse_Bookmarks.py:95
+#: AGMplugins/Browse_Files.py:50
+#: AGMplugins/Browse_Files.py:71
+#: AGMplugins/Home.py:49
+#: AGMplugins/Home.py:68
+#: AGMplugins/MorePlaces.py:64
+#: AGMplugins/MorePlaces.py:75
+#: AGMplugins/Places.py:58
+#: AGMplugins/Places.py:62
+#: AGMplugins/Search_Home_Dir.py:70
+#: AGMplugins/Search_Home_Dir.py:92
+#: AGMplugins/Search_with_locate.py:81
+msgid "Open a terminal here"
+msgstr "Open a terminal here"
+
+#: AGMplugins/Bookmarks.py:78
+#: AGMplugins/Browse_Bookmarks.py:71
+#: AGMplugins/Browse_Bookmarks.py:75
+#: AGMplugins/Browse_Bookmarks.py:93
+#: AGMplugins/Browse_Bookmarks.py:112
+#: AGMplugins/Browse_Files.py:92
+#: AGMplugins/Home.py:47
+#: AGMplugins/Home.py:66
+#: AGMplugins/Home.py:85
+#: AGMplugins/MorePlaces.py:62
+#: AGMplugins/MorePlaces.py:73
+#: AGMplugins/Places.py:56
+#: AGMplugins/Places.py:60
+#: AGMplugins/Search_Home_Dir.py:95
+#: AGMplugins/Search_with_locate.py:97
+msgid "Open"
+msgstr "Open"
+
+#: AGMplugins/Browse_Bookmarks.py:97
+#: AGMplugins/Browse_Files.py:48
+#: AGMplugins/Browse_Files.py:69
+#: AGMplugins/Browse_Files.py:73
+#: AGMplugins/Home.py:70
+#: AGMplugins/Search_Home_Dir.py:71
+#: AGMplugins/Search_Home_Dir.py:90
+#: AGMplugins/Search_with_locate.py:82
+msgid "Open folder"
+msgstr "Open folder"
+
+#: AGMplugins/Browse_Files.py:45
+#: AGMplugins/Home.py:44
+#: AGMplugins/MorePlaces.py:59
+#: AGM_Fav_apps_models/Home.py:12
+#: AGM_Fav_apps_models/Home.py:16
+msgid "Home"
+msgstr "Home"
+
+#: AGMplugins/Browse_Files.py:49
+#: AGMplugins/Browse_Files.py:70
+#: AGMplugins/Search_Home_Dir.py:91
+msgid "Open folder as root"
+msgstr "Open folder as root"
+
+#: AGMplugins/Browse_Files.py:52
+#: AGMplugins/Home.py:51
+msgid "Browse your home"
+msgstr "Browse your home"
+
+#: AGMplugins/FavoriteApps.py:56
+msgid "Favorite"
+msgstr "Favorite"
+
+#: AGMplugins/FavoriteApps.py:59
+msgid "Your favorites apps."
+msgstr "Your favorites apps."
+
+#: AGMplugins/InstallApps.py:42
+msgid "Install programs"
+msgstr "Install programs"
+
+#: AGMplugins/InstallApps.py:45
+msgid "Install programs on your pc."
+msgstr "Install programs on your pc."
+
+#: AGMplugins/LastUsedFiles.py:45
+#: AGMplugins/MorePlaces.py:101
+msgid "Recently used files"
+msgstr "Recently used files"
+
+#: AGMplugins/LastUsedFiles.py:48
+#: AGMplugins/MorePlaces.py:104
+msgid "Last files you've used"
+msgstr "Last files you've used"
+
+#: AGMplugins/LogOut.py:41
+msgid "Exit"
+msgstr "Exit"
+
+#: AGMplugins/LogOut.py:44
+#: AGM_Fav_apps_models/Logout.py:13
+#: AGM_Fav_apps_models/Logout.py:17
+msgid "Logout"
+msgstr "Logout"
+
+#: AGMplugins/MorePlaces.py:51
+#: AGMplugins/Places.py:45
+msgid "Places"
+msgstr "Places"
+
+#: AGMplugins/MorePlaces.py:54
+#: AGMplugins/Places.py:48
+msgid "Your fast-access pc-places"
+msgstr "Your fast-access pc-places"
+
+#: AGMplugins/MorePlaces.py:66
+msgid "Your home folder"
+msgstr "La tua home"
+
+#: AGMplugins/MorePlaces.py:70
+#: AGMplugins/Places.py:70
+#: AGM_Fav_apps_models/Computer.py:12
+#: AGM_Fav_apps_models/Computer.py:16
+msgid "Computer"
+msgstr "Computer"
+
+#: AGMplugins/MorePlaces.py:77
+#: AGMplugins/Places.py:73
+msgid "Your computer"
+msgstr "Il tuo computer"
+
+#: AGMplugins/MorePlaces.py:81
+#: AGMplugins/MorePlaces.py:84
+msgid "Create cd/dvd"
+msgstr "Crea cd/dvd"
+
+#: AGMplugins/MorePlaces.py:88
+#: AGMplugins/Places.py:85
+msgid "Network"
+msgstr "Risorse di Rete"
+
+#: AGMplugins/MorePlaces.py:91
+#: AGMplugins/Places.py:88
+msgid "Show network"
+msgstr "Mostra la rete"
+
+#: AGMplugins/MorePlaces.py:98
+msgid "Your bookmarks"
+msgstr "I tuoi segnalibri"
+
+#: AGMplugins/Places.py:53
+#: AGMplugins/Places.py:64
+msgid "Home folder"
+msgstr "Cartella home"
+
+#: AGMplugins/Places.py:78
+msgid "Create Cd-Dvd"
+msgstr "Create Cd-Dvd"
+
+#: AGMplugins/Places.py:81
+msgid "Create cd"
+msgstr "Create cd"
+
+#: AGM_Fav_apps_models/Computer.py:13
+msgid "Select a program from all sources visible to this computer"
+msgstr "Select a program from all sources visible to this computer"
+
+#: AGM_Fav_apps_models/ControlCenter.py:14
+#: AGM_Fav_apps_models/ControlCenter.py:18
+msgid "Control Center"
+msgstr "Control Center"
+
+#: AGM_Fav_apps_models/ControlCenter.py:15
+msgid "Launch the GNOME Control Center"
+msgstr "Launch the GNOME Control Center"
+
+#: AGM_Fav_apps_models/ControlCenter.py:18
+msgid "Launch Gnome Control Center"
+msgstr "Launch Gnome Control Center"
+
+#: AGM_Fav_apps_models/Custom.py:13
+msgid "Pick a custom application"
+msgstr "Pick a custom application"
+
+#: AGM_Fav_apps_models/Custom.py:14
+msgid "Link to a custom application"
+msgstr "Link to a custom application"
+
+#: AGM_Fav_apps_models/Custom.py:75
+msgid "Add custom command"
+msgstr "Add custom command"
+
+#: AGM_Fav_apps_models/FromMenu.py:16
+msgid "The GNOME menu"
+msgstr "The GNOME menu"
+
+#: AGM_Fav_apps_models/FromMenu.py:17
+msgid "Pick an application already in the GNOME Menu"
+msgstr "Pick an application already in the GNOME Menu"
+
+#: AGM_Fav_apps_models/FromMenu.py:63
+msgid "Select program to add"
+msgstr "Select program to add"
+
+#: AGM_Fav_apps_models/FromMenu.py:68
+msgid "Add Fav app from menu."
+msgstr "Add Fav app from menu."
+
+#: AGM_Fav_apps_models/Home.py:13
+msgid "Pick an application from your home directory"
+msgstr "Pick an application from your home directory"
+
+#: AGM_Fav_apps_models/Home.py:16
+msgid "Open your home directory"
+msgstr "Open your home directory"
+
+#: AGM_Fav_apps_models/Logout.py:14
+msgid "Add a Logout button"
+msgstr "Add a Logout button"
+
+#: AGM_configurator.glade:9
+msgid "Configuratore"
+msgstr "Configuratore"
+
+#: AGM_configurator.glade:101
+msgid "Aggiorna all'ultima versione stabile"
+msgstr "Aggiorna all'ultima versione stabile"
+
+#: AGM_configurator.glade:176
+msgid "Aggiorna all'aultima versione disponibile"
+msgstr "Aggiorna all'aultima versione disponibile"
+
+#: AGM_configurator.glade:249
+msgid "Messaggio di Benvenuto :"
+msgstr "Messaggio di Benvenuto :"
+
+#: AGM_configurator.glade:294
+#: AGM_configurator.glade:575
+msgid "Colore :"
+msgstr "Colore :"
+
+#: AGM_configurator.glade:351
+msgid "Mostra applicazioni preferite"
+msgstr "Mostra applicazioni preferite"
+
+#: AGM_configurator.glade:371
+msgid "Mostra casella di ricerca"
+msgstr "Mostra casella di ricerca"
+
+#: AGM_configurator.glade:405
+msgid "Mostra messaggio di benvenuto"
+msgstr "Mostra messaggio di benvenuto"
+
+#: AGM_configurator.glade:425
+msgid "Mostra casella Esegui"
+msgstr "Mostra casella Esegui"
+
+#: AGM_configurator.glade:459
+msgid "Mostra icona utente"
+msgstr "Mostra icona utente"
+
+#: AGM_configurator.glade:479
+msgid "Mostra nome applicazioni fav"
+msgstr "Mostra nome applicazioni fav"
+
+#: AGM_configurator.glade:512
+msgid "Mostra testo nell'applet"
+msgstr "Mostra testo nell'applet"
+
+#: AGM_configurator.glade:530
+msgid "Testo applet :"
+msgstr "Testo applet :"
+
+#: AGM_configurator.glade:643
+msgid "<b>Personalizazioni</b>"
+msgstr "<b>Personalizazioni</b>"
+
+#: AGM_configurator.glade:707
+msgid "Nascondi il menù dopo aver lanciato un'applicazione"
+msgstr "Nascondi il menù dopo aver lanciato un'applicazione"
+
+#: AGM_configurator.glade:740
+msgid "Comando per aprire le cartelle :"
+msgstr "Comando per aprire le cartelle :"
+
+#: AGM_configurator.glade:799
+msgid "Comando per aprire i file :"
+msgstr "Comando per aprire i file :"
+
+#: AGM_configurator.glade:854
+msgid "<b>Comportamento Menù</b>"
+msgstr "<b>Comportamento Menù</b>"
+
+#: AGM_configurator.glade:890
+msgid "Generale"
+msgstr "Generale"
+
+#: AGM_configurator.glade:927
+msgid "Icona  applet : "
+msgstr "Icona  applet : "
+
+#: AGM_configurator.glade:981
+msgid "Icona utente : "
+msgstr "Icona utente : "
+
+#: AGM_configurator.glade:1036
+msgid "Icona utente segue i menù"
+msgstr "Icona utente segue i menù"
+
+#: AGM_configurator.glade:1133
+msgid "Gradiente basso :"
+msgstr "Gradiente basso :"
+
+#: AGM_configurator.glade:1162
+msgid "Gradiente centrale :"
+msgstr "Gradiente centrale :"
+
+#: AGM_configurator.glade:1191
+msgid "Gradiente alto :"
+msgstr "Gradiente alto :"
+
+#: AGM_configurator.glade:1220
+msgid "Fine gradiente :"
+msgstr "Fine gradiente :"
+
+#: AGM_configurator.glade:1287
+msgid "Attiva gradiente centrale"
+msgstr "Attiva gradiente centrale"
+
+#: AGM_configurator.glade:1309
+msgid "Inizio gradiente :"
+msgstr "Inizio gradiente :"
+
+#: AGM_configurator.glade:1356
+msgid "Sfondo icona menù :"
+msgstr "Sfondo icona menù :"
+
+#: AGM_configurator.glade:1385
+msgid "Opacità intera finestra :"
+msgstr "Opacità intera finestra :"
+
+#: AGM_configurator.glade:1454
+msgid "<b>Sfondo finestra menù</b>"
+msgstr "<b>Sfondo finestra menù</b>"
+
+#: AGM_configurator.glade:1514
+msgid "Caratteri :"
+msgstr "Caratteri :"
+
+#: AGM_configurator.glade:1543
+msgid "Sfondo :"
+msgstr "Sfondo :"
+
+#: AGM_configurator.glade:1571
+msgid "Caratteri selezionati :"
+msgstr "Caratteri selezionati :"
+
+#: AGM_configurator.glade:1599
+msgid "Sfondo selezionato :"
+msgstr "Sfondo selezionato :"
+
+#: AGM_configurator.glade:1627
+msgid "Dimensione icone :"
+msgstr "Dimensione icone :"
+
+#: AGM_configurator.glade:1753
+msgid "<b>Riquadro menù</b>"
+msgstr "<b>Riquadro menù</b>"
+
+#: AGM_configurator.glade:1789
+msgid "Aspetto"
+msgstr "Aspetto"
+
+#: AGM_configurator.glade:1833
+msgid "Applicazione preferite"
+msgstr "Applicazione preferite"
+
+#: AGM_configurator.glade:2054
+msgid "Scelta Applicazione"
+msgstr "Scelta Applicazione"
+
+#: AGM_configurator.glade:2131
+msgid "Posizione applicazioni :"
+msgstr "Posizione applicazioni :"
+
+#: AGM_configurator.glade:2201
+msgid "App fav"
+msgstr "App fav"
+
+#: AGM_configurator.glade:2366
+msgid "Mostra"
+msgstr "Mostra"
+
+#: AGM_configurator.glade:2408
+msgid "<b>Gestione Temi</b>"
+msgstr "<b>Gestione Temi</b>"
+
+#: AGM_configurator.glade:2465
+msgid "Nome tema :"
+msgstr "Nome tema :"
+
+#: AGM_configurator.glade:2510
+msgid "Descrizione :"
+msgstr "Descrizione :"
+
+#: AGM_configurator.glade:2624
+msgid "Esporta"
+msgstr "Esporta"
+
+#: AGM_configurator.glade:2679
+msgid "<b>Nuovo Tema</b>"
+msgstr "<b>Nuovo Tema</b>"
+
+#: AGM_configurator.glade:2715
+msgid "Temi"
+msgstr "Temi"
+
+#: AGM_configurator.glade:2758
+msgid "Plugins avviabili"
+msgstr "Plugins avviabili"
+
+#: AGM_configurator.glade:2978
+msgid "Plugins attivati"
+msgstr "Plugins attivati"
+
+#: AGM_configurator.glade:3060
+msgid "Configura plugin"
+msgstr "Configura plugin"
+
+#: AGM_configurator.glade:3073
+msgid "Installa nuovo plugin"
+msgstr "Installa nuovo plugin"
+
+#: AGM_configurator.glade:3096
+msgid "Plugins"
+msgstr "Plugins"
+

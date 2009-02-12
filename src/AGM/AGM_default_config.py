@@ -174,7 +174,7 @@ if gconf_exist:
             self.menu_bar_icon_y=5        
             
             self.read_conf()
-            pass
+            
         def read_conf(self, config_path=None):
             print_mode=False
             if config_path==None: 

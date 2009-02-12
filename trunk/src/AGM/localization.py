@@ -17,32 +17,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import locale
-from AGM_default_config import conf as config
-conf=config()
+import gettext, locale
+import gtk.glade
 
-def ReadDict(language):
-    dict={}
-    lang_file=conf.install_data_dir + "locale/"+language+".lang"
-    try:
-        lang=open(lang_file)
-        for word in lang.readlines():
-            word=word.replace("\n", "")
-            word=word.split("=")
-            if len(word)==2:
-                dict[word[0]]=word[1]
-    except:
-        print "Your language (" + language + ") is still unavailable"
-    
-    return dict
 
 def Translate(string):
-    if dict.has_key(string):
-        return dict[string]
-    else:
-        #print "Warning: " + string + " translation not avaible!"
-        return string
+    locale.setlocale(locale.LC_ALL, '')  
+    for module in gtk.glade, gettext:
+        #print module
+        module.bindtextdomain('AdvancedGnomeMenu', "./locale/")  
+        module.textdomain('AdvancedGnomeMenu')
+    print string, gettext.gettext(string)
+    return gettext.gettext(string)
 
 language = locale.getlocale(locale.LC_ALL)[0]
 print "Your language is: " + language
-dict=ReadDict(language)

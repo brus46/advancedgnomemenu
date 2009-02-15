@@ -1035,6 +1035,19 @@ class theme_list(gtk.TreeView):
            return model.get_value (iter, 2)
         return None
 
+class gradient_combo(gtk.HBox):
+    def __init__(self, position):
+        gtk.HBox.__init__(self)
+        list=conf.gradient_direction.get_list()
+        
+        self.start=gtk.combo_box_new_text()
+        self.start.append_text(list[position])
+        for pos in list:
+            if pos!=position:
+                self.start.append_text(list[pos])
+        self.add(self.start)
+        
+
 class gradient_direction(gtk.HBox):
     def __init__(self):
         gtk.HBox.__init__(self)

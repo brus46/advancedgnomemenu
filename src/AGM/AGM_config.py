@@ -20,6 +20,8 @@
 import gtk, sys, os, gtk.glade
 from AGM.AGM_default_config import conf as config
 from AGM import AGM_config_tabs
+import AGM.AGM_plugins as plugins
+import AGM.AGM_utils as utils
 import localization
 _=localization.Translate
 
@@ -42,6 +44,14 @@ class Config():
         self.ConfigObj.get_widget("AvaiblePlugins").add_with_viewport(self.avaible_plugins)
         self.ConfigObj.get_widget("ActivePlugins").add_with_viewport(self.active_plugins)
         
+        self.gradient_start_position=AGM_config_tabs.gradient_combo(conf.gradient_direction.get_start_point())
+        self.gradient_end_position=AGM_config_tabs.gradient_combo(conf.gradient_direction.get_end_point())
+        self.ConfigObj.get_widget("gradient_start_position").add(self.gradient_start_position)
+        self.ConfigObj.get_widget("gradient_end_position").add(self.gradient_end_position)
+        
+        self.ConfigObj.get_widget("Top_icon").set_from_pixbuf(utils.getPixbufFromName(conf.top_icon_other_logo, 48))
+        self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
+        
         self.ThemesList=AGM_config_tabs.theme_list()
         self.ConfigObj.get_widget("Themes").add_with_viewport(self.ThemesList)
         
@@ -57,6 +67,12 @@ class Config():
         ## TAB FAV APPS
         ## TAB THEMES
         ## TAB PLUGINS
+                "MoveUpPlugin": self.move_up,
+                "MoveDwPlugin": self.move_dw,
+                "ActivePlugin": self.activate,
+                "DeactivePlugin": self.deactivate,
+                "ConfigurePlugin": self.configure,
+                "InstallNewPlugin": self.install_new_plugin,
         ##GLOBAL COMMANDS
             #Ok, Cancel, Apply buttons
                 "on_ok_clicked" : self.ok_pressed,
@@ -67,6 +83,7 @@ class Config():
                 "on_main_window_destroy_event" : self.cancel_pressed }
         
         self.ConfigObj.signal_autoconnect(events)
+        self.active_plugins.connect("cursor-changed", self.list_active_changed)
         
         if conf.show_update_from_svn==False:
             self.ConfigObj.get_widget("UpdateSVN").hide()
@@ -113,6 +130,7 @@ class Config():
         
         
         self.ConfigObj.get_widget("smart_top_icon").set_active(conf.top_icon_enable_smart_mode)
+        
         # FAV APPS
         
         # THEMES
@@ -198,6 +216,66 @@ class Config():
         update="/usr/bin/agm_update_unstable"
         if os.path.isfile(update):
             utils.ExecCommand(["gnome-terminal", "-e", update])
+
+    def install_new_plugin(self, obj):
+        from AGM_utils import OpenPlugin
+        path=OpenPlugin().get_file()
+        print path
+        if path!=None and os.path.isfile(path):
+            try:
+                os.mkdir("/tmp/AGM/")
+            except: print "Cannot create temp-dir"
+            
+            try:
+                os.system("cp " + path + " /tmp/AGM/plugin.tar")
+                os.system("cd /tmp/AGM/ && tar -xvf /tmp/AGM/plugin.tar")
+                os.system("rm /tmp/AGM/plugin.tar")
+                command="gksu 'cp /tmp/AGM/*.py " + conf.plugin_folder +"'"
+                print command
+                os.system(command)
+            except: print "Cannot extract plugin in temp-dir"
+            os.system("rm -R /tmp/AGM/")
+        self.avaible_plugins.clean_list()
+        self.avaible_plugins.load()
+
+    def list_active_changed(self, obj=None, row=None):
+        plugin=self.active_plugins.get_selected()
+        avaible_plugins=plugins.get_child_plugins()
+        if plugin!=None and avaible_plugins.has_key(plugin):
+            plugin=avaible_plugins[plugin]
+            if plugin.is_configurable:
+                self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(True)
+            else:
+                self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(False)
+            self.ConfigObj.get_widget("DescriptionPlugin").set_text(plugin.name+"\n"+plugin.description+"\n"+plugin.author+ " " + plugin.author_site)
+        else: 
+            self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(False)
+            self.ConfigObj.get_widget("DescriptionPlugin").set_text("")
+        pass
+    
+    def configure(self, obj):
+        plugin=self.active_plugins.get_selected()
+        avaible_plugins=plugins.get_child_plugins()
+        if plugin!=None and avaible_plugins.has_key(plugin):
+            if avaible_plugins[plugin].is_configurable:
+                avaible_plugins[plugin].configure()
+    
+            
+    def move_up(self, obj):
+        print "moving"
+        self.active_plugins.moveup()
+        
+    def move_dw(self, obj):
+        self.active_plugins.movedown()
+    
+    def activate(self, obj):
+        self.active_plugins.add(self.avaible_plugins.get_selected())
+        pass
+    
+    def deactivate(self, obj):
+        self.active_plugins.remove()
+        pass
+
 
     #COLOR BUTTONS
     def set_complete_color(self, color, colorbutton):

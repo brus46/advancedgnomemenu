@@ -296,7 +296,7 @@ class active_plugin_list(gtk.TreeView):
     
 class config_fav_apps(gtk.HBox):
     def __init__(self):
-        gtk.HBox.__init__(self)
+        gtk.HBox.__init__(self, spacing=5)
         self.list=fav_apps_list()
         self.list.connect("cursor-changed", self.el_changed)
         self.add(self.list)

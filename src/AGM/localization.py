@@ -27,7 +27,7 @@ def Translate(string):
         #print module
         module.bindtextdomain('AdvancedGnomeMenu', "./locale/")  
         module.textdomain('AdvancedGnomeMenu')
-    print string, gettext.gettext(string)
+    #print string, gettext.gettext(string)
     return gettext.gettext(string)
 
 language = locale.getlocale(locale.LC_ALL)[0]

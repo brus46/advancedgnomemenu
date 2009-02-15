@@ -17,7 +17,8 @@ class newFavApp():
 class selectModule(gtk.Window):
     def __init__(self):
         gtk.Window.__init__(self)
-        VBox=gtk.VBox()
+        self.set_border_width(5)
+        VBox=gtk.VBox(spacing=5)
         self.set_title(_("Choose a source"))
         self.list=ModelList()
         self.model=None
@@ -48,7 +49,7 @@ class selectModule(gtk.Window):
         gtk.main()
     
     def okButton(self, obj):
-        print self.list.get_selected()
+        #print self.list.get_selected()
         self.model=AGM_Fav_app_models.get_model(self.list.get_selected())
         self.cancelButton(obj)
     

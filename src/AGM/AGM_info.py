@@ -32,7 +32,7 @@ class Info(gtk.AboutDialog):
         
         self.set_title("AGM")
         self.set_name("Advanced Gnome Menu")
-        self.set_version("0.8.3")
+        self.set_version("0.8.4")
         self.set_copyright("(c) 2008 Marco Mosconi")
         self.set_license('''    This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

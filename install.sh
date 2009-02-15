@@ -8,6 +8,7 @@ sudo mkdir /usr/local/lib/python/
 
 #Installing the main code
 sudo cp ./src/AGM.py /usr/share/AGM/
+sudo cp ./src/AGM_configurator.glade /usr/share/AGM/
 sudo cp -R ./src/pictures/ /usr/share/AGM/
 sudo cp -R ./src/AGM/ /usr/local/lib/python/
 sudo cp -R ./src/AGMplugins/ /usr/local/lib/python/

@@ -13,7 +13,7 @@ def get_label(text):
 class editFavApp(gtk.Window):
     def __init__(self, FavApp):
         gtk.Window.__init__(self)
-
+        self.set_border_width(5)
         self.fav_app=FavApp
         self.text=gtk.Entry()
         self.icon=gtk.Button()

@@ -480,7 +480,7 @@ class conf:
             file.write("execution_box_terminal_command="+self.execution_box_terminal_command+"\n")
             if (self.show_update_from_svn): file.write("show_update_svn=True"+"\n")
             else: file.write("show_update_svn=False"+"\n")
-            if (self.show_update_from_stable): file.write("show_update_stable=True"+"\n")
+            if (self.show_update_from_svn_stable): file.write("show_update_stable=True"+"\n")
             else: file.write("show_update_stable=False"+"\n")
             file.close()
     

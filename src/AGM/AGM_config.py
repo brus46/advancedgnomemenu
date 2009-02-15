@@ -68,10 +68,17 @@ class Config():
         
         self.ConfigObj.signal_autoconnect(events)
         
+        if conf.show_update_from_svn==False:
+            self.ConfigObj.get_widget("UpdateSVN").hide()
+        if conf.show_update_from_svn_stable==False:
+            self.ConfigObj.get_widget("UpdateStable").hide()
+
+        
         if self.stand_alone:
             gtk.main()
             
     def loadConfig(self):
+        # GENERAL
         self.ConfigObj.get_widget("welcome_message").set_text(conf.welcome)
         self.ConfigObj.get_widget("Applet_text").set_text(conf.applet_text)
                 
@@ -86,8 +93,35 @@ class Config():
         self.ConfigObj.get_widget("Hide_menu_after_launch_app").set_active(conf.hide_on_program_launch)
         self.ConfigObj.get_widget("Open_folder_command").set_text(conf.open_folder_command)
         self.ConfigObj.get_widget("Open_file_command").set_text(conf.open_file_command)
-            
+
+        self.set_complete_color(conf.welcome_color, self.ConfigObj.get_widget("welcome_message_color"))        
+        self.set_complete_color(conf.applet_fg_color, self.ConfigObj.get_widget("Applet_text_color"))
+        
+        # LOOK
+        self.set_complete_color(conf.gradient_color1, self.ConfigObj.get_widget("Gradient_1"))
+        self.set_complete_color(conf.gradient_color2, self.ConfigObj.get_widget("Gradient_2"))
+        self.set_complete_color(conf.gradient_color3, self.ConfigObj.get_widget("Gradient_3"))
+        self.set_complete_color(conf.iconbgcolor, self.ConfigObj.get_widget("Icon_BG"))
+        self.set_complete_color(conf.bgcolor, self.ConfigObj.get_widget("bg_color"))
+        self.set_complete_color(conf.selectedbgcolor, self.ConfigObj.get_widget("sel_bg_color"))
+        self.set_complete_color(conf.fgcolor, self.ConfigObj.get_widget("fg_color"))
+        self.set_complete_color(conf.selectedfgcolor, self.ConfigObj.get_widget("sel_fg_color"))
+        self.ConfigObj.get_widget("use_3_gradient").set_active(conf.gradient_enable_3color)
+        
+        self.ConfigObj.get_widget("WindowOpacity").set_value(conf.opacity*100)
+        self.ConfigObj.get_widget("icon_dimension").set_value(conf.menu_icon_size)
+        
+        
+        self.ConfigObj.get_widget("smart_top_icon").set_active(conf.top_icon_enable_smart_mode)
+        # FAV APPS
+        
+        # THEMES
+        
+        # PLUGINS
+        
+        
     def change_config(self):
+        # GENERAL
         conf.welcome=self.ConfigObj.get_widget("welcome_message").get_text()
         conf.applet_text=self.ConfigObj.get_widget("Applet_text").get_text()
         
@@ -102,7 +136,33 @@ class Config():
         conf.hide_on_program_launch=self.ConfigObj.get_widget("Hide_menu_after_launch_app").get_active()        
         conf.open_folder_command=self.ConfigObj.get_widget("Open_folder_command").get_text()
         conf.open_file_command=self.ConfigObj.get_widget("Open_file_command").get_text()
-    
+        
+        conf.welcome_color=self.ConfigObj.get_widget("welcome_message_color").get_color().to_string()
+        conf.applet_fg_color=self.ConfigObj.get_widget("Applet_text_color").get_color().to_string()
+        
+        # LOOK
+        conf.gradient_color1=self.parse_color(self.ConfigObj.get_widget("Gradient_1"))
+        conf.gradient_color2=self.parse_color(self.ConfigObj.get_widget("Gradient_2"))
+        conf.gradient_color3=self.parse_color(self.ConfigObj.get_widget("Gradient_3"))
+        
+        conf.iconbgcolor=self.parse_color(self.ConfigObj.get_widget("Icon_BG"))
+        
+        conf.bgcolor=self.ConfigObj.get_widget("bg_color").get_color().to_string()
+        conf.selectedbgcolor=self.ConfigObj.get_widget("sel_bg_color").get_color().to_string()
+        conf.fgcolor=self.ConfigObj.get_widget("fg_color").get_color().to_string()
+        conf.selectedfgcolor=self.ConfigObj.get_widget("sel_fg_color").get_color().to_string()
+        
+        conf.gradient_enable_3color=self.ConfigObj.get_widget("use_3_gradient").get_active()
+        conf.opacity=self.ConfigObj.get_widget("WindowOpacity").get_value()/100
+        conf.menu_icon_size=self.ConfigObj.get_widget("icon_dimension").get_value_as_int()
+        
+        conf.top_icon_enable_smart_mode=self.ConfigObj.get_widget("smart_top_icon").get_active()
+        # FAV APPS
+        
+        # THEMES
+        
+        # PLUGINS
+        
     def writeConfig(self):
         self.change_config()
         conf.rewrite() 
@@ -117,7 +177,6 @@ class Config():
             print "Cannot write fav apps!!! BIG TROUBLE!!"
     
     def apply_pressed(self, obj=None):
-        #self.theme.SaveTheme()
         self.writeConfig()            
 
     def ok_pressed(self, obj):
@@ -140,3 +199,36 @@ class Config():
         if os.path.isfile(update):
             utils.ExecCommand(["gnome-terminal", "-e", update])
 
+    #COLOR BUTTONS
+    def set_complete_color(self, color, colorbutton):
+        colorbutton.set_color(self.get_color_no_opacity(color))
+        colorbutton.set_alpha(self.get_opacity(color))
+    
+    def get_color_no_opacity(self, color):
+        if len(color)<=7:
+            for i in range(len(color), 7):
+                color+="f"
+        else:
+            color=color[0]+color[1]+color[2]+color[3]+color[4]+color[5]+color[6]
+        return gtk.gdk.color_parse(color)
+    
+    def get_opacity(self, color):
+        if len(color)>=9:
+            color=color[7]+color[8]
+            return int(int(color, 16))*256
+        #return 255*256
+        #else: print color
+        return 0
+    
+    def parse_color(self, colorbutton):
+        color="#"
+        colore=colorbutton.get_color().to_string()
+        color+=colore[1]+colore[2]
+        color+=colore[5]+colore[6]
+        color+=colore[9]+colore[10]
+        #opacity
+        alpha=colorbutton.get_alpha()
+        alpha=alpha/256
+        alpha=""+hex(alpha)
+        color+=alpha.replace("0x", "")
+        return color

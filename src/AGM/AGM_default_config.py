@@ -161,6 +161,10 @@ class conf:
         self.menu_bar_icon_x=5
         self.menu_bar_icon_y=5        
         
+        
+        self.show_update_from_svn=False
+        self.show_update_from_svn_stable=True
+        
         self.read_conf()
         pass
     def read_conf(self, config_path=None):
@@ -208,6 +212,10 @@ class conf:
                     elif data[0]=="safe_mode":
                         if (self.safe_mode!=("True"==data[1])): difference=True
                         self.safe_mode=("True"==data[1])
+                    elif data[0]=="show_update_svn":
+                        self.show_update_from_svn=("True"==data[1])
+                    elif data[0]=="show_update_stable":
+                        self.show_update_from_stable=("True"==data[1])
                     elif data[0]=="command_on_logo_clicked":
                         if (self.command_on_logo_clicked!=data[1]): difference=True
                         self.command_on_logo_clicked=data[1]
@@ -470,6 +478,10 @@ class conf:
             if (self.execution_box_top_position): file.write("execution_box_top_position=True"+"\n")
             else: file.write("execution_box_top_position=False"+"\n")
             file.write("execution_box_terminal_command="+self.execution_box_terminal_command+"\n")
+            if (self.show_update_from_svn): file.write("show_update_svn=True"+"\n")
+            else: file.write("show_update_svn=False"+"\n")
+            if (self.show_update_from_stable): file.write("show_update_stable=True"+"\n")
+            else: file.write("show_update_stable=False"+"\n")
             file.close()
     
 class positions:

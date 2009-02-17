@@ -14,4 +14,4 @@ class Model(model):
         self.model_description=_("Add a Logout button")
     
     def get_fav_app(self):
-        return FavApp(_("Logout"), "gnome-session-halt", _(self.model_description), "gnome-session-save -kill")
+        return FavApp(_("Logout"), "gnome-session-halt", _(self.model_description), "gnome-session-save --kill")

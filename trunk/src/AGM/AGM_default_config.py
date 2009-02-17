@@ -278,7 +278,7 @@ class conf:
                                 if (i<len(self.menu_order)):
                                     if (self.menu_order[i]!=el):
                                         difference=True
-                            elif (i<len(self.menu_order)):
+                            elif (i!=len(self.menu_order)):
                                 difference=True
                             i+=1
                         self.menu_order=newmenu

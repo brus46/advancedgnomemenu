@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 #    Author name:    Marco Mosconi
 #    Author email:   brus46@gmail.com
 #    Author website: http://www.sciallo.net
@@ -82,7 +84,8 @@ class Config():
                 "on_main_window_destroy_event" : self.cancel_pressed }
         
         self.ConfigObj.signal_autoconnect(events)
-        self.active_plugins.connect("cursor-changed", self.list_active_changed)
+        self.active_plugins.connect("cursor-changed", self.list_plugin_changed, "active")
+        self.avaible_plugins.connect("cursor-changed", self.list_plugin_changed, "avaible")
         
         if conf.show_update_from_svn==False:
             self.ConfigObj.get_widget("UpdateSVN").hide()
@@ -270,19 +273,26 @@ class Config():
         self.avaible_plugins.clean_list()
         self.avaible_plugins.load()
 
-    def list_active_changed(self, obj=None, row=None):
-        plugin=self.active_plugins.get_selected()
+    def list_plugin_changed(self, obj=None,  list="avaible"):
+        #print "LIST_ROW_CHANGED", list
+        if list=="avaible":
+            plugin=self.avaible_plugins.get_selected()
+        else:
+            plugin=self.active_plugins.get_selected()
         avaible_plugins=plugins.get_child_plugins()
         if plugin!=None and avaible_plugins.has_key(plugin):
             plugin=avaible_plugins[plugin]
-            if plugin.is_configurable:
-                self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(True)
+            if list!="avaible":
+                if plugin.is_configurable:
+                    self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(True)
+                else:
+                    self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(False)
             else:
                 self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(False)
-            self.ConfigObj.get_widget("DescriptionPlugin").set_text(plugin.name+"\n"+plugin.description+"\n"+plugin.author+ " " + plugin.author_site)
+            buffer=self.ConfigObj.get_widget("DescriptionPlugin").get_buffer().set_text(_(plugin.name+"\n"+plugin.description+"\n"+plugin.author+ " " + plugin.author_site))
         else: 
             self.ConfigObj.get_widget("ConfigurePlugin").set_sensitive(False)
-            self.ConfigObj.get_widget("DescriptionPlugin").set_text("")
+            buffer=self.ConfigObj.get_widget("DescriptionPlugin").get_buffer().set_text("")
         pass
     
     def configure(self, obj):
@@ -390,12 +400,12 @@ class config_plugin(gtk.VBox):
         activateIcon=gtk.Image()
         activateIcon.set_from_pixbuf(utils.getPixbufFromName("go-next", 32))
         activate.set_image(activateIcon)
-        activate.connect("clicked", self.activate)
+        activate.connect("clicked", self.activate_plugin)
         deactivate=gtk.Button()
         deactivateIcon=gtk.Image()
         deactivateIcon.set_from_pixbuf(utils.getPixbufFromName("go-previous", 32))
         deactivate.set_image(deactivateIcon)
-        deactivate.connect("clicked", self.deactivate)
+        deactivate.connect("clicked", self.deactivate_plugin)
         ActivateButtonBox.add(activate)
         ActivateButtonBox.add(deactivate)
         #ActivateButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
@@ -417,12 +427,12 @@ class config_plugin(gtk.VBox):
         UpIcon=gtk.Image()
         UpIcon.set_from_pixbuf(utils.getPixbufFromName("go-up", 32))
         moveup.set_image(UpIcon)
-        moveup.connect("clicked", self.move_up)
+        moveup.connect("clicked", self.move_up_plugin)
         movedw=gtk.Button()
         DwIcon=gtk.Image()
         DwIcon.set_from_pixbuf(utils.getPixbufFromName("go-down", 32))
         movedw.set_image(DwIcon)
-        movedw.connect("clicked", self.move_dw)
+        movedw.connect("clicked", self.move_dw_plugin)
         MoveButtonBox.pack_start(moveup)
         MoveButtonBox.pack_start(movedw)
         #MoveButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
@@ -486,17 +496,17 @@ class config_plugin(gtk.VBox):
                 avaible_plugins[plugin].configure()
     
             
-    def move_up(self, obj):
+    def move_up_plugin(self, obj):
         self.active_plugins.moveup()
         
-    def move_dw(self, obj):
+    def move_dw_plugin(self, obj):
         self.active_plugins.movedown()
     
-    def activate(self, obj):
+    def activate_plugin(self, obj):
         self.active_plugins.add(self.avaible_plugins.get_selected())
         pass
     
-    def deactivate(self, obj):
+    def deactivate_plugin(self, obj):
         self.active_plugins.remove()
         pass
 

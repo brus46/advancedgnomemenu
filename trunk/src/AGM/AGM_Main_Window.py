@@ -138,7 +138,7 @@ class AGM:
     
     def setcolors(self):
         if not conf.use_system_color:
-            self.nameLabel.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
+            self.nameLabel.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.welcome_color))
             self.menu.get_child().modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.bgcolor))
             self.menu.get_child().modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.bgcolor))
             self.menu.get_child().modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.bgcolor))
@@ -224,11 +224,17 @@ class AGM:
         MenuBar.set_size_request(-1, conf.menu_bar_h)
         
         BottomPanel=gtk.VBox()
+        requestH=0
+        requestW=32   
         if (conf.fav_apps_orientation=="HB"):
+            print "Bottom favapps"
             BottomPanel.pack_start(self.fav_apps_bar_H)
+            requestW=conf.fav_apps_icon_dimension + 10
+            requestH=conf.fav_apps_icon_dimension + 10
             if conf.search_box_top_position==False and conf.search_box_show:
                 BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10 + 48)
             else: BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
+        BottomPanel.set_size_request(requestW, requestH)
         
         popup_style, w,h=conf.popupstyle.get_style()
         space_label=gtk.Label()
@@ -239,15 +245,19 @@ class AGM:
         MainMenu=gtk.VBox()
         MainMenu.pack_start(MenuBar, False)
         MainMenu.pack_end(self.menu)
-        MenuBox.pack_start(MainMenu)
+        
         FavBarV=gtk.VBox()
         top=conf.top_position.get_top()
+        
         if top==conf.top_position.TOP_RIGHT or top==conf.top_position.TOP_LEFT:
             FavBarV.pack_start(gtk.Label())
             FavBarV.pack_end(self.fav_apps_bar_V)
         else:
             FavBarV.pack_start(self.fav_apps_bar_V)
-        MenuBox.pack_end(FavBarV, False)
+        if conf.fav_apps_orientation=="V":
+            MenuBox.pack_end(FavBarV, False)
+        elif conf.fav_apps_orientation=="VL": MenuBox.pack_start(FavBarV, False)
+        MenuBox.pack_start(MainMenu)
         
         if (top_style==conf.top_position.TOP_RIGHT):
             IconBox=gtk.VBox()
@@ -277,8 +287,8 @@ class AGM:
             self.layout.pack_start(TopPanel, False, False)
             if (popup_style!=conf.popupstyle.NONE):
                 self.layout.pack_end(space_label, False, False)
-            self.layout.pack_end(BottomPanel, False, False)
-            self.layout.pack_end(MenuBox, True, True)
+            #self.layout.pack_end(BottomPanel, False, False)
+            #self.layout.pack_end(MenuBox, True, True)
 
         elif (top_style==conf.top_position.DW_LEFT):
             IconBox=gtk.VBox()
@@ -309,7 +319,7 @@ class AGM:
                 self.layout.pack_start(space_label, False, False)
             self.layout.pack_start(TopPanel, False, False)
             self.layout.pack_start(MenuBox, True, True)
-            self.layout.pack_end(MainBox, False, False)
+            #self.layout.pack_end(MainBox, False, False)
         elif (top_style==conf.top_position.DW_RIGHT):
             #print "config down right"
             IconBox=gtk.VBox()
@@ -340,7 +350,7 @@ class AGM:
                 self.layout.pack_start(space_label, False, False)
             self.layout.pack_start(TopPanel, False, False)
             self.layout.pack_start(MenuBox, True, True)
-            self.layout.pack_end(MainBox, False, False)
+            #self.layout.pack_end(MainBox, False, False)
 
         else: 
             IconBox=gtk.VBox()
@@ -371,9 +381,10 @@ class AGM:
 
             if (popup_style!=conf.popupstyle.NONE):
                 self.layout.pack_end(space_label, False, False)
-            self.layout.pack_end(MenuBox, True, True)
+            #self.layout.pack_end(MenuBox, True, True)
         
         self.layout.pack_end(BottomPanel, False, False)
+        self.layout.pack_end(MenuBox, True, True)
         self.execution_box=ExecuteBar(self.win.get_gradient)
         self.search_box=search_box(self.menu.search, self.win.get_gradient)
         
@@ -423,7 +434,7 @@ class AGM:
         for child in self.fav_apps_bar_V.get_children():
             self.fav_apps_bar_V.remove(child)
         
-        if (conf.fav_apps_orientation=="H") and (conf.fav_apps_show):
+        if (conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HB") and (conf.fav_apps_show):
             fav_apps_bar=self.fav_apps_bar_H
         elif (conf.fav_apps_show):
             fav_apps_bar=self.fav_apps_bar_V

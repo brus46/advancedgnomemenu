@@ -10,8 +10,8 @@ class FavAppsBar(gtk.HBox):
         gtk.HBox.__init__(self)
         self.hide_f=hide_f
         self.content=gtk.VBox()
-        if conf.fav_apps_orientation=="H":
-            content=gtk.HBox()
+        if conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HB":
+            self.content=gtk.HBox()
             
         self.add(self.content)
         
@@ -24,7 +24,7 @@ class FavAppsBar(gtk.HBox):
             self.content.remove(child)
     
     def read_file(self):
-        print "Reading fav apps"
+        #print "Reading fav apps"
         self.clear()
         conf.read_fav_apps()
         fav_apps=conf.fav_apps

@@ -219,6 +219,9 @@ class conf:
                     elif data[0]=="command_on_logo_clicked":
                         if (self.command_on_logo_clicked!=data[1]): difference=True
                         self.command_on_logo_clicked=data[1]
+                    elif data[0]=="welcome_color":
+                        if (self.welcome_color!=data[1]): difference=True
+                        self.welcome_color=data[1]
                     elif data[0]=="bgcolor":
                         if (self.bgcolor!=data[1]): difference=True
                         self.bgcolor=data[1]
@@ -419,6 +422,7 @@ class conf:
             if self.safe_mode: file.write("safe_mode=True"+"\n")
             else: file.write("safe_mode=False"+"\n")
             file.write("command_on_logo_clicked="+self.command_on_logo_clicked+"\n")
+            file.write("welcome_color="+self.welcome_color+"\n")
             file.write("bgcolor="+self.bgcolor+"\n")
             file.write("fgcolor="+self.fgcolor+"\n")
             file.write("selectedbgcolor="+self.selectedbgcolor+"\n")
@@ -651,6 +655,14 @@ class gradient_direction:
         
         
         self.gradient=[self.N,self.S]
+        pass
+    
+    def set_start_point(self, start):
+        self.gradient[0]=start        
+        pass
+    
+    def set_end_point(self, end):
+        self.gradient[1]=end
         pass
     
     def read_string(self, string):

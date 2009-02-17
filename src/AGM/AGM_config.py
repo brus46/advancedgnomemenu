@@ -19,6 +19,7 @@
 
 import gtk, sys, os, gtk.glade
 from AGM.AGM_default_config import conf as config
+import AGM.AGM_default_config as default_config
 import AGM.AGM_plugins as plugins
 import AGM.AGM_utils as utils
 import localization
@@ -48,9 +49,6 @@ class Config():
         self.ConfigObj.get_widget("gradient_start_position").add(self.gradient_start_position)
         self.ConfigObj.get_widget("gradient_end_position").add(self.gradient_end_position)
         
-        self.ConfigObj.get_widget("Top_icon").set_from_pixbuf(utils.getPixbufFromName(conf.top_icon_other_logo, 48))
-        self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
-        
         self.ThemesList=theme_list()
         self.ConfigObj.get_widget("Themes").add_with_viewport(self.ThemesList)
         
@@ -63,6 +61,8 @@ class Config():
                 "update_from_svn":self.update_svn,
                 "update_from_svn_stable":self.update_stable,
         ## TAB LOOK and FEEL
+                "change_top_icon": self.change_top_icon,
+                "change_applet_icon": self.change_applet_icon,
         ## TAB FAV APPS
         ## TAB THEMES
         ## TAB PLUGINS
@@ -127,11 +127,20 @@ class Config():
         self.ConfigObj.get_widget("WindowOpacity").set_value(conf.opacity*100)
         self.ConfigObj.get_widget("icon_dimension").set_value(conf.menu_icon_size)
         
-        
+        self.ConfigObj.get_widget("Top_icon").set_from_pixbuf(utils.getPixbufFromName(conf.top_icon_other_logo, 48))
+        self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
         self.ConfigObj.get_widget("smart_top_icon").set_active(conf.top_icon_enable_smart_mode)
         
         # FAV APPS
-        
+        if conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HT" or conf.fav_apps_orientation=="TopHorizontal":
+            self.ConfigObj.get_widget("Top_Hor").set_active(True)
+        elif conf.fav_apps_orientation=="HB" or conf.fav_apps_orientation=="BottomHorizontal":
+            self.ConfigObj.get_widget("Bot_Hor").set_active(True)
+        if conf.fav_apps_orientation=="V" or conf.fav_apps_orientation=="VR" or conf.fav_apps_orientation=="RightVertical":
+            self.ConfigObj.get_widget("Rig_Ver").set_active(True)
+        elif conf.fav_apps_orientation=="VL" or conf.fav_apps_orientation=="LeftVertical":
+            self.ConfigObj.get_widget("Lef_Ver").set_active(True)
+            
         # THEMES
         
         # PLUGINS
@@ -173,9 +182,18 @@ class Config():
         conf.opacity=self.ConfigObj.get_widget("WindowOpacity").get_value()/100
         conf.menu_icon_size=self.ConfigObj.get_widget("icon_dimension").get_value_as_int()
         
+        conf.gradient_direction.read_string(self.gradient_start_position.get_selected()+";"+self.gradient_end_position.get_selected()+";")
+        
         conf.top_icon_enable_smart_mode=self.ConfigObj.get_widget("smart_top_icon").get_active()
         # FAV APPS
-        
+        if self.ConfigObj.get_widget("Top_Hor").get_active():
+            conf.fav_apps_orientation="H"
+        elif self.ConfigObj.get_widget("Bot_Hor").get_active():
+            conf.fav_apps_orientation="HB"
+        elif self.ConfigObj.get_widget("Rig_Ver").get_active():
+            conf.fav_apps_orientation="V"
+        elif self.ConfigObj.get_widget("Lef_Ver").get_active():
+            conf.fav_apps_orientation="VL"
         # THEMES
         
         # PLUGINS
@@ -204,7 +222,22 @@ class Config():
         self.MainWindow.hide_all()
         if self.stand_alone:
             gtk.main_quit()
+    
+    ## CHANGE PICTURES
+    
+    def change_top_icon(self, obj):
+        new_icon=utils.OpenImage().get_file()
+        if new_icon!=None and os.path.isfile(new_icon):
+            conf.top_icon_other_logo=new_icon
+            self.ConfigObj.get_widget("Top_icon").set_from_pixbuf(utils.getPixbufFromName(conf.top_icon_other_logo, 48))         
             
+    def change_applet_icon(self, obj):
+        new_icon=utils.OpenImage().get_file()
+        if new_icon!=None and os.path.isfile(new_icon):
+            conf.applet_icon=new_icon
+            self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
+    
+    ## UPDATE
     def update_stable(self, obj):
         update="/usr/bin/agm_update"
         if os.path.isfile(update):
@@ -275,6 +308,26 @@ class Config():
         self.active_plugins.remove()
         pass
 
+    def install_new_plugin(self, obj):
+        from AGM_utils import OpenPlugin
+        path=OpenPlugin().get_file()
+        print path
+        if path!=None and os.path.isfile(path):
+            try:
+                os.mkdir("/tmp/AGM/")
+            except: print "Cannot create temp-dir"
+            
+            try:
+                os.system("cp " + path + " /tmp/AGM/plugin.tar")
+                os.system("cd /tmp/AGM/ && tar -xvf /tmp/AGM/plugin.tar")
+                os.system("rm /tmp/AGM/plugin.tar")
+                command="gksu 'cp /tmp/AGM/*.py " + conf.plugin_folder +"'"
+                print command
+                os.system(command)
+            except: print "Cannot extract plugin in temp-dir"
+            os.system("rm -R /tmp/AGM/")
+        self.avaible_plugins.clean_list()
+        self.avaible_plugins.load()
 
     #COLOR BUTTONS
     def set_complete_color(self, color, colorbutton):
@@ -607,7 +660,9 @@ class config_fav_apps(gtk.HBox):
         self.commands.add(movedw)
         
         self.LeftBox=gtk.VBox()
+        self.LeftBox.pack_start(gtk.Label())
         self.LeftBox.pack_start(self.commands, False)
+        self.LeftBox.pack_end(gtk.Label())        
         
         self.pack_end(self.LeftBox, False)
     
@@ -736,18 +791,6 @@ class fav_apps_list(gtk.TreeView):
                 model.set_value(iter, 3, command2)
                 model.set_value(iter, 4, tooltip2)
                 self.rewrite_config()
-   
-
-#        if icon=="None": icon=command.split(" ")[0]
-#        model, iter = self.treeselection.get_selected()
-#        if iter:
-#            model.set_value(iter, 0, utils.getPixbufFromName(icon, 24, "app"))
-#            model.set_value(iter, 1, name)
-#            model.set_value(iter, 2, icon)
-#            model.set_value(iter, 3, command)
-#            model.set_value(iter, 4, tooltip)
-#            self.rewrite_config()
-#        pass
     
     def add(self):
         import AGM_new_fav_app
@@ -835,29 +878,6 @@ class gradient_combo(gtk.HBox):
                 self.start.append_text(list[pos])
         self.add(self.start)
         self.start.set_active(0)
-
-class UpdateToSvn(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self)
-        stable_svn=gtk.Button(_("Update to the latest stable version"))
-        trunk_svn=gtk.Button(_("Update to the latest version of the SVN"))
-        VButtonBox=gtk.VButtonBox()
-        VButtonBox.add(stable_svn)
-        VButtonBox.add(trunk_svn)
-        VButtonBox.set_spacing(5)
-        VButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
-        stable_svn.connect("clicked", self.update_stable)
-        trunk_svn.connect("clicked", self.update_svn)        
-        
-        self.add(VButtonBox)
-        
-    def update_stable(self, obj):
-        update="/usr/bin/agm_update"
-        if os.path.isfile(update):
-            utils.ExecCommand(["gnome-terminal", "-e", update])
-        pass
     
-    def update_svn(self, obj):
-        update="/usr/bin/agm_update_unstable"
-        if os.path.isfile(update):
-            utils.ExecCommand(["gnome-terminal", "-e", update])
+    def get_selected(self):
+        return self.start.get_active_text()

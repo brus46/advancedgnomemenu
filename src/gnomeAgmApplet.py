@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #    Program name: AGM - Advanced Gnome Menu
-#    Project version: 0.8
+#    Project version: 0.8.4
 #    Project licence: GPL v3
 # 
 #    Author name:    Marco Mosconi
@@ -45,7 +45,7 @@ class AGM_applet(gnomeapplet.Applet):
     def __init__(self,applet,iid):
         self.__gobject_init__()
         self.applet = applet
-        self.AGM=agm(False, False, False, applet=True)
+        self.AGM=agm(False, False, False, applet=True, applet_refresh=self.change_config)
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
         size=self.get_size()
@@ -56,7 +56,7 @@ class AGM_applet(gnomeapplet.Applet):
         self.icon.set_size_request(size, size)
         self.mybutton.pack_start(self.icon, False)
         self.mybutton.add(self.label)
-        
+        self.last_size=24
         
         self.X, self.Y=0, 0
         self.popup=AGM.AGM_default_config.popup_style()
@@ -83,16 +83,33 @@ class AGM_applet(gnomeapplet.Applet):
         #self.ShowThread.start()
         pass
     
+    def change_config(self):
+        for child in self.mybutton.get_children():
+            self.mybutton.remove(child)
+        diff, applet_diff=conf.read_conf()
+        print "applet: " + str(applet_diff)
+        size=self.get_size()
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
+        self.label=gtk.Label()
+        self.label.set_text(conf.applet_text)
+        if (conf.applet_show_text): 
+            self.label.set_text(conf.applet_text)
+        self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
+        self.mybutton.pack_start(self.icon, False)
+        self.mybutton.add(self.label)
+        self.mybutton.show_all()
     def has_focus(self):
         return self.label.is_focus()
     
     def get_size(self):
         try:
             size=self.applet.get_size()
-            size+=10
-        except: size=24
+            #size+=10
+        except: size=self.last_size
+            
         if size<24:
             size=24
+        self.last_size=size
         return size
     
     def on_change_size (self):
@@ -101,16 +118,15 @@ class AGM_applet(gnomeapplet.Applet):
         pixbuf=utils.getPixbufFromName(conf.applet_icon, size=256)
         width=pixbuf.get_width()
         height=pixbuf.get_height()
-        if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
-            if height != size:
-                width=width*size/height
-                height=size
-        else:
+        if self.orientation != gnomeapplet.ORIENT_UP and self.orientation != gnomeapplet.ORIENT_DOWN:
             if width != size:
                 height=height*size/width
                 width=size
-        #width-=12
-        #height-=12
+        else:
+            if height != size:
+                width=width*size/height
+                height=size
+
         pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
         self.icon.set_from_pixbuf(pixbuf)
         self.icon.set_size_request(width, size)

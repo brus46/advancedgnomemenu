@@ -42,9 +42,10 @@ conf=config()
 
 class AGM:
     ''' AGM stands for Advanced Gnome Menu '''
-    def __init__(self, show_trayicon=True, show=True, top_buttons=True, applet=False):
+    def __init__(self, show_trayicon=True, show=True, top_buttons=True, applet=False, applet_refresh=None):
         self.hidden=False
         self.applet=applet
+        self.applet_refresh=applet_refresh
         self.show_trayicon=show_trayicon
         self.show_topbuttons=top_buttons
         
@@ -519,7 +520,11 @@ class AGM:
         if kill: sys.exit(0)
     
     def reboot(self, force=False):
-        if conf.read_conf() or force:
+        diff, applet_diff=conf.read_conf()
+        if self.applet and (applet_diff or force ) and self.applet_refresh!=None:
+            self.applet_refresh()
+
+        if diff or force:
             if not force: print "Configuration changed"
             print "Reloading menu"
             

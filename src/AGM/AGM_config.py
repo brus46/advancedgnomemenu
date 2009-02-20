@@ -66,13 +66,18 @@ class Config():
                 "change_top_icon": self.change_top_icon,
                 "change_applet_icon": self.change_applet_icon,
         ## TAB FAV APPS
+                #Nothing
         ## TAB THEMES
+                "EditTheme": self.edit_theme,
+                "ImportTheme": self.import_theme,
+                "DeleteTheme": self.delete_theme,
+                "ApplyTheme": self.apply_theme,
         ## TAB PLUGINS
-                "MoveUpPlugin": self.move_up,
-                "MoveDwPlugin": self.move_dw,
-                "ActivePlugin": self.activate,
-                "DeactivePlugin": self.deactivate,
-                "ConfigurePlugin": self.configure,
+                "MoveUpPlugin": self.move_up_plugin,
+                "MoveDwPlugin": self.move_dw_plugin,
+                "ActivePlugin": self.activate_plugin,
+                "DeactivePlugin": self.deactivate_plugin,
+                "ConfigurePlugin": self.configure_plugin,
                 "InstallNewPlugin": self.install_new_plugin,
         ##GLOBAL COMMANDS
             #Ok, Cancel, Apply buttons
@@ -251,7 +256,7 @@ class Config():
         update="/usr/bin/agm_update_unstable"
         if os.path.isfile(update):
             utils.ExecCommand(["gnome-terminal", "-e", update])
-
+    
     def install_new_plugin(self, obj):
         from AGM_utils import OpenPlugin
         path=OpenPlugin().get_file()
@@ -273,8 +278,9 @@ class Config():
         self.avaible_plugins.clean_list()
         self.avaible_plugins.load()
 
+    
+    # PLUGINS
     def list_plugin_changed(self, obj=None,  list="avaible"):
-        #print "LIST_ROW_CHANGED", list
         if list=="avaible":
             plugin=self.avaible_plugins.get_selected()
         else:
@@ -295,7 +301,7 @@ class Config():
             buffer=self.ConfigObj.get_widget("DescriptionPlugin").get_buffer().set_text("")
         pass
     
-    def configure(self, obj):
+    def configure_plugin(self, obj):
         plugin=self.active_plugins.get_selected()
         avaible_plugins=plugins.get_child_plugins()
         if plugin!=None and avaible_plugins.has_key(plugin):
@@ -303,20 +309,18 @@ class Config():
                 avaible_plugins[plugin].configure()
     
             
-    def move_up(self, obj):
+    def move_up_plugin(self, obj):
         print "moving"
         self.active_plugins.moveup()
         
-    def move_dw(self, obj):
+    def move_dw_plugin(self, obj):
         self.active_plugins.movedown()
     
-    def activate(self, obj):
+    def activate_plugin(self, obj):
         self.active_plugins.add(self.avaible_plugins.get_selected())
-        pass
     
-    def deactivate(self, obj):
+    def deactivate_plugin(self, obj):
         self.active_plugins.remove()
-        pass
 
     def install_new_plugin(self, obj):
         from AGM_utils import OpenPlugin
@@ -356,8 +360,6 @@ class Config():
         if len(color)>=9:
             color=color[7]+color[8]
             return int(int(color, 16))*256
-        #return 255*256
-        #else: print color
         return 0
     
     def parse_color(self, colorbutton):
@@ -372,152 +374,53 @@ class Config():
         alpha=""+hex(alpha)
         color+=alpha.replace("0x", "")
         return color
-    
 
-def set_label_size_and_align(label, size=150):
-    label.set_size_request(size, -1)
-    x, y=label.get_alignment()
-    label.set_text(_(label.get_text()))
-    label.set_alignment(0.0, y)
-    return label
-
-class config_plugin(gtk.VBox):
-    def __init__(self):
-        gtk.VBox.__init__(self)
-        Plugins=gtk.HBox()
-        self.pack_start(Plugins)
-        self.avaible_plugins=plugin_list()        
-        avaible_place=gtk.ScrolledWindow()
-        avaible_place.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        avaible_place.add_with_viewport(self.avaible_plugins)
-        frame_avaible=gtk.VBox()
-        frame_avaible.pack_start(gtk.Label("Avaible pugins"), False, True)
-        frame_avaible.pack_end(avaible_place)
-        Plugins.add(frame_avaible)
-        
-        ActivateButtonBox=gtk.VBox()
-        activate=gtk.Button()
-        activateIcon=gtk.Image()
-        activateIcon.set_from_pixbuf(utils.getPixbufFromName("go-next", 32))
-        activate.set_image(activateIcon)
-        activate.connect("clicked", self.activate_plugin)
-        deactivate=gtk.Button()
-        deactivateIcon=gtk.Image()
-        deactivateIcon.set_from_pixbuf(utils.getPixbufFromName("go-previous", 32))
-        deactivate.set_image(deactivateIcon)
-        deactivate.connect("clicked", self.deactivate_plugin)
-        ActivateButtonBox.add(activate)
-        ActivateButtonBox.add(deactivate)
-        #ActivateButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
-        Plugins.pack_start(ActivateButtonBox, False, False)
-        
-        self.active_plugins=active_plugin_list()        
-        active_place=gtk.ScrolledWindow()
-        active_place.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        active_place.add_with_viewport(self.active_plugins)
-        active_avaible=gtk.VBox()
-        active_avaible.pack_start(gtk.Label("Active pugins"), False, True)
-        active_avaible.pack_end(active_place)
-        Plugins.add(active_avaible)
-        
-        self.active_plugins.connect("cursor-changed", self.list_active_changed)
-        
-        MoveButtonBox=gtk.VBox()
-        moveup=gtk.Button()
-        UpIcon=gtk.Image()
-        UpIcon.set_from_pixbuf(utils.getPixbufFromName("go-up", 32))
-        moveup.set_image(UpIcon)
-        moveup.connect("clicked", self.move_up_plugin)
-        movedw=gtk.Button()
-        DwIcon=gtk.Image()
-        DwIcon.set_from_pixbuf(utils.getPixbufFromName("go-down", 32))
-        movedw.set_image(DwIcon)
-        movedw.connect("clicked", self.move_dw_plugin)
-        MoveButtonBox.pack_start(moveup)
-        MoveButtonBox.pack_start(movedw)
-        #MoveButtonBox.set_layout(gtk.BUTTONBOX_SPREAD)
-        Plugins.pack_start(MoveButtonBox, False)
-        
-        self.plugin_info=gtk.Label()
-        self.plugin_info.set_size_request(100, 80)
-        
-        self.pack_start(self.plugin_info,False, False)
-        
-        ConfigureBox=gtk.HButtonBox()
-        self.ConfigureButton=gtk.Button("Configure plugin")
-        self.ConfigureButton.connect("clicked", self.configure)
-        InstallPlugin=gtk.Button("Install new plugin")
-        InstallPlugin.connect("clicked", self.install_new_plugin)
-        ConfigureBox.add(self.ConfigureButton)
-        ConfigureBox.add(InstallPlugin)
-        self.pack_start(ConfigureBox, False, False)
-        self.ConfigureButton.set_sensitive(False)
+    def edit_theme(self, obj):
+        pass
     
-    def install_new_plugin(self, obj):
-        from AGM_utils import OpenPlugin
-        path=OpenPlugin().get_file()
-        print path
+    def import_theme(self, obj):
+        path=utils.OpenFile()
+        path=path.get_file()
         if path!=None and os.path.isfile(path):
+            theme_path=conf.theme_path.split("/")
+            create_dir="/"
+            for dir in theme_path:
+                if dir!="":
+                    create_dir+=dir+"/"
+                    try:
+                        os.mkdir(create_dir)
+                    except: pass
+
             try:
                 os.mkdir("/tmp/AGM/")
             except: print "Cannot create temp-dir"
-            
+            theme_name=path.split("/")
+            theme_name=theme_name[len(theme_name)-1].replace(".tar", "")
+            theme_name=theme_name.replace(".agmtheme", "")
             try:
-                os.system("cp " + path + " /tmp/AGM/plugin.tar")
-                os.system("cd /tmp/AGM/ && tar -xvf /tmp/AGM/plugin.tar")
-                os.system("rm /tmp/AGM/plugin.tar")
-                command="gksu 'cp /tmp/AGM/*.py " + conf.plugin_folder +"'"
-                print command
-                os.system(command)
-            except: print "Cannot extract plugin in temp-dir"
-            os.system("rm -R /tmp/AGM/")
-        self.avaible_plugins.clean_list()
-        self.avaible_plugins.load()
-    def list_active_changed(self, obj=None, row=None):
-        plugin=self.active_plugins.get_selected()
-        avaible_plugins=plugins.get_child_plugins()
-        if plugin!=None and avaible_plugins.has_key(plugin):
-            plugin=avaible_plugins[plugin]
-            if plugin.is_configurable:
-                self.ConfigureButton.set_sensitive(True)
-            else:
-                self.ConfigureButton.set_sensitive(False)
-            self.plugin_info.set_text(plugin.name+"\n"+plugin.description+"\n"+plugin.author+ " " + plugin.author_site)
-        else: 
-            self.ConfigureButton.set_sensitive(False)
-            self.plugin_info.set_text("")
-        pass
-    
-    def configure(self, obj):
-        plugin=self.active_plugins.get_selected()
-        avaible_plugins=plugins.get_child_plugins()
-        if plugin!=None and avaible_plugins.has_key(plugin):
-            if avaible_plugins[plugin].is_configurable:
-                avaible_plugins[plugin].configure()
-    
+                os.system("cp " + path + " /tmp/AGM/theme.tar")
+                os.system("cd /tmp/AGM/ && tar -xvf /tmp/AGM/theme.tar")
+                os.system("rm /tmp/AGM/theme.tar")
+                os.system("cp -R /tmp/AGM/* " + conf.theme_path)
+            except: print "Cannot extract theme in temp-dir"
+            os.system("rm -R /tmp/AGM/")  
+            self.ThemesList.refresh()
             
-    def move_up_plugin(self, obj):
-        self.active_plugins.moveup()
-        
-    def move_dw_plugin(self, obj):
-        self.active_plugins.movedown()
+    def delete_theme(self, obj):
+        folder=self.ThemesList.get_selected()
+        if folder!=None and os.path.isdir(folder):
+            os.system("rm -R " + folder)
+            self.ThemesList.refresh()
     
-    def activate_plugin(self, obj):
-        self.active_plugins.add(self.avaible_plugins.get_selected())
-        pass
-    
-    def deactivate_plugin(self, obj):
-        self.active_plugins.remove()
+    def apply_theme(self, obj):
+        folder=self.ThemesList.get_selected()
+        if folder!=None and os.path.isdir(folder):
+            config_path=folder+"/theme.agmtheme"
+            conf.read_conf(config_path)
+            self.loadConfig()
         pass
 
-    def save_string(self):
-        lista_plugins=self.active_plugins.get_list()
-        file_config="menu="
-        for el in lista_plugins:
-            file_config+=el+"#"
-        file_config+="\n"
-        return file_config
-
+    
 class plugin_list(gtk.TreeView):
     def __init__(self):
         gtk.TreeView.__init__(self)
@@ -538,7 +441,9 @@ class plugin_list(gtk.TreeView):
     
     def load(self):
         avaible_plugins=plugins.get_child_plugins()
-        for el in avaible_plugins:
+        keys=avaible_plugins.keys()
+        keys.sort()
+        for el in keys:
             self.model.append([avaible_plugins[el].name, el])
     
     def get_selected(self):

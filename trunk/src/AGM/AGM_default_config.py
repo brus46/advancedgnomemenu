@@ -372,7 +372,7 @@ class conf:
                     #first_difference=False
             file.close()
         fav_changes=self.read_fav_apps()
-        print difference_applet
+        #print difference_applet
         return (difference or fav_changes), difference_applet
     
     def read_fav_apps(self):

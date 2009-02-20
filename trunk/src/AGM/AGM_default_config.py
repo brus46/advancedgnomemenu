@@ -465,7 +465,6 @@ class conf:
             file.write("popup_style="+self.popupstyle.get_str()+"\n")
             file.write("applet_icon="+self.applet_icon+"\n")
             file.write("applet_text="+self.applet_text+"\n")
-            
             if (self.applet_show_text): file.write("applet_show_text=True"+"\n")
             else: file.write("applet_show_text=False"+"\n")                         
             file.write("applet_fg_color="+self.applet_fg_color+"\n")

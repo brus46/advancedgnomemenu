@@ -44,19 +44,22 @@ conf=config()
 class AGM_applet(gnomeapplet.Applet):
     def __init__(self,applet,iid):
         self.__gobject_init__()
+        self.last_size=32
         self.applet = applet
+        applet.set_applet_flags(gnomeapplet.EXPAND_MINOR)
+        
         self.AGM=agm(False, False, False, applet=True, applet_unpressed=self.set_unpressed_icon)
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
-        self.last_size=24
         size=self.get_size()
         self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
         self.label=gtk.Label()
         if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
         self.icon.set_size_request(size, size)
-        self.mybutton.pack_start(self.icon, False)
-        self.mybutton.add(self.label)
+        
+        #self.mybutton.pack_start(self.icon, False)
+        #self.mybutton.add(self.label)
         
         self.X, self.Y=0, 0
         self.popup=AGM.AGM_default_config.popup_style()
@@ -72,9 +75,11 @@ class AGM_applet(gnomeapplet.Applet):
         self.applet.connect("button-press-event", self.showHelpMenu, applet)
         self.applet.connect("destroy-event",self.cleanup)
         self.applet.connect("delete-event",self.cleanup)
-        self.applet.connect("change-size", self.on_change_size)
+        #self.applet.connect("change-size", self.on_change_size)
         self.applet.connect("change-background", self.change_background)
         self.applet.connect("change-orient",self.change_orientation)
+        
+        self.mybutton.connect("size-allocate",self.on_change_size)
         
         #self.ShowThread=ShowThread(self.AGM.win.has_toplevel_focus, self.has_focus, self.AGM.get_hidden, self.AGM.set_hidden, self.AGM.setOnFocus)
         self.applet.show_all()
@@ -99,46 +104,49 @@ class AGM_applet(gnomeapplet.Applet):
     
     def get_size(self):
         try:
-            size=self.applet.get_size()
-            #size+=10
-        except: size=self.last_size
-            
+            if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
+                size=self.mybutton.get_allocation().height
+            else: size=self.mybutton.get_allocation().width
+        except:
+            size=self.last_size
+
         if size<24:
             size=24
         self.last_size=size
         return size
     
-    def on_change_size (self):
+    def on_change_size (self, obj=None, rect=None):
+        last_size=self.last_size
         size=self.get_size()
-        w, h=self.label.size_request()
-        pixbuf=utils.getPixbufFromName(conf.applet_icon, size=256)
-        width=pixbuf.get_width()
-        height=pixbuf.get_height()
-        if self.orientation != gnomeapplet.ORIENT_UP and self.orientation != gnomeapplet.ORIENT_DOWN:
-            if width != size:
-                height=height*size/width
-                width=size
-        else:
-            if height != size:
-                width=width*size/height
-                height=size
-
-        pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
-        self.icon.set_from_pixbuf(pixbuf)
-        self.icon.set_size_request(width, size)
-        
-        if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
-            self.label.set_angle(0)
-            widthL, heightL=self.label.size_request()
-            self.applet.set_size_request( width+widthL+5,size)
+        if size!=last_size:
+            w, h=self.label.size_request()
+            pixbuf=utils.getPixbufFromName(conf.applet_icon, size=256)
+            width=pixbuf.get_width()
+            height=pixbuf.get_height()
+            if self.orientation != gnomeapplet.ORIENT_UP and self.orientation != gnomeapplet.ORIENT_DOWN:
+                if width != size:
+                    height=height*size/width
+                    width=size
+            else:
+                if height != size:
+                    width=width*size/height
+                    height=size
+    
+            pixbuf = pixbuf.scale_simple(width, height, gtk.gdk.INTERP_HYPER)
+            self.icon.set_from_pixbuf(pixbuf)
+            self.icon.set_size_request(width, size)
             
-        else:
-            if self.orientation == gnomeapplet.ORIENT_LEFT:
-                self.label.set_angle(270)
-            else: self.label.set_angle(90)
-            widthL, heightL=self.label.size_request()
-            self.applet.set_size_request( size, height+heightL+5)
-        pass
+            if self.orientation == gnomeapplet.ORIENT_UP or self.orientation == gnomeapplet.ORIENT_DOWN:
+                self.label.set_angle(0)
+                widthL, heightL=self.label.size_request()
+                self.applet.set_size_request( width+widthL+5,size)
+                
+            else:
+                if self.orientation == gnomeapplet.ORIENT_LEFT:
+                    self.label.set_angle(270)
+                else: self.label.set_angle(90)
+                widthL, heightL=self.label.size_request()
+                self.applet.set_size_request( size, height+heightL+5)
     
     def change_orientation(self,arg1,data):
         self.orientation = self.applet.get_orient()
@@ -157,6 +165,8 @@ class AGM_applet(gnomeapplet.Applet):
         for child in self.mybutton:
             self.mybutton.remove(child)
         self.mybutton.add(tmpbox)
+        tmpbox.pack_start(self.icon, False)
+        tmpbox.add(self.label)
         self.applet.add(self.mybutton)
         self.on_change_size()
         self.applet.show_all()
@@ -184,9 +194,11 @@ class AGM_applet(gnomeapplet.Applet):
     def set_pressed_icon(self):
         if conf.use_applet_icon_pressed:
             self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, self.last_size))
+            #self.icon.set_from_file(conf.applet_icon_pressed)
     
     def set_unpressed_icon(self):
         if conf.use_applet_icon_pressed: 
+            #self.icon.set_from_file(conf.applet_icon)
             self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, self.last_size))
     
     def showMenu(self):
@@ -297,7 +309,9 @@ class AGM_applet(gnomeapplet.Applet):
 gobject.type_register(AGM_applet)    
     
 def factory(applet, iid):
-    AGM_applet(applet,iid)
+    agm_applet=AGM_applet(applet,iid)
+    applet.set_background_widget(applet)
+    applet.show_all()
     return gtk.TRUE
     
 if len(sys.argv)>=2 and (sys.argv[1]=="--test"):

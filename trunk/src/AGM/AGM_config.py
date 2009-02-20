@@ -65,6 +65,7 @@ class Config():
         ## TAB LOOK and FEEL
                 "change_top_icon": self.change_top_icon,
                 "change_applet_icon": self.change_applet_icon,
+                "change_applet_icon_pressed": self.change_applet_icon_pressed,
         ## TAB FAV APPS
                 #Nothing
         ## TAB THEMES
@@ -139,6 +140,9 @@ class Config():
         self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
         self.ConfigObj.get_widget("smart_top_icon").set_active(conf.top_icon_enable_smart_mode)
         
+        self.ConfigObj.get_widget("Applet_icon_pressed").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, 48))
+        self.ConfigObj.get_widget("Use_pressed_icon").set_active(conf.use_applet_icon_pressed)
+        
         # FAV APPS
         if conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HT" or conf.fav_apps_orientation=="TopHorizontal":
             self.ConfigObj.get_widget("Top_Hor").set_active(True)
@@ -191,7 +195,8 @@ class Config():
         conf.menu_icon_size=self.ConfigObj.get_widget("icon_dimension").get_value_as_int()
         
         conf.gradient_direction.read_string(self.gradient_start_position.get_selected()+";"+self.gradient_end_position.get_selected()+";")
-        
+
+        conf.use_applet_icon_pressed=self.ConfigObj.get_widget("Use_pressed_icon").get_active()
         conf.top_icon_enable_smart_mode=self.ConfigObj.get_widget("smart_top_icon").get_active()
         # FAV APPS
         if self.ConfigObj.get_widget("Top_Hor").get_active():
@@ -244,6 +249,12 @@ class Config():
         if new_icon!=None and os.path.isfile(new_icon):
             conf.applet_icon=new_icon
             self.ConfigObj.get_widget("Applet_icon").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, 48))
+
+    def change_applet_icon_pressed(self, obj):
+        new_icon=utils.OpenImage().get_file()
+        if new_icon!=None and os.path.isfile(new_icon):
+            conf.applet_icon_pressed=new_icon
+            self.ConfigObj.get_widget("Applet_icon_pressed").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, 48))
     
     ## UPDATE
     def update_stable(self, obj):

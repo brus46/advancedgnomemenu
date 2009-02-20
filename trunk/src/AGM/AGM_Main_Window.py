@@ -42,10 +42,10 @@ conf=config()
 
 class AGM:
     ''' AGM stands for Advanced Gnome Menu '''
-    def __init__(self, show_trayicon=True, show=True, top_buttons=True, applet=False, applet_refresh=None):
+    def __init__(self, show_trayicon=True, show=True, top_buttons=True, applet=False, applet_unpressed=None):
         self.hidden=False
         self.applet=applet
-        self.applet_refresh=applet_refresh
+        self.applet_unpressed=applet_unpressed
         self.show_trayicon=show_trayicon
         self.show_topbuttons=top_buttons
         
@@ -59,10 +59,6 @@ class AGM:
         self.EBox=gtk.EventBox()
         self.EBox.add(gtk.Image())
         self.EBox.set_size_request(80, 80)        
-        
-        #self.backbutton=gtk.Button()
-        #self.homebutton=gtk.Button()
-
         
         self.infobutton=gtk.Button()
         imageinfo=gtk.Image()
@@ -511,9 +507,11 @@ class AGM:
     		if event.in_==False:
     			self.win.hide()
         		self.hidden=True
+                self.applet_unpressed()
         else:
-        	self.win.hide()
-        	self.hidden=True
+            self.win.hide()
+            self.hidden=True
+            self.applet_unpressed()
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()
@@ -521,8 +519,8 @@ class AGM:
     
     def reboot(self, force=False):
         diff, applet_diff=conf.read_conf()
-        if self.applet and (applet_diff or force ) and self.applet_refresh!=None:
-            self.applet_refresh()
+        #if self.applet and (applet_diff or force ) and self.applet_refresh!=None:
+        #    self.applet_refresh()
 
         if diff or force:
             if not force: print "Configuration changed"

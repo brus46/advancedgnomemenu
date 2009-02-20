@@ -45,7 +45,7 @@ class AGM_applet(gnomeapplet.Applet):
     def __init__(self,applet,iid):
         self.__gobject_init__()
         self.applet = applet
-        self.AGM=agm(False, False, False, applet=True, applet_refresh=self.change_config)
+        self.AGM=agm(False, False, False, applet=True, applet_unpressed=self.set_unpressed_icon)
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
         self.last_size=24
@@ -172,7 +172,6 @@ class AGM_applet(gnomeapplet.Applet):
     
     def cleanup(self, win):
         self.AGM.exit(None)
-        #self.ShowThread.stop()
         del self.applet
     
     def showHelpMenu(self, widget, event, applet):
@@ -182,14 +181,22 @@ class AGM_applet(gnomeapplet.Applet):
                 self.create_menu(applet)
             else: self.showMenu()
     
+    def set_pressed_icon(self):
+        if conf.use_applet_icon_pressed:
+            self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, self.last_size))
+    
+    def set_unpressed_icon(self):
+        if conf.use_applet_icon_pressed: 
+            self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, self.last_size))
+    
     def showMenu(self):
         if (self.AGM.get_hidden()):
            self.define_menu()
-           
            self.AGM.show(self.X, self.Y, self.popup, self.top_icon, self.gravity)
-           #self.AGM.show()
+           self.set_pressed_icon()
         else:
            self.AGM.hide()
+           self.set_unpressed_icon()
     
     def create_menu(self, applet):
         propxml="""

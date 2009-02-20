@@ -48,6 +48,7 @@ class AGM_applet(gnomeapplet.Applet):
         self.AGM=agm(False, False, False, applet=True, applet_refresh=self.change_config)
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
+        self.last_size=24
         size=self.get_size()
         self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
         self.label=gtk.Label()
@@ -56,7 +57,6 @@ class AGM_applet(gnomeapplet.Applet):
         self.icon.set_size_request(size, size)
         self.mybutton.pack_start(self.icon, False)
         self.mybutton.add(self.label)
-        self.last_size=24
         
         self.X, self.Y=0, 0
         self.popup=AGM.AGM_default_config.popup_style()
@@ -83,20 +83,16 @@ class AGM_applet(gnomeapplet.Applet):
         #self.ShowThread.start()
         pass
     
-    def change_config(self):
-        for child in self.mybutton.get_children():
-            self.mybutton.remove(child)
-        diff, applet_diff=conf.read_conf()
-        print "applet: " + str(applet_diff)
+    def change_config(self):   
         size=self.get_size()
         self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
-        self.label=gtk.Label()
-        self.label.set_text(conf.applet_text)
         if (conf.applet_show_text): 
             self.label.set_text(conf.applet_text)
+        else:
+            self.label.set_text("")
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
-        self.mybutton.pack_start(self.icon, False)
-        self.mybutton.add(self.label)
+        
+        self.on_change_size()
         self.mybutton.show_all()
     def has_focus(self):
         return self.label.is_focus()
@@ -252,6 +248,9 @@ class AGM_applet(gnomeapplet.Applet):
             self.X=x-xw+w
             self.Y=y-yw
             self.popup.set_width(0)
+        
+        diff, applet_diff=conf.read_conf()
+        if applet_diff: self.change_config()
         #print self.X, self.Y
         
     def define_menu(self):

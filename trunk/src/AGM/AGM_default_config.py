@@ -113,6 +113,8 @@ class conf:
         
         #Applet
         self.applet_icon=self.home_logo_path
+        self.applet_icon_pressed=self.applet_icon
+        self.use_applet_icon_pressed=False
         self.applet_text="Menu"
         self.applet_show_text=True
         self.applet_fg_color="#000000"
@@ -174,6 +176,7 @@ class conf:
         else: print_mode=True
         
         difference=False
+        difference_applet=False
         file=None
         try:
             file=open(config_path, "r")
@@ -295,16 +298,22 @@ class conf:
                         if self.popupstyle.read_string(data[1]):
                             difference=True
                     elif data[0]=="applet_icon":
-                        if (self.applet_icon!=data[1]): difference=True
+                        if (self.applet_icon!=data[1]): difference_applet=True
                         self.applet_icon=data[1]
+                    elif data[0]=="applet_icon_pressed":
+                        if (self.applet_icon_pressed!=data[1]): difference_applet=True
+                        self.applet_icon_pressed=data[1]
+                    elif data[0]=="use_applet_icon_pressed":
+                        if (self.use_applet_icon_pressed!=(data[1]=="True")): difference_applet=True
+                        self.use_applet_icon_pressed=(data[1]=="True")                      
                     elif data[0]=="applet_text":
-                        if (self.applet_text!=data[1]): difference=True
+                        if (self.applet_text!=data[1]): difference_applet=True
                         self.applet_text=data[1]
                     elif data[0]=="applet_show_text":
-                        if (self.applet_show_text!=(data[1]=="True")): difference=True                        
+                        if (self.applet_show_text!=(data[1]=="True")): difference_applet=True
                         self.applet_show_text=(data[1]=="True")  
                     elif data[0]=="applet_fg_color":
-                        if (self.applet_fg_color!=data[1]): difference=True
+                        if (self.applet_fg_color!=data[1]): difference_applet=True
                         self.applet_fg_color=data[1]
                     elif data[0]=="hide_on_program_launch":
                         if (self.hide_on_program_launch!=(data[1]=="True")): difference=True                        
@@ -363,7 +372,8 @@ class conf:
                     #first_difference=False
             file.close()
         fav_changes=self.read_fav_apps()
-        return (difference or fav_changes)
+        print difference_applet
+        return (difference or fav_changes), difference_applet
     
     def read_fav_apps(self):
         differences=False

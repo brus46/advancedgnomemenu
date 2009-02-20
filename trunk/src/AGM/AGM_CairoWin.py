@@ -272,7 +272,8 @@ class TransparentWindow(gtk.Window):
 
          cr.set_operator(cairo.OPERATOR_SOURCE)
          cr.paint()
-         if conf.read_conf():
+         (diff, applet_diff)=conf.read_conf()
+         if diff or applet_diff:
              self.change(force=True)
          
          if self.supports_alpha and conf.safe_mode==False:

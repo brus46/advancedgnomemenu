@@ -21,6 +21,7 @@ from AGM.AGM_plugin import AGM_plugin as plugin
 import AGMplugins.Home
 import AGMplugins.Bookmarks
 import AGMplugins.LastUsedFiles
+from AGMplugins import ConfigureBrowseFiles
 import gnomevfs, os
 from AGM import localization
 _=localization.Translate
@@ -34,14 +35,14 @@ class Plugin(plugin):
         self.name="More places plugin"
         self.description="This plugin shows your fast-access places, your home, your bookmarks and your last used files."
         self.license="GPL"
-        self.is_configurable=False
+        self.is_configurable=True
         
         self.home_plugin=AGMplugins.Home.Plugin()
         self.bookmark_plugin=AGMplugins.Bookmarks.Plugin()
         self.last_used_files=AGMplugins.LastUsedFiles.Plugin()
     
     def configure(self):
-        pass
+        ConfigureBrowseFiles.Configure
     
     def get_menu(self, gointo=None):
         menu=[]

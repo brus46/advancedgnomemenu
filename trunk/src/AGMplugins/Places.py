@@ -19,6 +19,7 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
+from AGMplugins import ConfigureBrowseFiles
 from AGM import localization
 _=localization.Translate
 #    This is a AGM plugin
@@ -31,10 +32,10 @@ class Plugin(plugin):
         self.name="Place plugin"
         self.description="This plugin shows your fast-acces places"
         self.license="GPL"
-        self.is_configurable=False
+        self.is_configurable=True
     
     def configure(self):
-        pass
+        ConfigureBrowseFiles.Configure()
     
     def get_menu(self, show=None):
         menu=[]

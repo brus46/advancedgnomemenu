@@ -20,6 +20,7 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 import gnomevfs, os
 import xml.dom.minidom
+from AGMplugins import ConfigureBrowseFiles
 from AGM import localization
 _=localization.Translate
 #    This is a AGM plugin
@@ -32,10 +33,10 @@ class Plugin(plugin):
         self.name="Recently used files plugin"
         self.description="This plugin shows your last-used files"
         self.license="GPL"
-        self.is_configurable=False
+        self.is_configurable=True
     
     def configure(self):
-        pass
+        ConfigureBrowseFiles.Configure()
     
     def get_menu(self, show=None):
         menu=[]

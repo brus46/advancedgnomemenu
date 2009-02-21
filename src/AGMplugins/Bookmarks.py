@@ -20,6 +20,7 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import os
+from AGMplugins import ConfigureBrowseFiles
 from AGM import localization
 _=localization.Translate
 #    This is a AGM plugin
@@ -33,14 +34,14 @@ class Plugin(plugin):
         self.description="This plugin shows your bookmarks and allow you to browse into them."
         self.license="GPL"
         self.type=AGM_plugin.TYPE_MENU
-        self.is_configurable=False
-        pass
+        self.is_configurable=True
     
     def configure(self):
-        pass
+        ConfigureBrowseFiles.Configure()
     
     def get_menu(self, show=None):
         menu=[]
+        show_root, show_term=ConfigureBrowseFiles.read_config()
         try:
             file=open(os.path.expanduser("~")+ "/" + ".gtk-bookmarks")
             file=file.readlines()  
@@ -67,14 +68,19 @@ class Plugin(plugin):
                             line+=name
                         else:
                             line+=piece+"/"
+                    
+                    other_options=[]
+                    if show_root:
+                       other_options.append({"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (line).replace(" ", "\ ") + ""], "icon":"folder"})
+                    if show_term:
+                       other_options.append({"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"})
+                    
                     menu.append({
                       "icon":icon,
                       "name":name,
                       "type":"open",
                       "obj":line,
-                      "other_options":[{"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (line).replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (line).replace(" ", "\ ")], "icon":"terminal"}
-                                       ], 
+                      "other_options":other_options, 
                       "tooltip":_("Open") + " " + line})            
                 
         except: 

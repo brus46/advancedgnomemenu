@@ -110,8 +110,8 @@ class AGM_applet(gnomeapplet.Applet):
         except:
             size=self.last_size
 
-        if size<24:
-            size=24
+        if size<32:
+            size=32
         self.last_size=size
         return size
     

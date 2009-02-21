@@ -507,7 +507,7 @@ class AGM:
     		if event.in_==False:
     			self.win.hide()
         		self.hidden=True
-                self.applet_unpressed()
+                if self.applet_unpressed!=None: self.applet_unpressed()
         else:
             self.win.hide()
             self.hidden=True

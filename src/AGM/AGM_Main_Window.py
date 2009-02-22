@@ -511,7 +511,7 @@ class AGM:
         else:
             self.win.hide()
             self.hidden=True
-            self.applet_unpressed()
+            if self.applet_unpressed!=None: self.applet_unpressed()
     
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()

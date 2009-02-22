@@ -1,5 +1,5 @@
 
-import gtk
+import gtk, sys
 import AGM.AGM_utils as utils
 import AGM.AGM_default_config
 import AGM.localization

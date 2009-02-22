@@ -20,6 +20,7 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import gnomevfs, os
+from AGMplugins import ConfigureBrowseFiles
 from AGM import localization
 _=localization.Translate
 
@@ -32,13 +33,10 @@ class Plugin(plugin):
         self.description="This plugin allow you to search in your home directory using the search-box using LOCATE"
         self.license="GPL"
         self.type=AGM_plugin.TYPE_SEARCH
-        self.is_configurable=False
-        self.max_deep=2
+        self.is_configurable=True
     
     def configure(self):
-        #get deep
-        
-        pass
+        ConfigureBrowseFiles.Configure()
     
     def search(self, key):
         found=self.scan_folder(key, os.path.expanduser("~")+"/")
@@ -67,18 +65,23 @@ class Plugin(plugin):
         list_file.sort()
         list_folder.sort()
         
+        show_root, show_term=ConfigureBrowseFiles.read_config()
+        
         for folder in list_folder:
             print folder
             name=folder.split("/")
             name=name[len(name)-1]
+            other_options=[]
+            if show_root:
+                other_options.append({"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""], "icon":"folder"})
+            if show_term:
+                other_options.append({"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder).replace(" ", "\ ")], "icon":"terminal"})
             el={
               "icon":"folder",
               "name":name,
               "type":"open",
               "obj":folder,
-              "other_options":[ 
-                           {"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""], "icon":"folder"},
-                           {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder).replace(" ", "\ ")], "icon":"terminal"}], 
+              "other_options":other_options,
               "tooltip":_("Open folder")+": " + folder}
             found.append(el)            
         
@@ -87,13 +90,15 @@ class Plugin(plugin):
             mime=mime.replace("/", "-")
             name=file.split("/")
             name=name[len(name)-1]
+            other_options=[]
+            if show_root:
+                other_options.append({"name":_("Open as root"), "command":["gksu", "gnome-open " + (file).replace(" ", "\ ") + ""], "icon":"app"})
             el={
               "icon":mime,
               "name":name,
               "type":"openFile",
               "obj":file,
-              "other_options":[{"name":_("Open as root"), "command":["gksu", "gnome-open " + (file).replace(" ", "\ ") + ""], "icon":"app"}
-                               ],
+              "other_options":other_options,
               "tooltip":_("Open")+": " + file}
             found.append(el)
         return found

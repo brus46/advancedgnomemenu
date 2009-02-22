@@ -63,6 +63,10 @@ class Plugin(plugin):
                                 name=name[len(name)-1]
                                 list.append({"URI":URI, "MIME":mime, "NAME":name})
             list.reverse()
+            other_options=[]
+            show_root, show_term=ConfigureBrowseFiles.read_config()
+            if show_root:
+                other_options.append({"name":_("Open as root"), "command":["gksu", "'gnome-open " + el["URI"].replace(" ", "\ ") + "'"]})
             for el in list:
                 icon=el["MIME"]
                 menu.append({
@@ -70,9 +74,7 @@ class Plugin(plugin):
                       "name":el["NAME"],
                       "type":"openFile",
                       "obj":el["URI"],
-                      "other_options":[
-                                       {"name":_("Open as root"), "command":["gksu", "'gnome-open " + el["URI"].replace(" ", "\ ") + "'"]}
-                                       ],
+                      "other_options":other_options,
                       "tooltip":el["URI"]})
             
 

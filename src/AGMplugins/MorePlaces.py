@@ -42,10 +42,11 @@ class Plugin(plugin):
         self.last_used_files=AGMplugins.LastUsedFiles.Plugin()
     
     def configure(self):
-        ConfigureBrowseFiles.Configure
+        ConfigureBrowseFiles.Configure()
     
     def get_menu(self, gointo=None):
         menu=[]
+        show_root, show_term=ConfigureBrowseFiles.read_config()
         if gointo==None:
             icon="gnome-fs-directory-accept"
             menu.append({"icon":icon,
@@ -56,26 +57,26 @@ class Plugin(plugin):
         
         if (gointo=="show"):
             icon="user-home"
-            menu.append({"icon":icon,
-                      "name":_("Home"),
-                      "type":"enter",
-                      "obj":"home",
-                      "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"], "icon":"folder"}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"], "icon":"terminal"}
-                                       ], 
-                      "tooltip":_("Your home folder")})
-                        
+            other_options=[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"], "icon":"folder"}]
+            if show_root:
+                other_options.append({"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"], "icon":"folder"})
+            if show_term:
+                other_options.append({"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"], "icon":"terminal"})
+            menu.append({
+                      "icon":icon,
+                      "name":_("Home folder"),
+                      "type":"open",
+                      "obj":os.path.expanduser("~")+ "/",
+                       "other_options":other_options, 
+                      "tooltip":_("Home folder")})
+            
             icon="computer"
-            menu.append({"icon":icon,
+            menu.append({
+                      "icon":icon,
                       "name":_("Computer"),
                       "type":"open",
                       "obj":"computer:///",
-                      "other_options":[{"name":_("Open"), "command":["nautilus", "/"], "icon":"folder"}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"], "icon":"terminal"}
-                                       ], 
-                      "tooltip":_("Your computer")})
+                      "tooltip":_("Your computer")})   
             
             icon="media-optical"
             menu.append({"icon":icon,
@@ -91,7 +92,7 @@ class Plugin(plugin):
                       "obj":"nautilus --no-desktop network:",
                       "tooltip":_("Show network")})
             
-            icon="favorite"
+            icon="emblem-favorite"
             menu.append({"icon":icon,
                       "name":_("Bookmarks"),
                       "type":"enter",

@@ -20,6 +20,7 @@
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
 import gnomevfs, os
+from AGMplugins import ConfigureBrowseFiles
 from AGM import localization
 _=localization.Translate
 
@@ -32,13 +33,11 @@ class Plugin(plugin):
         self.description="This plugin allow you to search in your home directory using the search-box, with only 2 deep folders."
         self.license="GPL"
         self.type=AGM_plugin.TYPE_SEARCH
-        self.is_configurable=False
+        self.is_configurable=True
         self.max_deep=2
     
     def configure(self):
-        #get deep
-        
-        pass
+        ConfigureBrowseFiles.Configure()
     
     def search(self, key):
         found=self.scan_folder(key, os.path.expanduser("~")+"/")
@@ -51,6 +50,7 @@ class Plugin(plugin):
         listafile.sort()
         key=key.lower()
         i=0
+        show_root, show_term=ConfigureBrowseFiles.read_config()
         while i<len(listafile):
             file=listafile[i]
             if (file.split(".")[0]!=""):
@@ -60,14 +60,17 @@ class Plugin(plugin):
                         for newel in newfound:
                             found.append(newel)
                     if file.lower().find(key)>=0:
+                        other_options=[]
+                        if show_root:
+                            other_options.append({"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (folder+file).replace(" ", "\ ") + ""], "icon":"folder"})
+                        if show_term:
+                            other_options.append({"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder+file).replace(" ", "\ ")], "icon":"terminal"})
                         el={
                           "icon":"folder",
                           "name":file,
                           "type":"open",
                           "obj":folder+file,
-                          "other_options":[ 
-                                       {"name":_("Open as root"), "command":["gksu", "nautilus --no-desktop " + (folder+file).replace(" ", "\ ") + ""], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + (folder+file).replace(" ", "\ ")], "icon":"terminal"}], 
+                          "other_options":other_options, 
                           "tooltip":_("Open folder")+": " + folder+file}
                         found.append(el)
                         listafile.remove(file)
@@ -82,16 +85,15 @@ class Plugin(plugin):
         for file in listafile:
             mime=gnomevfs.get_mime_type(folder+file)
             mime=mime.replace("/", "-")
+            show_options=[]
+            if show_root:
+                show_options.append({"name":_("Open as root"), "command":["gksu", "gnome-open " + (folder+file).replace(" ", "\ ") + ""], "icon":"app"})
             el={
               "icon":mime,
               "name":file,
               "type":"openFile",
               "obj":folder+file,
-              "other_options":[{"name":_("Open folder"), "command":["nautilus", folder], "icon":"folder"},
-                               {"name":_("Open folder as root"), "command":["gksu", "nautilus --no-desktop " + (folder).replace(" ", "\ ") + ""], "icon":"folder"},
-                               {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + folder.replace(" ", "\ ")], "icon":"terminal"},
-                               {"name":_("Open as root"), "command":["gksu", "gnome-open " + (folder+file).replace(" ", "\ ") + ""], "icon":"app"}
-                               ],
+              "other_options":other_options,
               "tooltip":_("Open")+": " + folder+file}
             found.append(el)
         return found

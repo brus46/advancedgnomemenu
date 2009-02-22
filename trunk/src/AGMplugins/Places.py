@@ -39,6 +39,7 @@ class Plugin(plugin):
     
     def get_menu(self, show=None):
         menu=[]
+        show_root, show_term=ConfigureBrowseFiles.read_config()
         if show!="show":
             icon="gnome-fs-directory-accept"
             menu.append({
@@ -49,21 +50,18 @@ class Plugin(plugin):
                       "tooltip":_("Your fast-access pc-places")})
         else:
             icon="user-home"
+            other_options=[]
+            if show_root:
+                other_options.append({"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"], "icon":"folder"})
+            if show_term:
+                other_options.append({"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"], "icon":"terminal"})
             menu.append({
                       "icon":icon,
                       "name":_("Home folder"),
                       "type":"open",
                       "obj":os.path.expanduser("~")+ "/",
-                       "other_options":[{"name":_("Open"), "command":["nautilus", os.path.expanduser("~")+"/"], "icon":"folder"}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus --no-desktop " + os.path.expanduser("~")+"/" + "'"], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + os.path.expanduser("~")+"/"], "icon":"terminal"}
-                                       ], 
-                       "other_options":[{"name":_("Open"), "command":["nautilus", "/"], "icon":"folder"}, 
-                                       {"name":_("Open as root"), "command":["gksu", "'nautilus " + "/" + "'"], "icon":"folder"},
-                                       {"name":_("Open a terminal here"), "command":["gnome-terminal", "--working-directory=" + "/"], "icon":"terminal"}
-                                       ], 
+                       "other_options":other_options, 
                       "tooltip":_("Home folder")})
-            
             
             icon="computer"
             menu.append({

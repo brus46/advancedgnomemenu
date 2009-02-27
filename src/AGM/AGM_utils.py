@@ -294,10 +294,10 @@ class newThread(Thread):
                     if par=="":
                         self.command.pop(i)
                     else: i+=1
-        print "try to execute: ", command
     
     def run(self):
         os.chdir(os.path.expanduser("~"))
+        print "try to execute: ", self.command
         try:
             if os.path.isfile(self.command[0]):
                 os.spawnv(False, self.command[0], self.command)

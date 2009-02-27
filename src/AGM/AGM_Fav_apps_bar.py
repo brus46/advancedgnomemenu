@@ -6,11 +6,12 @@ import AGM_Fav_app
 import AGM_utils as utils
 
 class FavAppsBar(gtk.HBox):
-    def __init__(self, hide_f):
+    def __init__(self, hide_f, force_H=False):
         gtk.HBox.__init__(self)
         self.hide_f=hide_f
+        self.force_H=force_H
         self.content=gtk.VBox()
-        if conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HB":
+        if conf.fav_apps_orientation=="H" or conf.fav_apps_orientation=="HB" or force_H:
             self.content=gtk.HBox()
             
         self.add(self.content)
@@ -29,7 +30,7 @@ class FavAppsBar(gtk.HBox):
         conf.read_fav_apps()
         fav_apps=conf.fav_apps
         for fav_app in fav_apps:
-            newFA=AGM_Fav_app.FavApp(fav_app["name"],fav_app["icon"],fav_app["tooltip"],fav_app["command"])
+            newFA=AGM_Fav_app.FavApp(fav_app["name"],fav_app["icon"],fav_app["tooltip"],fav_app["command"], self.force_H)
             if newFA!=None:
                 self.content.pack_start(newFA, False)
                 newFA.connect("clicked", self.action)
@@ -37,7 +38,7 @@ class FavAppsBar(gtk.HBox):
     
     def action(self, obj):
         utils.ExecCommand(obj.FA_command.split(" "))
-        if conf.hide_on_program_launch:
+        if conf.hide_on_program_launch or self.force_H:
             self.hide_f()
             
     def modify_bg(self, state, color):

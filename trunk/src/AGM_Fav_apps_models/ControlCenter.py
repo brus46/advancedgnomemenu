@@ -15,4 +15,4 @@ class Model(model):
         self.model_description=_("Launch the GNOME Control Center")
     
     def get_fav_app(self):
-        return FavApp(_("Control Center"), "gnome-control-center", _("Launch Gnome Control Center"), "gnome-control-center")
+        return FavApp(_("Control Center"), "gnome-control-center", self.model_description, "gnome-control-center")

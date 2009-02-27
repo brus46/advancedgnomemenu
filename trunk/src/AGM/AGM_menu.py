@@ -147,38 +147,29 @@ class Menu(gtk.ScrolledWindow):
            print "Execute->" + obj
            obj=obj.replace("%U", "")
            obj=obj.replace("%u", "")
-           if os.fork()==0:
-               obj=obj.replace("\n", "")
-               command=obj.split(" ")
-               try:
-                   os.chdir(os.path.expanduser("~"))
-                   os.execvp(command[0], command)
-               except: print "Command fail: " + str(command)
-               sys.exit(-1)
+           obj=obj.replace("%F", "")
+           obj=obj.replace("%f", "")
+           obj=obj.replace("\n", "")
+           utils.ExecCommand(obj)
        elif "open"==type:
            print "open folder->" + obj
-           if (os.fork()):
-               command=conf.open_folder_command.split(" ")
-               mycommand=[]
-               for cmd in command:
-                   cmd=cmd.replace("%u", obj)
-                   cmd=cmd.replace("%U", obj)
-                   mycommand.append(cmd)
-               #print mycommand
-               os.execvp(mycommand[0], mycommand)
-               sys.exit(-1)
+           command=conf.open_folder_command
+           command=command.replace("%u", obj)
+           command=command.replace("%U", obj)
+           command=command.replace("%f", obj)
+           command=command.replace("%F", obj)
+           
+           utils.ExecCommand(command)
+           
        elif "openFile"==type:
            print "open file->" + obj
-           if (os.fork()):
-               command=conf.open_file_command.split(" ")
-               mycommand=[]
-               for cmd in command:
-                   if cmd.find("%U")>=0 or cmd.find("%u")>=0:
-                       cmd=cmd.replace("%u", obj)
-                       cmd=cmd.replace("%U", obj)
-                   mycommand.append(cmd)
-               os.execvp(mycommand[0], mycommand)
-               sys.exit(-1)
+           command=conf.open_file_command
+           command=command.replace("%u", obj)
+           command=command.replace("%U", obj)
+           command=command.replace("%f", obj)
+           command=command.replace("%F", obj)
+           utils.ExecCommand(command)
+           
        if type!="enter":
            if conf.hide_on_program_launch: self.onFocusFunction()
        

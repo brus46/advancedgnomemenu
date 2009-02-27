@@ -2,6 +2,7 @@
 
 #removing data directories
 sudo rm -R /usr/share/AGM/
+sudo rm -R /usr/share/AGL/
 
 #removing lib folder
 sudo rm -R /usr/local/lib/python/

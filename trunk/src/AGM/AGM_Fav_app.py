@@ -4,7 +4,7 @@ from AGM_default_config import conf as config
 conf=config()
 
 class FavApp(gtk.Button):
-    def __init__(self, text, icon, tooltip, command):
+    def __init__(self, text, icon, tooltip, command, force_NoTxt=False):
         gtk.Button.__init__(self)
         self.FA_command=command
         self.FA_icon=icon
@@ -15,7 +15,7 @@ class FavApp(gtk.Button):
         image.set_from_pixbuf(utils.getPixbufFromName(icon, conf.fav_apps_icon_dimension, "app"))
         content=gtk.HBox()
         content.pack_start(image, False)
-        if (conf.fav_apps_show_text): 
+        if (conf.fav_apps_show_text) and force_NoTxt==False: 
             if conf.fav_apps_text_bold:
                 self.label=gtk.Label("<b>" + text + "</b>")
             else: self.label=gtk.Label(text)

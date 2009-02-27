@@ -285,16 +285,21 @@ from threading import Thread
 class newThread(Thread):
     def __init__(self, command):
         Thread.__init__(self)
-        print command
+        if isinstance(command, basestring):
+            command=command.split(" ")
         self.command=command
         if len(command)>0:
+            i=0
             for par in self.command:
                     if par=="":
-                        self.command.pop(par)
+                        self.command.pop(i)
+                    else: i+=1
+        print "try to execute: ", command
     
     def run(self):
         os.chdir(os.path.expanduser("~"))
-        if os.path.isfile(self.command[0]):
-            os.spawnv(False, self.command[0], self.command)
-        else: os.spawnvp(False, self.command[0], self.command)
-        #print self.command[0], "finisched"
+        try:
+            if os.path.isfile(self.command[0]):
+                os.spawnv(False, self.command[0], self.command)
+            else: os.spawnvp(False, self.command[0], self.command)
+        except: print "command doesn't work."

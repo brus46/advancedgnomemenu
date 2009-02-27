@@ -19,6 +19,7 @@
 
 import gtk, os, sys
 from AGM_search_bar import search_box
+from Show_menu import Show_menu
 
 if gtk.pygtk_version < (2, 10, 0):
      print 'This programs needs PyGtk >= 2.10'
@@ -28,6 +29,7 @@ import AGM.AGM_CairoWin as CairoWin
 from AGM import AGM_trayicon
 from AGM.AGM_menu import Menu
 from AGM.AGM_default_config import conf as config
+from AGM.AGM_config import Config
 import AGM_default_config
 from AGM.AGM_info import Info
 from AGM.AGM_config import Config
@@ -124,6 +126,8 @@ class AGM:
         self.win.hide()
         self.hidden=True
         
+        self.ShowMenuThread=Show_menu(self.show)
+        self.ShowMenuThread.start()
         #if not self.applet:
         #    self.showThread=ShowThread(self.setOnFocus)
         if show: 
@@ -405,15 +409,15 @@ class AGM:
         
     def set_default_logo(self):
         if conf.top_icon_show_logo:
-            IconLabel=(gtk.gdk.pixbuf_new_from_file(conf.default_logo_path).scale_simple(80,80,gtk.gdk.INTERP_BILINEAR))
+            IconLabel=utils.getPixbufFromName(conf.default_logo_path, size=80)
             if conf.top_icon_mode==conf.USE_USER_LOGO:
                 if (os.path.exists(conf.home_logo_path)==True):
-                    IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.home_logo_path), 80)
+                    IconLabel=utils.getPixbufFromName(conf.home_logo_path, size=80)
                 else:
-                    IconLabel=(utils.getPixbufFromName("distributor-logo", 80, "app"))
+                    IconLabel=utils.getPixbufFromName("distributor-logo", size=80)
             elif conf.top_icon_mode==conf.USE_OTHER_LOGO:
                 if (os.path.exists(conf.top_icon_other_logo)==True):
-                    IconLabel=utils.scale_pixbuf(gtk.gdk.pixbuf_new_from_file(conf.top_icon_other_logo), 80)
+                    IconLabel=utils.getPixbufFromName(conf.top_icon_other_logo, size=80)
             self.EBox.get_child().set_from_pixbuf(IconLabel)
         
     def change_icon(self, image, text):
@@ -467,6 +471,7 @@ class AGM:
             self.hide()
     
     def show(self, x=-1, y=-1, popup=AGM_default_config.popup_style(), top_icon=AGM_default_config.top_position(), gravity=gtk.gdk.GRAVITY_NORTH_WEST):
+        #print "show"
         self.hidden=False
         #conf.startposition.x=x
         #conf.startposition.y=y
@@ -516,6 +521,7 @@ class AGM:
     def exit(self, obj, kill=True):
         if obj!=None: gtk.main_quit()
         if kill: sys.exit(0)
+        self.ShowMenuThread.exit_loop()
     
     def reboot(self, force=False):
         diff, applet_diff=conf.read_conf()

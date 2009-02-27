@@ -35,8 +35,26 @@ from AGM.AGM_Main_Window import AGM
 from AGM.AGM_config import Config
 from AGM.AGM_info import Info
 from AGM.AGM_default_config import conf as config
+from AGM import Show_menu
+from AGL import Show_launcher
 
 conf=config()
+
+def check_if_running():
+    cmd = os.popen('ps -ewwo pid,args')
+    x = cmd.readlines()
+    num_found=0
+    for y in x:
+       p = y.find('AGM.py')
+       if p >= 0: 
+           if y.find("<defunt>")>=0:
+               line=y.split(" ")
+               stop="kill -9 "+line[1]
+               os.system(stop)
+               num_found==0
+           else:
+               num_found+=1
+    return num_found>1
 
 no_trayicon=False
 #no_trayicon=True
@@ -57,6 +75,12 @@ for arg in args:
     elif arg=="--config":
         do_not_start=True
         Config(True)
+    elif arg=="--show-launcher":
+        do_not_start=True
+        Show_launcher.ask_show_launcher()
+    elif arg=="--show":
+        do_not_start=True
+        Show_menu.ask_show_menu()
     elif arg=="--info":
         do_not_start=True
         Info(True)
@@ -70,21 +94,9 @@ for arg in args:
         
 if do_not_start==False:
     if check:
-        cmd = os.popen('ps -ewwo pid,args')
-        x = cmd.readlines()
-        num_found=0
-        for y in x:
-           p = y.find('AGM.py')
-           if p >= 0: 
-               if y.find("<defunt>")>=0:
-                   line=y.split(" ")
-                   stop="kill -9 "+line[1]
-                   os.system(stop)
-                   num_found==0
-               else:
-                   num_found+=1
         
-        if (num_found<=1): 
+        
+        if (False==check_if_running()): 
             if (no_trayicon):
                 AGM(show_trayicon=False)
             else:

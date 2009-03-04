@@ -52,7 +52,8 @@ class AGM_applet(gnomeapplet.Applet):
         self.mybutton=gtk.HBox()
         self.icon=gtk.Image()
         size=self.get_size()
-        self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, size))
+        self.icon_name=conf.applet_icon
+        self.icon.set_from_pixbuf(utils.getPixbufFromName(self.icon_name, size))
         self.label=gtk.Label()
         if (conf.applet_show_text): self.label.set_text(conf.applet_text)
         self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.applet_fg_color))
@@ -115,12 +116,13 @@ class AGM_applet(gnomeapplet.Applet):
         self.last_size=size
         return size
     
-    def on_change_size (self, obj=None, rect=None):
+    def on_change_size (self, obj=None, rect=None, force=False):
         last_size=self.last_size
         size=self.get_size()
-        if size!=last_size:
+        #print size
+        if size!=last_size or force:
             w, h=self.label.size_request()
-            pixbuf=utils.getPixbufFromName(conf.applet_icon, size=256)
+            pixbuf=utils.getPixbufFromName(self.icon_name, size=256)
             width=pixbuf.get_width()
             height=pixbuf.get_height()
             if self.orientation != gnomeapplet.ORIENT_UP and self.orientation != gnomeapplet.ORIENT_DOWN:
@@ -193,14 +195,14 @@ class AGM_applet(gnomeapplet.Applet):
     
     def set_pressed_icon(self):
         if conf.use_applet_icon_pressed:
-            self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, self.last_size))
-            #self.icon.set_from_file(conf.applet_icon_pressed)
+            self.icon_name=conf.applet_icon_pressed
+            self.on_change_size(force=True)
     
     def set_unpressed_icon(self):
         if conf.use_applet_icon_pressed: 
-            #self.icon.set_from_file(conf.applet_icon)
-            self.icon.set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon, self.last_size))
-    
+            self.icon_name=conf.applet_icon
+            self.on_change_size(force=True)
+
     def showMenu(self):
         if (self.AGM.get_hidden()):
            self.define_menu()

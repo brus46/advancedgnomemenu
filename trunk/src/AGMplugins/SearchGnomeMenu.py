@@ -19,9 +19,8 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
-from Alacarte.MenuEditor import MenuEditor
-from Alacarte import util
-import os, gtk, gmenu, cgi, sys
+from AGM.GnomeMenuUtils import GnomeMenu
+import os, gtk, sys
 #    This is a AGM plugin
 
 class Plugin(plugin):
@@ -36,7 +35,7 @@ class Plugin(plugin):
         self.type=AGM_plugin.TYPE_SEARCH
         
         self.menu=[]
-        self.editor=MenuEditor()
+        self.Menu=GnomeMenu()
         pass
     
     def configure(self):
@@ -50,29 +49,27 @@ class Plugin(plugin):
     def recursive_search(self, key, obj=None):
         found=[]
         if obj==None:
-            for menu in self.editor.getMenus():
+            for menu in self.Menu.get_menus():
                 newfound=self.recursive_search(key, menu)
                 for newel in newfound:
                     found.append(newel)
         else:
-            for menu, show in self.editor.getMenus(obj):
-                if show:
-                    newfound=self.recursive_search(key, menu)
-                    for newel in newfound:
-                        found.append(newel)
-            for item, show in self.editor.getItems(obj):
-                if show and item.get_type() == gmenu.TYPE_ENTRY:
-                    name = item.get_name()
-                    if (name.lower().find(key)>=0):
-                        icon = self.getIcon(item)
-                        #icon=name
-                        exec_string=item.get_exec()
-                        found.append({
-                                  "icon":icon, 
-                                  "name":name,
-                                  "type":"exec",
-                                  "obj":exec_string,
-                                  "tooltip":name})
+            for menu in self.Menu.get_menus(obj):
+                newfound=self.recursive_search(key, menu)
+                for newel in newfound:
+                    found.append(newel)
+            for item in self.Menu.get_items(obj):
+                name = item.get_name()
+                if (name.lower().find(key)>=0):
+                    icon = self.getIcon(item)
+                    #icon=name
+                    exec_string=item.get_exec()
+                    found.append({
+                              "icon":icon, 
+                              "name":name,
+                              "type":"exec",
+                              "obj":exec_string,
+                              "tooltip":name})
         return found    
 
     def getIcon(self, item):

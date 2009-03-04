@@ -35,7 +35,7 @@ def get_child_plugins():
                 currentPlugin=__import__('AGMplugins/' + file)
                 myplugins[file] = currentPlugin.Plugin()
             except AttributeError:
-                pass
+                print "Attribute Error ", file ,sys.exc_info()[1]
             except:
                 print "Error loading " + file + " plugin", sys.exc_info()[1]
 

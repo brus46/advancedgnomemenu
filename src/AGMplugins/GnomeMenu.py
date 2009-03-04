@@ -19,9 +19,11 @@
 
 from AGM.AGM_plugin import AGM_plugin as plugin
 from AGM import AGM_plugin
-from Alacarte.MenuEditor import MenuEditor
-import os, gtk, gmenu, cgi, sys
+from AGM.GnomeMenuUtils import GnomeMenu
+import os, gtk, sys
 #    This is a AGM plugin
+
+
 
 class Plugin(plugin):
     def __init__(self):
@@ -34,8 +36,9 @@ class Plugin(plugin):
         self.is_configurable=True
         self.type=AGM_plugin.TYPE_MENU
         
+        self.Menu=GnomeMenu()
+                
         self.menu=[]
-        self.editor=MenuEditor()
         pass
     
     def configure(self):
@@ -47,7 +50,7 @@ class Plugin(plugin):
         self.menu=[]
         if obj==None:
             #print "Main menu"
-            for menu in self.editor.getMenus():
+            for menu in self.Menu.get_menus():
                 self.loadMenu(menu, 0)
         else:
             #print "Loading sub menu"
@@ -68,11 +71,9 @@ class Plugin(plugin):
                     
                    
         if depth>0:
-            for menu, show in self.editor.getMenus(parent):
-                if show:
+            for menu in self.Menu.get_menus(parent):
                     name = menu.get_name()
                     icon = self.getIcon(menu)
-                    #icon=name
                     self.menu.append({
                       "icon":icon, 
                       "name":name,
@@ -80,21 +81,19 @@ class Plugin(plugin):
                       "obj":menu,
                       "tooltip":name})
                         
-            for item, show in self.editor.getItems(parent):
-                if show and item.get_type() == gmenu.TYPE_ENTRY:
-                    name = item.get_name()
-                    icon = self.getIcon(item)
-                    #icon=name
-                    exec_string=item.get_exec()
-                    self.menu.append({
-                              "icon":icon, 
-                              "name":name,
-                              "type":"exec",
-                              "obj":exec_string,
-                              "tooltip":name})
-
-    
-
+            #for item, show in self.editor.getItems(parent):
+            for item in self.Menu.get_items(parent):
+                name = item.get_name()
+                icon = self.getIcon(item)
+                #icon=name
+                exec_string=item.get_exec()
+                self.menu.append({
+                          "icon":icon, 
+                          "name":name,
+                          "type":"exec",
+                          "obj":exec_string,
+                          "tooltip":name})
+        
     def getIcon(self, item):
         pixbuf = None
         if item == None:
@@ -111,3 +110,4 @@ class Plugin(plugin):
            #return utils.getPixbufFromName(iconName)
         #else:
            #return utils.getPixbufFromName(iconName, type="application")
+    

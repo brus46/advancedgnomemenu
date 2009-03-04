@@ -231,7 +231,7 @@ class AGM:
             print "Bottom favapps"
             BottomPanel.pack_start(self.fav_apps_bar_H)
             requestW=conf.fav_apps_icon_dimension + 10
-            requestH=conf.fav_apps_icon_dimension + 10
+            requestH=conf.fav_apps_icon_dimension
             if conf.search_box_top_position==False and conf.search_box_show:
                 BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10 + 48)
             else: BottomPanel.set_size_request(conf.fav_apps_icon_dimension + 10, conf.fav_apps_icon_dimension + 10)
@@ -320,7 +320,7 @@ class AGM:
                 self.layout.pack_start(space_label, False, False)
             self.layout.pack_start(TopPanel, False, False)
             self.layout.pack_start(MenuBox, True, True)
-            #self.layout.pack_end(MainBox, False, False)
+            self.layout.pack_end(MainBox, False, False)
         elif (top_style==conf.top_position.DW_RIGHT):
             #print "config down right"
             IconBox=gtk.VBox()
@@ -351,7 +351,7 @@ class AGM:
                 self.layout.pack_start(space_label, False, False)
             self.layout.pack_start(TopPanel, False, False)
             self.layout.pack_start(MenuBox, True, True)
-            #self.layout.pack_end(MainBox, False, False)
+            self.layout.pack_end(MainBox, False, False)
 
         else: 
             IconBox=gtk.VBox()

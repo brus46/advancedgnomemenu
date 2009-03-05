@@ -33,7 +33,8 @@ class search_box(gtk.HBox):
         self.label=gtk.Label(_("Search")+":")
         self.search_text.set_tooltip_text(_("Search"))
         self.search = search_function
-        self.search_text.connect("activate", self.change)
+        self.search_text.connect("activate", self.change, True)
+        self.search_text.connect("changed", self.change)
         
         #self.search_text.set_size_request(conf.window_width -70 - 32, -1)
         
@@ -52,8 +53,10 @@ class search_box(gtk.HBox):
         self.pack_end(self.search_text)
         self.pack_start(self.label, False)
     
-    def change(self, new_text):
-        self.search(self.search_text.get_text())
+    def change(self, new_text, force=False):
+        txt=self.search_text.get_text()
+        if len(txt)>=2 or force:
+            self.search(txt)
         
     def set_text(self, text=""):
         self.search_text.set_text(text)

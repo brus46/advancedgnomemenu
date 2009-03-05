@@ -25,8 +25,8 @@ def Translate(string):
     locale.setlocale(locale.LC_ALL, '')  
     for module in gtk.glade, gettext:
         #print module
-        module.bindtextdomain('AdvancedGnomeMenu', "./locale/")  
-        module.textdomain('AdvancedGnomeMenu')
+        module.bindtextdomain('advanced-gnome-menu', "./locale/")  
+        module.textdomain('advanced-gnome-menu')
     #print string, gettext.gettext(string)
     return unicode( gettext.gettext(string), "utf-8" )
 

@@ -66,12 +66,21 @@ class NavButton(gtk.EventBox):
             y1=y0+rect.height
             
             cr.rectangle(x0, y0, x1, y1)
+            #cr.clip()
             cr.set_source(self.get_gradient(-rect.x, -rect.y))
             cr.fill()
             
             col = utils.hex2float(self.bgcolor)
             darkness=0.05
-            cr.set_source_rgb(col[0]-darkness, col[1]-darkness, col[2]-darkness)
+            for i in range(0,len(col)):
+                c=col[i]
+                print c
+                if c-darkness>0:
+                    col[i]-=darkness
+                else:
+                    col[i]+=darkness
+            print col[0]
+            cr.set_source_rgb(col[0], col[1], col[2])
             self.draw_shape(cr, x0, y0, x1, y1, r)
             cr.fill()
                     

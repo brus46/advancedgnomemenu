@@ -1,4 +1,4 @@
-# Italian translation for agm
+# Hebrew translation for agm
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the agm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -8,274 +8,274 @@ msgstr ""
 "Project-Id-Version: agm\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-02-15 23:46+0100\n"
-"PO-Revision-Date: 2009-03-05 09:34+0100\n"
+"PO-Revision-Date: 2009-03-06 21:53+0100\n"
 "Last-Translator: Marco Mosconi <brus46@gmail.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-04 22:28+0000\n"
+"X-Launchpad-Export-Date: 2009-03-06 19:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: AGM/AGM_config_backup.py:36
 msgid "AGM Configuration"
-msgstr "Configurazione di AGM"
+msgstr "תצורת AGM"
 
 #: AGM/AGM_config_backup.py:69
 #: AGM_configurator.glade:533
 msgid "General"
-msgstr "Generale"
+msgstr "כללי"
 
 #: AGM/AGM_config_backup.py:71
 #: AGM/AGM_config_tabs.py:767
 #: AGM_configurator.glade:1326
 msgid "Themes"
-msgstr "Temi"
+msgstr "ערכות נושא"
 
 #: AGM/AGM_config_backup.py:76
 msgid "Fav apps"
-msgstr "Applicazioni preferite"
+msgstr "יישומים מועדפים"
 
 #: AGM/AGM_config_backup.py:78
 msgid "Menu"
-msgstr "Menù"
+msgstr "תפריט"
 
 #: AGM/AGM_config_tabs.py:501
 msgid "Hide menu after lunching a menu app"
-msgstr "Nascondi menu quando lanci un'applicazione"
+msgstr "הסתרת התפריט לאחר טעינת תפריט יישום"
 
 #: AGM/AGM_config_tabs.py:576
 msgid "Show text: 'Menu' in the applet"
-msgstr "Mosta il testo \"Menu\" nell'applet"
+msgstr "הצגת הטקסט: 'תפריט' ביישומון"
 
 #: AGM/AGM_config_tabs.py:582
 msgid "All changes on the applet will be applied on rebooting"
-msgstr "Tutti i cambiamenti dell'applet verranno applicati al riavvio di AGM"
+msgstr "כל השינויים ליישומון יחלו עם הפעלה מחדש"
 
 #: AGM/AGM_config_tabs.py:612
 msgid "Use system colors for buttons (need restart)"
-msgstr "Usa i colori di sistema per i pulsanti (necessita riavvio)"
+msgstr "שימוש בצבעי המערכת עבור לחצנים (נדרשת הפעלה מחדש)"
 
 #: AGM/AGM_config_tabs.py:626
 msgid "Window opacity:"
-msgstr "Opacità della finestra"
+msgstr "אטימות החלון:"
 
 #: AGM/AGM_config_tabs.py:637
 msgid "Background:"
-msgstr "Colore di sfondo:"
+msgstr "רקע:"
 
 #: AGM/AGM_config_tabs.py:640
 msgid "Foreground:"
-msgstr "Colore caratteri:"
+msgstr "קדמה:"
 
 #: AGM/AGM_config_tabs.py:644
 msgid "Selected background:"
-msgstr "Colore sfondo selezionato:"
+msgstr "הרקע הנבחר:"
 
 #: AGM/AGM_config_tabs.py:647
 msgid "Selected foreground:"
-msgstr "Caratteri selezionati:"
+msgstr "הקדמה הנבחרת:"
 
 #: AGM/AGM_config_tabs.py:651
 msgid "Active background:"
-msgstr "Sfondo attivo:"
+msgstr "הרקע הפעיל:"
 
 #: AGM/AGM_config_tabs.py:654
 msgid "Active foreground:"
-msgstr "Caratteri attivi:"
+msgstr "הקדמה הפעילה:"
 
 #: AGM/AGM_config_tabs.py:666
 msgid "Gradient color 1"
-msgstr "Colore di gradiente 1"
+msgstr "צבע מדרג 1"
 
 #: AGM/AGM_config_tabs.py:667
 msgid "Gradient color 2"
-msgstr "Colore di gradiente 2"
+msgstr "צבע מדרג 2"
 
 #: AGM/AGM_config_tabs.py:668
 msgid "Gradient color 3"
-msgstr "Colore di gradiente 3"
+msgstr "צבע מדרג 3"
 
 #: AGM/AGM_config_tabs.py:669
 msgid "Use the third color (will be the center color)"
-msgstr "Usa il 3° colore (sarà il colore centrale.)"
+msgstr "שימוש בצבע שלישי (שישמש כצבע המרכזי)"
 
 #: AGM/AGM_config_tabs.py:671
 msgid "Top light color"
-msgstr "Colore illuminazione"
+msgstr "צבע האור העליון"
 
 #: AGM/AGM_config_tabs.py:672
 msgid "Show top light"
-msgstr "Mostra illuminazione"
+msgstr "הצגת האור העליון"
 
 #: AGM/AGM_config_tabs.py:674
 msgid "Icon bg color"
-msgstr "Colore di sfondo per l'icona utente."
+msgstr "צבע רקע הסמלים"
 
 #: AGM/AGM_config_tabs.py:691
 msgid "Export Theme"
-msgstr "Esporta Tema"
+msgstr "ייצוא ערכת נושא"
 
 #: AGM/AGM_config_tabs.py:693
 msgid "Save Theme"
-msgstr "Salva Tema"
+msgstr "שמירת ערכת הנושא"
 
 #: AGM/AGM_config_tabs.py:701
 #: AGM_configurator.glade:1720
 msgid "Theme name:"
-msgstr "Nome Tema:"
+msgstr "שם ערכת הנושא:"
 
 #: AGM/AGM_config_tabs.py:714
 msgid "New"
-msgstr "Nuovo"
+msgstr "חדש"
 
 #: AGM/AGM_config_tabs.py:716
 msgid "Clear"
-msgstr "Cancella"
+msgstr "ריקון"
 
 #: AGM/AGM_config_tabs.py:718
 msgid "Show"
-msgstr "Mostra"
+msgstr "הצגה"
 
 #: AGM/AGM_config_tabs.py:726
 msgid "Theme description: "
-msgstr "Descrizione del Tema: "
+msgstr "תיאור ערכת הנושא: "
 
 #: AGM/AGM_config_tabs.py:739
 msgid "Window"
-msgstr "Finestra"
+msgstr "חלון"
 
 #: AGM/AGM_config_tabs.py:740
 msgid "Buttons"
-msgstr "Pulsanti"
+msgstr "לחצנים"
 
 #: AGM/AGM_config_tabs.py:741
 msgid "Background"
-msgstr "Sfondo"
+msgstr "רקע"
 
 #: AGM/AGM_config_tabs.py:742
 msgid "Theme"
-msgstr "Tema"
+msgstr "ערכת נושא"
 
 #: AGM/AGM_config_tabs.py:750
 msgid "Import Theme"
-msgstr "Importa Tema"
+msgstr "ייבוא ערכת נושא"
 
 #: AGM/AGM_config_tabs.py:752
 msgid "Delete Theme"
-msgstr "Elimina Tema"
+msgstr "מחיקת ערכת נושא"
 
 #: AGM/AGM_config_tabs.py:770
 msgid "Edit Theme"
-msgstr "Modifica Tema"
+msgstr "עריכת ערכת נושא"
 
 #: AGM/AGM_config_tabs.py:1003
 msgid "Screenshot"
-msgstr "Screenshot"
+msgstr "צילום מסך"
 
 #: AGM/AGM_config_tabs.py:1007
 msgid "Description"
-msgstr "Descrizione"
+msgstr "תיאור"
 
 #: AGM/AGM_config_tabs.py:1029
 msgid "Theme name"
-msgstr "Nome Tema"
+msgstr "שם ערכת הנושא"
 
 #: AGM/AGM_config_tabs.py:1073
 msgid "Start pos:"
-msgstr "Posizione iniziale"
+msgstr "מיקום ההתחלה:"
 
 #: AGM/AGM_config_tabs.py:1075
 msgid "End pos:"
-msgstr "Posizione finale"
+msgstr "מיקום הסיום:"
 
 #: AGM/AGM_config_tabs.py:1093
 msgid "Use user login image"
-msgstr "Usa l'immagine di login"
+msgstr "שימוש בתמונת הכניסה של המשתמש"
 
 #: AGM/AGM_config_tabs.py:1094
 msgid "Use this image: "
-msgstr "Usa questa immagione: "
+msgstr "שימוש בתמונה זו: "
 
 #: AGM/AGM_config_tabs.py:1104
 msgid "Show icon in menu"
-msgstr "Mosta l'icona nel menu"
+msgstr "הצגת סמל בתפריט"
 
 #: AGM/AGM_config_tabs.py:1111
 msgid "Menu icon"
-msgstr "Icona menu"
+msgstr "סמל התפריט"
 
 #: AGM/AGM_config_tabs.py:1132
 msgid "Use smart top icon"
-msgstr "Usa icona utente intelligente"
+msgstr "השתמש בסמל עליון חכם"
 
 #: AGM/AGM_config_tabs.py:1193
 msgid "Behaviour"
-msgstr "Comportamento"
+msgstr "התנהגות"
 
 #: AGM/AGM_config_tabs.py:1194
 msgid "Elements"
-msgstr "Elementi"
+msgstr "רכיבים"
 
 #: AGM/AGM_config_tabs.py:1212
 msgid "Show favourite applications"
-msgstr "Mostra le applicazioni preferite"
+msgstr "הצגת יישומים מועדפים"
 
 #: AGM/AGM_config_tabs.py:1216
 #: AGM_configurator.glade:118
 msgid "Show search box"
-msgstr "Mostra la casella di ricerca"
+msgstr "הצגת תיבת חיפוש"
 
 #: AGM/AGM_config_tabs.py:1220
 #: AGM_configurator.glade:154
 msgid "Show execution box"
-msgstr "Mostra la casella di esecuzione"
+msgstr "הצגת תיבת הפעלה"
 
 #: AGM/AGM_config_tabs.py:1259
 msgid "Applet config"
-msgstr "Configurazione applet"
+msgstr "תצורת היישומון"
 
 #: AGM/AGM_config_tabs.py:1266
 msgid "Safe mode, will work without rounded borders."
-msgstr "Safe mode, lavora senza i bordi arrotondati"
+msgstr "מצב בטוח, עבודה ללא מסגרת מעוגלת."
 
 #: AGM/AGM_config_tabs.py:1302
 #: AGM_configurator.glade:457
 msgid "Update to the latest stable version"
-msgstr "Aggiorna all'ultima versione stabile"
+msgstr "עדכון לגירסה היציבה העדכנית ביותר"
 
 #: AGM/AGM_config_tabs.py:1303
 msgid "Update to the latest version of the SVN"
-msgstr "Aggiorna all'ultima versione da SVN"
+msgstr "עדכון לגירסת ה־SVN העדכנית ביותר"
 
 #: AGM/AGM_edit_fav_app.py:45
 #: AGM_Fav_apps_models/Custom.py:52
 msgid "Name"
-msgstr "Nome"
+msgstr "שם"
 
 #: AGM/AGM_edit_fav_app.py:49
 #: AGM_Fav_apps_models/Custom.py:56
 msgid "Icon"
-msgstr "Icone"
+msgstr "סמל"
 
 #: AGM/AGM_edit_fav_app.py:55
 #: AGM_Fav_apps_models/Custom.py:62
 msgid "Tooltip"
-msgstr "Suggerimento"
+msgstr "חלונית עצה"
 
 #: AGM/AGM_edit_fav_app.py:59
 #: AGM_Fav_apps_models/Custom.py:66
 msgid "Command"
-msgstr "Comando"
+msgstr "פקודה"
 
 #: AGM/AGM_edit_fav_app.py:68
 msgid "Edit fav app"
-msgstr "Cambia le app fav"
+msgstr "עריכת יישומים מועדפים"
 
 #: AGM/AGM_execute_box.py:40
 #: AGM/AGM_execute_box.py:47
 msgid "Execute"
-msgstr "Esegui"
+msgstr "הפעלה"
 
 #: AGM/AGM_menu.py:204
 #: AGM/AGM_menu.py:205
@@ -285,26 +285,26 @@ msgstr "Esegui"
 #: AGMplugins/Search.py:47
 #: AGM_Fav_apps_models/FromMenu.py:56
 msgid "Search"
-msgstr "Cerca"
+msgstr "חיפוש"
 
 #: AGM/AGM_new_fav_app.py:22
 msgid "Choose a source"
-msgstr "Seleziona una sorgente"
+msgstr "בחירת מקור"
 
 #: AGM/AGM_new_fav_app.py:79
 msgid "Source"
-msgstr "Sorgente"
+msgstr "מקור"
 
 #: AGMplugins/Bookmarks.py:51
 #: AGMplugins/Browse_Bookmarks.py:48
 #: AGMplugins/MorePlaces.py:95
 msgid "Bookmarks"
-msgstr "Segnalibri"
+msgstr "סימניות"
 
 #: AGMplugins/Bookmarks.py:54
 #: AGMplugins/Browse_Bookmarks.py:51
 msgid "Browse your bookmarks"
-msgstr "Esplora i tuoi segnalibri"
+msgstr "עיון בסימניות האישיות"
 
 #: AGMplugins/Bookmarks.py:75
 #: AGMplugins/Browse_Bookmarks.py:72
@@ -324,7 +324,7 @@ msgstr "Esplora i tuoi segnalibri"
 #: AGMplugins/Search_with_locate.py:80
 #: AGMplugins/Search_with_locate.py:95
 msgid "Open as root"
-msgstr "Apri da amministratore"
+msgstr "פתיחה כמשתמש על"
 
 #: AGMplugins/Bookmarks.py:76
 #: AGMplugins/Browse_Bookmarks.py:73
@@ -341,7 +341,7 @@ msgstr "Apri da amministratore"
 #: AGMplugins/Search_Home_Dir.py:92
 #: AGMplugins/Search_with_locate.py:81
 msgid "Open a terminal here"
-msgstr "Apri il terminale qui"
+msgstr "פתיחת מסוף מכאן"
 
 #: AGMplugins/Bookmarks.py:78
 #: AGMplugins/Browse_Bookmarks.py:71
@@ -359,7 +359,7 @@ msgstr "Apri il terminale qui"
 #: AGMplugins/Search_Home_Dir.py:95
 #: AGMplugins/Search_with_locate.py:97
 msgid "Open"
-msgstr "Apri"
+msgstr "פתיחה"
 
 #: AGMplugins/Browse_Bookmarks.py:97
 #: AGMplugins/Browse_Files.py:48
@@ -370,7 +370,7 @@ msgstr "Apri"
 #: AGMplugins/Search_Home_Dir.py:90
 #: AGMplugins/Search_with_locate.py:82
 msgid "Open folder"
-msgstr "Apri cartella"
+msgstr "פתיחת תיקייה"
 
 #: AGMplugins/Browse_Files.py:45
 #: AGMplugins/Home.py:44
@@ -378,233 +378,233 @@ msgstr "Apri cartella"
 #: AGM_Fav_apps_models/Home.py:12
 #: AGM_Fav_apps_models/Home.py:16
 msgid "Home"
-msgstr "Home"
+msgstr "תיקיית הבית"
 
 #: AGMplugins/Browse_Files.py:49
 #: AGMplugins/Browse_Files.py:70
 #: AGMplugins/Search_Home_Dir.py:91
 msgid "Open folder as root"
-msgstr "Apri la cartella da  amministratore"
+msgstr "פתיחת התיקייה כמשתמש על"
 
 #: AGMplugins/Browse_Files.py:52
 #: AGMplugins/Home.py:51
 msgid "Browse your home"
-msgstr "Esplora la tua home"
+msgstr "עיון בתיקיית הבית האישית"
 
 #: AGMplugins/FavoriteApps.py:56
 msgid "Favorite"
-msgstr "Preferiti"
+msgstr "מועדף"
 
 #: AGMplugins/FavoriteApps.py:59
 msgid "Your favorites apps."
-msgstr "Le tue app preferite"
+msgstr "היישומים המועדפים האישיים."
 
 #: AGMplugins/InstallApps.py:42
 msgid "Install programs"
-msgstr "Installa programmi"
+msgstr "התקנת תוכניות"
 
 #: AGMplugins/InstallApps.py:45
 msgid "Install programs on your pc."
-msgstr "Installa programmi nel tuo pc"
+msgstr "התקנת תוכניות במשב זה"
 
 #: AGMplugins/LastUsedFiles.py:45
 #: AGMplugins/MorePlaces.py:101
 msgid "Recently used files"
-msgstr "File usati recentemente"
+msgstr "קבצים שהיו בשימוש לאחרונה"
 
 #: AGMplugins/LastUsedFiles.py:48
 #: AGMplugins/MorePlaces.py:104
 msgid "Last files you've used"
-msgstr "Ultimi file usati"
+msgstr "הקבצים שהיו בשימוש לאחרונה על ידיך"
 
 #: AGMplugins/LogOut.py:41
 msgid "Exit"
-msgstr "Esci"
+msgstr "יציאה"
 
 #: AGMplugins/LogOut.py:44
 #: AGM_Fav_apps_models/Logout.py:13
 #: AGM_Fav_apps_models/Logout.py:17
 msgid "Logout"
-msgstr "Disconneti"
+msgstr "ניתוק"
 
 #: AGMplugins/MorePlaces.py:51
 #: AGMplugins/Places.py:45
 msgid "Places"
-msgstr "Risorse"
+msgstr "מקומות"
 
 #: AGMplugins/MorePlaces.py:54
 #: AGMplugins/Places.py:48
 msgid "Your fast-access pc-places"
-msgstr ""
+msgstr "מיקומי הגישה המהירה במחשב שלך"
 
 #: AGMplugins/MorePlaces.py:66
 msgid "Your home folder"
-msgstr "La tua cartella home"
+msgstr "תיקיית הבית האישית"
 
 #: AGMplugins/MorePlaces.py:70
 #: AGMplugins/Places.py:70
 #: AGM_Fav_apps_models/Computer.py:12
 #: AGM_Fav_apps_models/Computer.py:16
 msgid "Computer"
-msgstr "Computer"
+msgstr "המחשב"
 
 #: AGMplugins/MorePlaces.py:77
 #: AGMplugins/Places.py:73
 msgid "Your computer"
-msgstr "Il tuo computer"
+msgstr "המחשב שלך"
 
 #: AGMplugins/MorePlaces.py:81
 #: AGMplugins/MorePlaces.py:84
 msgid "Create cd/dvd"
-msgstr "Crea cd/dvd"
+msgstr "יצירת תקליטור/DVD"
 
 #: AGMplugins/MorePlaces.py:88
 #: AGMplugins/Places.py:85
 msgid "Network"
-msgstr "Rete"
+msgstr "רשת"
 
 #: AGMplugins/MorePlaces.py:91
 #: AGMplugins/Places.py:88
 msgid "Show network"
-msgstr "Mostra la rete"
+msgstr "הצגת רשת"
 
 #: AGMplugins/MorePlaces.py:98
 msgid "Your bookmarks"
-msgstr "I tuoi segnalibri"
+msgstr "הסימניות האישיות"
 
 #: AGMplugins/Places.py:53
 #: AGMplugins/Places.py:64
 msgid "Home folder"
-msgstr "Cartella home"
+msgstr "תיקיית הבית"
 
 #: AGMplugins/Places.py:78
 msgid "Create Cd-Dvd"
-msgstr "Crea cd-Dvd"
+msgstr "יצירת תקליטור-DVD"
 
 #: AGMplugins/Places.py:81
 msgid "Create cd"
-msgstr "Crea cd"
+msgstr "יצירת תקליטור"
 
 #: AGM_Fav_apps_models/Computer.py:13
 msgid "Select a program from all sources visible to this computer"
-msgstr "Seleziona un programma da qualsiasi sorgente visibile di questo computer"
+msgstr "בחירת תוכנית מכל המקורות הגלויים למחשב זה"
 
 #: AGM_Fav_apps_models/ControlCenter.py:14
 #: AGM_Fav_apps_models/ControlCenter.py:18
 msgid "Control Center"
-msgstr "Centro di controllo"
+msgstr "מרכז הבקרה"
 
 #: AGM_Fav_apps_models/ControlCenter.py:15
 msgid "Launch the GNOME Control Center"
-msgstr "Avvia il GNOME Control Center"
+msgstr "טעינת מרכז הבקרה של GNOME"
 
 #: AGM_Fav_apps_models/ControlCenter.py:18
 msgid "Launch Gnome Control Center"
-msgstr "Avvia il GNOME Control Center"
+msgstr "טעינת מרכז הבקרה של Gnome"
 
 #: AGM_Fav_apps_models/Custom.py:13
 msgid "Pick a custom application"
-msgstr "Prendi un applicazione personalizzata"
+msgstr "בחירת יישום מותאם אישית"
 
 #: AGM_Fav_apps_models/Custom.py:14
 msgid "Link to a custom application"
-msgstr "Collegamento ad un'applicazione personalizzata"
+msgstr "קישור אל יישום מותאם אישית"
 
 #: AGM_Fav_apps_models/Custom.py:75
 msgid "Add custom command"
-msgstr "Aggiungi comando personalizzato"
+msgstr "הוספת פקודה מותאמת אישית"
 
 #: AGM_Fav_apps_models/FromMenu.py:16
 msgid "The GNOME menu"
-msgstr "Il menù di gnome"
+msgstr "תפריט ה־GNOME"
 
 #: AGM_Fav_apps_models/FromMenu.py:17
 msgid "Pick an application already in the GNOME Menu"
-msgstr "Prendi un'applicazione presente nel menu di GNOME"
+msgstr "בחירת יישום שכבר נמצא בתפריט ה־GNOME"
 
 #: AGM_Fav_apps_models/FromMenu.py:63
 msgid "Select program to add"
-msgstr "Seleziona il programma da aggiungere"
+msgstr "בחירת תוכנית להוספה"
 
 #: AGM_Fav_apps_models/FromMenu.py:68
 msgid "Add Fav app from menu."
-msgstr "Aggiungi applicazione preferita dal menu"
+msgstr "הוספת יישום מועדף מהתפריט"
 
 #: AGM_Fav_apps_models/Home.py:13
 msgid "Pick an application from your home directory"
-msgstr "Prendi un applicazione dalla tua cartella home"
+msgstr "הוספת יישום מתיקיית הבית האישית"
 
 #: AGM_Fav_apps_models/Home.py:16
 msgid "Open your home directory"
-msgstr "Apri la tua cartella home"
+msgstr "פתיחת תיקיית הבית שלך"
 
 #: AGM_Fav_apps_models/Logout.py:14
 msgid "Add a Logout button"
-msgstr "Aggiungi il pulsante di Logout"
+msgstr "הוספת לחצן ניתוק"
 
 #: AGM_configurator.glade:9
 msgid "Advanced Gnome Menu Configurator"
-msgstr "Configuratore Advanced Gnome Menu"
+msgstr "מגדיר מתקדם לתפריט ה־GNOME"
 
 #: AGM_configurator.glade:49
 msgid "Welcome message:"
-msgstr "Messaggio di benvenuto"
+msgstr "הודעת קבלת פנים:"
 
 #: AGM_configurator.glade:69
 msgid "Color:"
-msgstr "Colore"
+msgstr "צבע:"
 
 #: AGM_configurator.glade:107
 msgid "Show favourites applications"
-msgstr "Mostra le applicazioni preferite"
+msgstr "הצגת יישומים מועדפים"
 
 #: AGM_configurator.glade:143
 msgid "Show welcome message"
-msgstr "Mostra il messaggio di benvenuto"
+msgstr "הצגת הודעת קבלת פנים"
 
 #: AGM_configurator.glade:179
 msgid "Show user icon"
-msgstr "Mostra l'icona utente"
+msgstr "הצגת סמל משתמש"
 
 #: AGM_configurator.glade:190
 msgid "Show the name of favourites applications"
-msgstr "Mostra il nome delle applicazioni preferite"
+msgstr "הצגת שמות היישומים המועדפים"
 
 #: AGM_configurator.glade:214
 msgid "Show the text into the applet"
-msgstr "Mostra il testo nell'applet"
+msgstr "הצגת הטקסט אל תוך היישומון"
 
 #: AGM_configurator.glade:223
 msgid "Applet text :"
-msgstr "Testo applet"
+msgstr "טקסט היישומון :"
 
 #: AGM_configurator.glade:246
 msgid "Color :"
-msgstr "Colore"
+msgstr "צבע :"
 
 #: AGM_configurator.glade:294
 msgid "<b>Customization</b>"
-msgstr "<b>Personalizzazione</b>"
+msgstr "<b>התאמה אישית</b>"
 
 #: AGM_configurator.glade:328
 msgid "Hide menu after launching an application"
-msgstr "Nascondi il menu dopo il lancio di un'applicazione"
+msgstr "הסתרת התפריט לאחר טעינת יישום"
 
 #: AGM_configurator.glade:349
 msgid "Command to open folders:"
-msgstr "Comando per aprire le cartelle"
+msgstr "פקודה לפתיחת תיקיות:"
 
 #: AGM_configurator.glade:380
 msgid "Command to open files:"
-msgstr "Comando per aprire i file"
+msgstr "פקודה לפתיחת קבצים:"
 
 #: AGM_configurator.glade:409
 msgid "<b>Menu behaviour</b>"
-msgstr "<b>Comportamento menu</b>"
+msgstr "<b>התנהגות התפריט</b>"
 
 #: AGM_configurator.glade:502
 msgid "Update to the latest version (dangerous)"
-msgstr "Aggiorna all'ultima versione (pericoloso)"
+msgstr "עדכון לגירסה העדכנית ביותר (מסוכן)"
 
 #: AGM_configurator.glade:613
 #: AGM_configurator.glade:633
@@ -614,161 +614,161 @@ msgstr "Aggiorna all'ultima versione (pericoloso)"
 #: AGM_configurator.glade:959
 #: AGM_configurator.glade:978
 msgid "Select color"
-msgstr "Seleziona colore"
+msgstr "בחירת צבע"
 
 #: AGM_configurator.glade:649
 msgid "Bottom gradient color :"
-msgstr "Colore gradiente in basso :"
+msgstr "צבע המדרג התחתון :"
 
 #: AGM_configurator.glade:663
 msgid "Central gradient color :"
-msgstr "Colore gradiente centrale :"
+msgstr "צבע המדרג המרכזי :"
 
 #: AGM_configurator.glade:677
 msgid "Top gradient color :"
-msgstr "Colore gradiente in alto :"
+msgstr "צבע המדרג העליון :"
 
 #: AGM_configurator.glade:691
 msgid "Gradient end position :"
-msgstr "Posizione finale gradiente :"
+msgstr "מיקום סוף המדרג :"
 
 #: AGM_configurator.glade:726
 msgid "Use central gradient color"
-msgstr "Usa colore gradiente centrale"
+msgstr "שימוש בצבע מדרג מרכזי"
 
 #: AGM_configurator.glade:745
 msgid "Gradient start position :"
-msgstr "Posizione iniziale gradiente :"
+msgstr "מיקום תחילת המדרג :"
 
 #: AGM_configurator.glade:762
 msgid "Menu icon bg :"
-msgstr "Colore di sfondo per l'icona utente."
+msgstr "רקע סמל התפריט :"
 
 #: AGM_configurator.glade:776
 msgid "Window opacity :"
-msgstr "Opacità finestra :"
+msgstr "אטימות החלון :"
 
 #: AGM_configurator.glade:807
 msgid "<b>Window's background</b>"
-msgstr "<b>Sfondo finestra</b>"
+msgstr "<b>רקע החלון</b>"
 
 #: AGM_configurator.glade:860
 msgid "Chars color:"
-msgstr "Colore caratteri:"
+msgstr "צבע התווים:"
 
 #: AGM_configurator.glade:873
 msgid "Background color:"
-msgstr "Colore sfondo:"
+msgstr "צבע הרקע:"
 
 #: AGM_configurator.glade:883
 msgid "Selected chars color:"
-msgstr "Colore caratteri selezionati:"
+msgstr "צבע התווים שנבחרים:"
 
 #: AGM_configurator.glade:897
 msgid "Selected background color:"
-msgstr "Colore sfondo selezionato:"
+msgstr "צבע הרקע שנבחר:"
 
 #: AGM_configurator.glade:909
 msgid "Icon dimension :"
-msgstr "Dimensioni icone :"
+msgstr "מימדי הסמל :"
 
 #: AGM_configurator.glade:996
 msgid "<b>Menu</b>"
-msgstr "<b>Menu</b>"
+msgstr "<b>תפריט</b>"
 
 #: AGM_configurator.glade:1019
 msgid "Applet's icon : "
-msgstr "Icona per l'applet : "
+msgstr "סמל היישומון : "
 
 #: AGM_configurator.glade:1045
 msgid "User's icon : "
-msgstr "Icona utente : "
+msgstr "סמל המשתמש : "
 
 #: AGM_configurator.glade:1082
 msgid "Use smart icon follow the menu icon"
-msgstr "Usa icona utente intelligente"
+msgstr "שימוש בסמל חכם לאחר סמל התפריט"
 
 #: AGM_configurator.glade:1100
 msgid "Look & Feel"
-msgstr "Aspetto del menu"
+msgstr "מראה ותחושה"
 
 #: AGM_configurator.glade:1133
 msgid "Left"
-msgstr "Sinistra"
+msgstr "שמאל"
 
 #: AGM_configurator.glade:1150
 msgid "Bottom"
-msgstr "Basso"
+msgstr "למטה"
 
 #: AGM_configurator.glade:1165
 msgid "Right"
-msgstr "Destra"
+msgstr "ימין"
 
 #: AGM_configurator.glade:1180
 msgid "Top"
-msgstr "Alto"
+msgstr "למעלה"
 
 #: AGM_configurator.glade:1193
 msgid "<b>Bar position</b>"
-msgstr "<b>Posizione barra</b>"
+msgstr "<b>מיקום הסרגל</b>"
 
 #: AGM_configurator.glade:1216
 msgid "Favourite apps"
-msgstr "Applicazioni preferite"
+msgstr "יישומים מועדפים"
 
 #: AGM_configurator.glade:1271
 msgid "Import"
-msgstr "Importa"
+msgstr "ייבוא"
 
 #: AGM_configurator.glade:1301
 msgid "gtk-edit"
-msgstr "Edita gtk"
+msgstr "gtk-edit"
 
 #: AGM_configurator.glade:1348
 msgid "Avaible plugins"
-msgstr "Plugin disponibili"
+msgstr "תוספים זמינים"
 
 #: AGM_configurator.glade:1448
 msgid "Active plugins"
-msgstr "Plugin attivati"
+msgstr "תוספים פעילים"
 
 #: AGM_configurator.glade:1566
 msgid "<b>Plugin description:</b>"
-msgstr "<b>Descrizione plugin:</b>"
+msgstr "<b>תיאור התוסף:</b>"
 
 #: AGM_configurator.glade:1590
 msgid "Configure plugin"
-msgstr "Configura plugin"
+msgstr "הגדרת התוסף"
 
 #: AGM_configurator.glade:1602
 msgid "Install new plugin"
-msgstr "Installa un nuovo plugin"
+msgstr "התקנת תוסף חדש"
 
 #: AGM_configurator.glade:1626
 msgid "Plugins"
-msgstr "Plugins"
+msgstr "תוספים"
 
 #: AGM_configurator.glade:1760
 msgid "Descrizione"
-msgstr "Descrizione"
+msgstr "תיאור"
 
 #: AGM_configurator.glade:1779
 msgid "<b>Themes info</b>"
-msgstr "<b>Informazioni Tema</b>"
+msgstr "<b>נתוני ערכות הנושא</b>"
 
 #: AGM_configurator.glade:1809
 msgid "Load preview"
-msgstr "Carica l'anteprima"
+msgstr "טעינת תצוגה מקדימה"
 
 #: AGM_configurator.glade:1835
 msgid "<b>Preview</b>"
-msgstr "<b>Anteprima</b>"
+msgstr "<b>תצוגה מקדימה</b>"
 
 #: AGM_configurator.glade:1859
 msgid "gtk-save"
-msgstr "Salva gtk"
+msgstr "gtk-save"
 
 #: AGM_configurator.glade:1869
 msgid "gtk-save-as"
-msgstr "Salva gtk con nome"
+msgstr "gtk-save-as"
 

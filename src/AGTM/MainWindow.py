@@ -1,5 +1,6 @@
 from AGTM import CairoWin, IndexBar, MenuBar
-from Config import config
+from AGTM.Config import config
+
 conf=config()
 import gtk
 
@@ -43,5 +44,3 @@ class MainWindow():
         self.MenuBar.show_parent(parent)
         self.MenuBar.show_all()
         self.IndexBar.refresh()
-
-MainWindow()

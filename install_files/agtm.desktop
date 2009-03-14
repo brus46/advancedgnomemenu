@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=Advanced Gnome TabMenu
+Comment=An eye-candy tab-menu for Gnome
+Exec=advancedgnometabmenu
+Icon=AGTM.png
+Terminal=false
+Categories=GNOME;GTK;Utility;

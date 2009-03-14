@@ -2,12 +2,19 @@
 #Creating install folders
 #Data and executables folder
 sudo mkdir /usr/share/AGTM/
+#Lib folder
+sudo mkdir /usr/local/lib/python/
 
 #Installing the main code
-sudo cp -R ./src/AGTM/ /usr/share/AGTM/
+
+#Installing the main code
+sudo cp ./src/AGTM.py /usr/share/AGTM/
+sudo chmod +x /usr/share/AGTM/AGTM.py
+sudo cp -R ./src/AGTM/ /usr/local/lib/python/
+sudo cp -R ./src/AG_commons/ /usr/local/lib/python/
 
 #Installing runnable files
-sudo cp ./install_files/advancedgnometabmenu /usr/bin/
+sudo cp ./install_files/advancedgnometabmenu.sh /usr/bin/advancedgnometabmenu
 sudo chmod +x /usr/bin/advancedgnometabmenu
 
 #Installing desktop shortcuts

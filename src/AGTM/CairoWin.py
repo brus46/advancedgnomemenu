@@ -116,8 +116,8 @@ class TransparentWindow(gtk.Window):
              for c in children:
                  self.propagate_expose(c, event)
     
-     def draw_window(self, cr):     
-         (width, height) = self.get_size()
+     def draw_window(self, cr):
+         (width, height) = self.get_size_request()
          x=0
          y=0
          
@@ -135,7 +135,7 @@ class TransparentWindow(gtk.Window):
          cr.fill()
 
      def draw_safe_window(self, cr):
-         (width, height) = self.get_size()
+         (width, height) = self.get_size_request()
          x=0
          y=0
          cr.move_to(0, 0)

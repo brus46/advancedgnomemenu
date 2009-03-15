@@ -14,17 +14,26 @@ class IndexBar(gtk.HBox):
             newButton=IndexButton(self.Menu.getIcon(app), app.get_name(), app)
             newButton.connect("clicked", self.toggled)
             self.buttons.append(newButton)
-            self.pack_start(newButton, False)
+            self.pack_start(newButton)
     
     def toggled(self, obj):
         if obj.get_active():
             obj.set_active(False)
+            for child in self.buttons:
+                self.remove(child)
+                self.pack_start(child, False)
             self.show_little()
         else:
             for child in self.buttons:
                 if obj!=child:
                     child.set_active(False)
+                self.remove(child)
             obj.set_active(True)
+            for child in self.buttons:
+                if obj!=child:
+                    self.pack_start(child, False)
+                else:
+                    self.pack_start(child)
             self.show_big(obj.parent_menu)
     
     def refresh(self, close_all=False):

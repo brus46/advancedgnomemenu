@@ -8,6 +8,8 @@ class config:
         self.bgcolor_clicked="#ffffff"
         self.fgcolor_clicked="#000000"
         self.safe_mode=False
+        self.bgtooltipcolor="#FFFFFFBB"
+        self.fgtooltipcolor="#000000"
         
         self.Menu=GnomeMenuUtils.GnomeMenu()
         self.apps=self.Menu.get_apps()
@@ -19,3 +21,5 @@ class config:
         self.win_width=num*(self.app_size)
         self.win_width_mini=num*(self.app_size_mini)
         self.win_height=100
+        
+        self.popup_h=10

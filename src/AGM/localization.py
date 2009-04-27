@@ -17,12 +17,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import gettext, locale
+import gettext
+#, locale
 import gtk.glade
 
 
 def Translate(string):
-    locale.setlocale(locale.LC_ALL, '')  
+    #locale.setlocale(locale.LC_CTYPE, '')
     for module in gtk.glade, gettext:
         #print module
         module.bindtextdomain('advanced-gnome-menu', "./locale/")  
@@ -30,5 +31,5 @@ def Translate(string):
     #print string, gettext.gettext(string)
     return unicode( gettext.gettext(string), "utf-8" )
 
-language = locale.getlocale(locale.LC_ALL)[0]
-print "Your language is: " + language
+#language = locale.getdefaultlocale()[0]
+#print "Your language is: " + language

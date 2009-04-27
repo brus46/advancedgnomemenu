@@ -22,6 +22,14 @@ import sys, os
 from AGM_default_config import conf as config
 conf=config()
 
+FILEPATH = os.path.abspath(__file__)
+pwd, dirname = os.path.split(os.path.dirname(FILEPATH))
+if dirname != "src":
+    print 'Running installed agm, modifying PYTHONPATH.'
+    sys.path.insert(0, "/usr/local/lib/python/AGMplugins/")
+else:
+    sys.path.insert(0, "./AGMplugins/")
+
 def get_child_plugins():
     myplugins={}
     folder=conf.plugin_folder
@@ -32,7 +40,8 @@ def get_child_plugins():
         if os.path.isfile(folder+file) and file.find(".py")>0 and file.find(".pyc")<0 and file.find("__")<0:
             try:
                 file=file.replace(".py", "")
-                currentPlugin=__import__('AGMplugins/' + file)
+                #currentPlugin=__import__('AGMplugins/' + file)
+                currentPlugin=__import__(file)
                 myplugins[file] = currentPlugin.Plugin()
             except AttributeError:
                 print "Attribute Error ", file ,sys.exc_info()[1]

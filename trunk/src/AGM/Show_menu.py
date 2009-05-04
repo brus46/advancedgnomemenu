@@ -20,7 +20,11 @@ class Show_menu(Thread):
                 file=open(conf.show_path, "r")
                 content=file.read()
                 file.close()
-            except: print "cannot read show file"
+            except: 
+                print "cannot read show file"
+                file=open(conf.show_path, "w")
+                file.write("0")
+                file.close()
             if content.replace("\n", "") == "1":
                 
                 file=open(conf.show_path, "w")

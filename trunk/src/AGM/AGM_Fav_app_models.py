@@ -22,6 +22,14 @@ import sys, os
 from AGM_default_config import conf as config
 conf=config()
 
+FILEPATH = os.path.abspath(__file__)
+pwd, dirname = os.path.split(os.path.dirname(FILEPATH))
+if dirname != "src":
+    print 'Running installed agm, modifying PYTHONPATH.'
+    sys.path.insert(0, "/usr/local/lib/python/AGM_Fav_apps_models/")
+else:
+    sys.path.insert(0, "./AGM_Fav_apps_models/")
+
 def get_child_models():
     mymodels={}
     folder=conf.model_folder
@@ -32,7 +40,7 @@ def get_child_models():
         if os.path.isfile(folder+file) and file.find(".py")>0 and file.find(".pyc")<0 and file.find("__")<0:
             try:
                 file=file.replace(".py", "")
-                currentmodel=__import__('AGM_Fav_apps_models/' + file)
+                currentmodel=__import__(file)
                 mymodels[file] = currentmodel.Model()
             except:
                 print "Error loading " + file + " model", sys.exc_info()[1]

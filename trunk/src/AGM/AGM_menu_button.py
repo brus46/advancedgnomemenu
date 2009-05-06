@@ -120,13 +120,15 @@ class AGM_menu_button(gtk.EventBox):
             self.buttons[i].set_relief(gtk.RELIEF_NORMAL)
 
     def modify_bg(self, state, color):
-        gtk.EventBox.modify_bg(self, state, color)
-        self.layout.modify_bg(state, color)
-        for button in self.buttons:
-            self.color(button)
+        if conf.use_custom_color:
+            gtk.EventBox.modify_bg(self, state, color)
+            self.layout.modify_bg(state, color)
+            for button in self.buttons:
+                self.color(button)
                     
     def modify_fg(self, state, color):
-        self.label.modify_fg(state, color)
+        if conf.use_custom_color:
+            self.label.modify_fg(state, color)
     
     def clicked(self, button, event, command=None):
         if event.button == 1:

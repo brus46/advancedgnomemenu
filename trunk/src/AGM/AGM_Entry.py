@@ -10,12 +10,13 @@ class Entry(gtk.Entry):
     def __init__(self, get_gradient):
         gtk.Entry.__init__(self)
         self.get_gradient=get_gradient
-        for (state, color) in [(gtk.STATE_NORMAL,conf.fgcolor), (gtk.STATE_ACTIVE,conf.activefgcolor), (gtk.STATE_PRELIGHT,conf.selectedfgcolor)]:
-             self.modify_text(state, gtk.gdk.color_parse(color))
-        for (state, color) in [(gtk.STATE_NORMAL,conf.bgcolor), (gtk.STATE_ACTIVE,conf.activebgcolor), (gtk.STATE_PRELIGHT,conf.selectedbgcolor)]:
-             self.modify_bg(state, gtk.gdk.color_parse(color))
-             self.modify_base(state, gtk.gdk.color_parse(color))
-        #self.connect("expose_event", self.do_expose_event)
+        if conf.use_custom_color:
+            for (state, color) in [(gtk.STATE_NORMAL,conf.fgcolor), (gtk.STATE_ACTIVE,conf.activefgcolor), (gtk.STATE_PRELIGHT,conf.selectedfgcolor)]:
+                 self.modify_text(state, gtk.gdk.color_parse(color))
+            for (state, color) in [(gtk.STATE_NORMAL,conf.bgcolor), (gtk.STATE_ACTIVE,conf.activebgcolor), (gtk.STATE_PRELIGHT,conf.selectedbgcolor)]:
+                 self.modify_bg(state, gtk.gdk.color_parse(color))
+                 self.modify_base(state, gtk.gdk.color_parse(color))
+            #self.connect("expose_event", self.do_expose_event)
 
     def do_expose_event(self, event=None):
          gtk.Entry.do_expose_event(self, event)
@@ -25,7 +26,7 @@ class Entry(gtk.Entry):
        
     def draw_button(self):
         cr=self.cr
-        if cr!=None:
+        if cr!=None and conf.use_custom_color:
             
             rect = self.get_allocation()
             

@@ -400,18 +400,24 @@ class TransparentWindow(gtk.Window):
          endx, endy=self.get_point(conf.gradient_direction.get_end_point(), height, width, x, y)
 
          pat = cairo.LinearGradient(startx, starty, endx, endy)
-         #Color1
-         col = hex2float(conf.gradient_color1)
-         pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
-
-         #Color3 if enabled
-         if (conf.gradient_enable_3color):
-             col = hex2float(conf.gradient_color3)
-             pat.add_color_stop_rgba(0.5, col[0], col[1], col[2], col[3])
-
-         #Color2
-         col = hex2float(conf.gradient_color2)
-         pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
+         
+         if conf.use_custom_color:
+             #Color1
+             col = hex2float(conf.gradient_color1)
+             pat.add_color_stop_rgba(0.0, col[0], col[1], col[2], col[3])
+    
+             #Color3 if enabled
+             if (conf.gradient_enable_3color):
+                 col = hex2float(conf.gradient_color3)
+                 pat.add_color_stop_rgba(0.5, col[0], col[1], col[2], col[3])
+    
+             #Color2
+             col = hex2float(conf.gradient_color2)
+             pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
+         else:
+             self.realize()
+             col = hex2float(self.get_style().bg[gtk.STATE_NORMAL].to_string())
+             pat.add_color_stop_rgba(1.0, col[0], col[1], col[2], col[3])
          return pat
      
      def do_screen_changed(self, old_screen=None):

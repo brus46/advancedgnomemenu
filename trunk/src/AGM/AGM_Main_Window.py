@@ -156,20 +156,28 @@ class AGM:
         pass
     
     def color(self, obj):
+        if conf.use_custom_color:
+            bgcolor=conf.bgcolor
+            activebgcolor=conf.activebgcolor
+            selectedbgcolor=conf.selectedbgcolor
+            fgcolor=conf.fgcolor
+            activefgcolor=conf.activefgcolor
+            selectedfgcolor=conf.selectedfgcolor
+            
         try:
-            obj.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.bgcolor))
-            obj.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activebgcolor))
-            obj.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedbgcolor))
+            obj.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(bgcolor))
+            obj.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(activebgcolor))
+            obj.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(selectedbgcolor))
         except: pass
         try:
-            obj.get_child().modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
-            obj.get_child().modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
-            obj.get_child().modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
+            obj.get_child().modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(fgcolor))
+            obj.get_child().modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(activefgcolor))
+            obj.get_child().modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(selectedfgcolor))
         except: pass
         try:
-            obj.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
-            obj.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
-            obj.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
+            obj.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(fgcolor))
+            obj.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(activefgcolor))
+            obj.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(selectedfgcolor))
         except: pass
             
     

@@ -69,7 +69,9 @@ class search_box(gtk.HBox):
     
     def modify_bg(self, state, color):
         #self.search_text.do_expose_event()
-        self.search_button.modify_bg(state, color)
+        if conf.use_custom_color:
+            self.search_button.modify_bg(state, color)
     def modify_fg(self, state, color):
         #self.search_text.do_expose_event()
-        self.label.modify_fg(state, color)
+        if conf.use_custom_color:
+            self.label.modify_fg(state, color)

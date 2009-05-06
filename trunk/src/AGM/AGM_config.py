@@ -63,6 +63,7 @@ class Config():
                 "update_from_svn":self.update_svn,
                 "update_from_svn_stable":self.update_stable,
         ## TAB LOOK and FEEL
+                "on_use_system_colors_toggled": self.use_system_colors,
                 "change_top_icon": self.change_top_icon,
                 "change_applet_icon": self.change_applet_icon,
                 "change_applet_icon_pressed": self.change_applet_icon_pressed,
@@ -122,6 +123,8 @@ class Config():
         self.set_complete_color(conf.welcome_color, self.ConfigObj.get_widget("welcome_message_color"))        
         self.set_complete_color(conf.applet_fg_color, self.ConfigObj.get_widget("Applet_text_color"))
         
+        self.ConfigObj.get_widget("use_system_colors").set_active(conf.use_system_color)
+        self.use_system_colors(self.ConfigObj.get_widget("use_system_colors"))
         # LOOK
         self.set_complete_color(conf.gradient_color1, self.ConfigObj.get_widget("Gradient_1"))
         self.set_complete_color(conf.gradient_color2, self.ConfigObj.get_widget("Gradient_2"))
@@ -256,6 +259,17 @@ class Config():
             conf.applet_icon_pressed=new_icon
             self.ConfigObj.get_widget("Applet_icon_pressed").set_from_pixbuf(utils.getPixbufFromName(conf.applet_icon_pressed, 48))
     
+    ## COLORS
+    def use_system_colors(self, obj):
+        conf.use_system_color=obj.get_active()
+        conf.use_custom_color=not(obj.get_active())
+        set=conf.use_custom_color
+        widgets=['Icon_BG', 'Gradient_1', 'Gradient_2', 'Gradient_3', 'use_3_gradient', 'bg_color', 'fg_color', 'sel_bg_color', 'sel_fg_color']
+        for widget in widgets:
+            self.ConfigObj.get_widget(widget).set_sensitive(set)
+        self.gradient_start_position.set_sensitive(set)
+        self.gradient_end_position.set_sensitive(set)
+        
     ## UPDATE
     def update_stable(self, obj):
         update="/usr/bin/agm_update"

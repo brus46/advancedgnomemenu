@@ -20,13 +20,19 @@ class NavButton(gtk.EventBox):
         self.w=conf.window_width
         self.h=conf.window_height
         
-        self.bgcolor=conf.bgcolor
+        button=gtk.Button()
+        button.realize()
+        
+        self.bgcolor=button.get_style().bg[gtk.STATE_NORMAL].to_string()
+        if conf.use_custom_color:
+            self.bgcolor=conf.bgcolor
         
         self.label=gtk.Label(self.text)
         self.label.show_all()
-        self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
-        self.label.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
-        self.label.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
+        if conf.use_custom_color:
+            self.label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(conf.fgcolor))
+            self.label.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(conf.activefgcolor))
+            self.label.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(conf.selectedfgcolor))
         if show_text: self.add(self.label)
         self.set_tooltip_text(self.text)
     

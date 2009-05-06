@@ -85,6 +85,10 @@ class conf:
         #Theme
         self.theme=None
         
+        #Colors
+        self.use_system_color=True
+        self.use_custom_color=False
+        
         #COLOR_Buttons
         self.bgcolor="#525252"
         self.selectedbgcolor="#373737"
@@ -92,7 +96,7 @@ class conf:
         self.fgcolor="#FFFFFF"
         self.selectedfgcolor="#FFFFFF"
         self.activefgcolor="#FFFFFF"
-        self.use_system_color=False
+        
         #COLOR_WINDOW
         self.gradient_color1="#6e6e6eF3"
         self.gradient_color2="#48484884"
@@ -100,7 +104,7 @@ class conf:
         self.gradient_enable_3color=False
         
         self.lightingcolor="#fffcfcae"
-        self.show_lighting=True
+        self.show_lighting=False
         
         self.iconbordercolor="#fffcfcae"
         self.iconbgcolor="#505050ff"
@@ -132,7 +136,7 @@ class conf:
         
         #Window
         self.window_width=500
-        self.window_height=430
+        self.window_height=600
         
         #FAV APPS
         self.fav_apps=[
@@ -272,6 +276,7 @@ class conf:
                     elif data[0]=="use_system_color":
                         if (self.use_system_color!=(data[1]=="True")): difference=True
                         self.use_system_color=(data[1]=="True")
+                        self.use_custom_color=not(self.use_system_color)
                     elif data[0]=="menu":
                         i=0
                         newmenu=[]

@@ -76,8 +76,10 @@ class ExecuteBar(gtk.HBox):
                 sys.exit(-1)
 
     def modify_bg(self, state, color):
-        self.run_in_terminal.modify_bg(state, color)
+        if conf.use_custom_color:
+            self.run_in_terminal.modify_bg(state, color)
     def modify_fg(self, state, color):
-        self.label.modify_fg(state, color)
+        if conf.use_custom_color:
+            self.label.modify_fg(state, color)
     def set_text(self, string):
         self.command.set_text(str(string))

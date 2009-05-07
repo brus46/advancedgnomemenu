@@ -44,7 +44,7 @@ conf=config()
 class AGM_applet(gnomeapplet.Applet):
     def __init__(self,applet,iid):
         self.__gobject_init__()
-        self.last_size=32
+        self.last_size=22
         self.applet = applet
         applet.set_applet_flags(gnomeapplet.EXPAND_MINOR)
         
@@ -111,8 +111,8 @@ class AGM_applet(gnomeapplet.Applet):
         except:
             size=self.last_size
 
-        if size<32:
-            size=32
+        if size<22:
+            size=22
         self.last_size=size
         return size
     

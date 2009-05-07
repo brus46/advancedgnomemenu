@@ -13,7 +13,7 @@ echo "cd ./advancedgnomemenu-read-only"
 cd ./advancedgnomemenu-read-only
 
 echo "./install.sh"
-gksu './install.sh'
+./install.sh
 
 echo "cd .."
 cd ..

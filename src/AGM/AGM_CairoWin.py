@@ -384,9 +384,13 @@ class TransparentWindow(gtk.Window):
          x, y, dx, dy=self.get_icon_position()
 
          gradient=self.get_gradient()
-         
-         col = hex2float(conf.iconbgcolor)
-         cr.set_source_rgba(col[0], col[1], col[2], col[3])
+         if conf.use_custom_color:
+             col = hex2float(conf.iconbgcolor)
+             cr.set_source_rgba(col[0], col[1], col[2], col[3])
+         else:
+             self.realize()
+             col = hex2float(self.get_style().bg[gtk.STATE_NORMAL].to_string())
+             cr.set_source_rgba(col[0], col[1], col[2], col[3])
          self.render_icon_rect(cr, x + dx + 5, y + dy +5, 85, 85, 0)
          
          cr.fill()
